@@ -6,7 +6,7 @@ layout: default
 
 Roughly speaking, encryption is the problem of how two parties can communicate in secret in the presence of an eavesdropper. 
 
-简答的讲，加密是 Alice 和 Bob 在有第三方监听情况下可以实现安全通信的技巧。
+通俗来讲，加密是 Alice 和 Bob 在有第三方监听情况下可以实现安全通信的技巧。
 
 ### 1.1.1 Shannon cipher
 
@@ -38,13 +38,14 @@ $$D(k,c) := k \oplus c$$
 $$\mathcal{K}:=\{0,1\}^L\quad \mathcal{M}:=\mathcal{C}:=\{0,1\}^l, \;\text{where}\;l\leq L$$
 
 $$E(k, m):=k[0,...,l-1]\oplus m$$
+
 $$D(k, c):=k[0,...,l-1]\oplus c$$
 
-**Subsitution cipher**, again, $\mathcal{E}(E,D)$ is defined over $(\mathcal{K},\mathcal{M},\mathcal{C})$. Let $\mathcal{S}$ be symbol space $\{A,...,Z,[\quad],\}$(consisting of A-Z and space), in this situation, message space and cipher space are both squence of symbols from $\mathcal{S}$ with length $L$.
+**Subsitution cipher**, again, $\mathcal{E}(E,D)$ is defined over $(\mathcal{K},\mathcal{M},\mathcal{C})$. Let $\mathcal{S}$ be symbol space $\{A,...,Z,[\quad],\}$ (consisting of A-Z and space), in this situation, message space and cipher space are both squence of symbols from $\mathcal{S}$ with length $L$.
 
 $$\mathcal{M}:=\mathcal{C}:=\mathcal{S}^L$$
 
-And the key space $\mathcal{K}$ consists all the permutations on $\mathcal{S}$, for instance, $k=\{[\quad],A, B,C...Z\}$, in that case, key space $\mathcal{K}$ is sufficiently large, $|\mathcal{K}|\approx1.09\cdot 10^{28}$, we define $k^{-1}$ as the inverse permutation of $k$.
+And the key space $\mathcal{K}$ consists all the permutations on $\mathcal{S}$, for instance, $k=\{[\quad],A, B,C...Z\}$, in that case, key space $\mathcal{K}$ is sufficiently large, $\mathcal{K}\approx 0.9\cdot 10^{28}$, we define $k^{-1}$ as the inverse permutation of $k$.
 
 $$E(k, m) = (k(m[0]),k(m[1]),...,k(m[L-1]))$$
 
@@ -75,7 +76,7 @@ From that intutitive definition, we have
 
 完美安全是加密安全最严格的定义。其定义了在最严格的条件下 $\mathcal{M}:=\{m_0, m_1\}$，并且密钥空间 $\mathcal{K}$ 足够大并且均匀分布时，对于一个加密后的密文 $c$ 来说，攻击者推断出正确答案的概率是 50%。
 
-> **Definition: Perfect Security**: Let $\mathcal{E}(E,D)$ be a Shannon cipher defined over $(\mathcal{K},\mathcal{M},\mathcal{C})$. Consider a probabilistic experiment in which the random variable $\mathbf{k}$ is uniformly distributed over $\mathcal{K}$. If for all $m_0, m_1\in\mathcal{M}$, and all $c\in\mathcal{C}$, we have
+> **Definition of Perfect Security:**  Let $\mathcal{E}(E,D)$ be a Shannon cipher defined over $(\mathcal{K},\mathcal{M},\mathcal{C})$. Consider a probabilistic experiment in which the random variable $\mathbf{k}$ is uniformly distributed over $\mathcal{K}$. If for all $m_0, m_1\in\mathcal{M}$, and all $c\in\mathcal{C}$, we have
 > $$Pr[E(\mathbf{k},m_0)=c]=Pr[E(\mathbf{k},m_1)=c]$$
 > then we say that $\mathcal{E}$ is a perfectly secure Shannon cipher.
 

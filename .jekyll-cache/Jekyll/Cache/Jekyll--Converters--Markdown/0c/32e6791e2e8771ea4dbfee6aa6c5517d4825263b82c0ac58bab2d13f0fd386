@@ -1,0 +1,112 @@
+I"�<h1 id="cryptographic-hardness-assumptions">Cryptographic Hardness Assumptions</h1>
+
+<h3 id="integer-factorization">Integer Factorization</h3>
+
+<blockquote>
+  <p><strong>Integer factorization</strong> is the decomposition of a <a href="https://en.wikipedia.org/wiki/Composite_number">composite number</a> into a product of smaller integers. <a href="https://en.wikipedia.org/wiki/Integer_factorization#cite_note-rsa768-1">[wikipedia]</a></p>
+</blockquote>
+
+<p>当我们需要分解的整数足够大的时候，没有有效的、非量子的整数因式分解算法。</p>
+
+<p>我们所了解到的是，因数分解目前还没有多项式时间内的有效解法，通常我们认为不存在PPT解法，因此，因式分解问题通常被认为是NP问题，但是我们无法证明其是 NP-complete 的。研究人员不认为因式分解算法是 NP-complete。</p>
+
+<p>目前最有效解法（GNFS）的时间复杂度，对于一个 $n$ 比特的数字 $n$ 来说:
+<script type="math/tex">\text{exp}\left(\left(\sqrt[3]{\frac{64}{9}}+o(1)\right)(\text{ln}\;n)^{\frac{1}{3}}(\text{ln}\;\text{ln}\;n)^{\frac{2}{3}}\right)</script>
+对于量子攻击算法 Shor’ algorithm （7个qubits）来说的话，解决问题仅仅需要 $O(b^3)$ 时间复杂度以及 $O(b)$ 空间复杂度。</p>
+
+<h3 id="dl-discrete-logarithm">DL; Discrete Logarithm</h3>
+
+<blockquote>
+  <p>For a suitable cyclic group $G=\langle g\rangle$, take $y\in G$ of order $m$, The <strong>DL</strong> is to find an interger $x\in\mathbb{Z}_m$ such that $g^x=y$.</p>
+</blockquote>
+
+<p><strong>No proof that DL is hard</strong>. In general, the number of steps necessary to find a solution is super-polynomial in the size of the group element.</p>
+
+<script type="math/tex; mode=display">\text{DDH}\leq\text{CDH}\leq\text{DL}</script>
+
+<h3 id="cdh-computation-diffie-hellman">CDH; Computation Diffie-Hellman</h3>
+
+<blockquote>
+  <p>Given a cyclic group $G=\langle g\rangle$ of order $m$, $g^a,g^b$ where $a,b\gets\mathbb{Z}_m$, the <strong>CDH</strong> is to compute $g^{ab}$</p>
+</blockquote>
+
+<h3 id="ddh-decisional-diffie-hellman">DDH; Decisional Diffie-Hellman</h3>
+
+<blockquote>
+  <p>Given a group $G=\langle g\rangle$ of order $m$, $g^a,g^b, g^c$ where $a,b,c\gets\mathbb{Z}_m$, the <strong>DDH</strong> is to decide whether $c=ab$ or $c\gets\mathbb{Z}_m$.</p>
+</blockquote>
+
+<p>Informally, DDH assumes that it is difficult to distinguish between tuples of the form $\langle g,g^a,g^b,g^c\rangle$, where $g$ belongs to a multiplicative group and $a,b$ and $c$ are randomly chosen exponents.</p>
+
+<p>The group generator <strong>GGen</strong> is said to satisfy the <strong><em>decisional Diffie-Hellman assumption</em></strong> provided the following probability ensembles ${\mathcal{D}<em>\lambda}</em>{\lambda\in\mathbb{N}}$ and ${\mathcal{R}<em>\lambda}</em>{\lambda\in\mathbb{N}}$ are computationally indistinguishable:
+<script type="math/tex">\mathcal{D}_\lambda:=\{\langle G,m,g\rangle\gets \text{GGen}(1^\lambda);a,b\gets \mathbb{Z}_m:(G,m,g,g^a,g^b,g^{ab})\}</script></p>
+
+<script type="math/tex; mode=display">\mathcal{R}_\lambda:=\{\langle G,m,g\rangle\gets \text{GGen}(1^\lambda);a,b,c\gets \mathbb{Z}_m:(G,m,g,g^a,g^b,g^{c})\}</script>
+
+<p>where $m=\text{order}(g)$.</p>
+
+<p>Equivalently, if $\mathcal{A}$ is a statistical test bounded by probabilistic polynomial-time, it holds that
+<script type="math/tex">\text{Adv}^{\mathcal{A}}(1^\lambda)=\Delta_\mathcal{A}[\mathcal{D}_\lambda, \mathcal{R}_\lambda]\leq\text{negl}(1^\lambda)</script>
+$\text{Adv}^{\mathcal{A}}$ is called the <strong>advantage</strong> of $\mathcal{A}$.</p>
+
+<h3 id="ecdlp-elliptic-curve-discrete-logarithm-problem">ECDLP; Elliptic Curve Discrete Logarithm Problem</h3>
+
+<blockquote>
+  <p>Let $E$ be an elliptic curve over a finite field $\mathbb{F}_q$, where $q=p^n$ and $p$ is prime.  Given points $P,Q\in E(\mathbb{F}_q) $ to find an integer $a$, if it exists, such that $Q=aP$.</p>
+</blockquote>
+
+<p>椭圆曲线是有限域上的平面曲线，满足下列方程：
+<script type="math/tex">y^2=x^3+ax+b</script>
+椭圆曲线以及椭圆曲线上定义的加法以及乘法构成了一个 Abelian group。</p>
+
+<h3 id="svp-shortest-vector-problem">SVP; Shortest Vector Problem</h3>
+
+<blockquote>
+  <table>
+    <tbody>
+      <tr>
+        <td>For a real number $p ≥ 1$, the p-norm or $L^p$-norm of $x$ is defined by $|x|_p=(</td>
+        <td>x_1</td>
+        <td>^p+</td>
+        <td>x_2</td>
+        <td>^p+…+</td>
+        <td>x_n</td>
+        <td>^p)^{1/p}$</td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>
+
+<p>Assume we are given with a basis in vector space $V$ and a norm $N$ (Ususally L2-norm). Let $\lambda(L)$ be the length of shorted non-zero vector in the lattice $L$, that is,
+<script type="math/tex">\lambda (L)=\min_{v\in L\setminus \{\mathbf {0} \}}\|v\|_{N}</script>
+下图是维基百科给出的比较形象化的SVP：</p>
+
+<p><img src="/Users/jamie/Library/Application Support/typora-user-images/image-20191113084228806.png" alt="image-20191113084228806" style="zoom:50%;" /></p>
+
+<h3 id="rlwe-ring-learning-with-errors">RLWE; Ring Learning with Errors</h3>
+
+<blockquote>
+  <p>An important feature  is  that the solution to the RLWE problem may be  reducible to the <a href="https://en.wikipedia.org/wiki/NP-hard">NP-hard</a> <a href="https://en.wikipedia.org/wiki/Shortest_vector_problem">shortest vector problem</a> (SVP) in a lattice.[<a href="https://en.wikipedia.org/wiki/Ring_learning_with_errors#cite_note-:0-1">1]</a></p>
+</blockquote>
+
+<p>RLWE问题给予在有限域内的多项式问题，首先，多项式的定义为：
+<script type="math/tex">a(x)=a_0+a_1x+a_2x^2+...+a_{n-2}x^{n-2} + a_{n-1}x^{n-1}</script>
+多项式可以进行数字运算，多项式的相加或者相乘可以通过参数进行相应运算来实现（可以参考MPC中的BGW协议），即
+<script type="math/tex">a(x)\cdot b(x)\quad a(x)+b(x)</script>
+In the RLWE context the coefficients of the polynomials and all operations involving those coefficients will be done in a finite field, typically the field <script type="math/tex">\mathbf{Z}/q\mathbf{Z} = \mathbf{F}_q</script> for a prime integer $q$.</p>
+
+<p>The set of polynomials over a finite field with the operations of addition and multiplication forms an infinite polynomial ring ($\mathbf{F}_q[x]$).</p>
+
+<p>The RLWE context works with a finite quotient ring of this infinite ring.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>The quotient ring is typically the finite Quotient ring</td>
+      <td>quotient (factor) ring formed by reducing all of the polynomials in</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>$\mathbf{F}_q[x]$ modulo an irreducible polynomial $\Phi(x)$.  This finite quotient ring can be written as $\mathbf{F}_q[x]/\Phi(x)$ though many authors write $\mathbf{Z}_q[x]/\Phi(x)$</p>
+:ET
