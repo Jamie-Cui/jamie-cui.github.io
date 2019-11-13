@@ -1,4 +1,4 @@
-I"�<h1 id="cryptology">Cryptology；</h1>
+I"�<h1 id="cryptology">Cryptology</h1>
 
 <p>古典密码学最早追溯于很久很久之前…</p>
 
@@ -21,7 +21,7 @@
   <p>16/08/2019 by Jamie</p>
 </blockquote>
 
-<p>[]</p>
+<p><a href="./hard_problems.html">番外：那些密码学基于的数学难题 Cryptographic Hardness Assumptions</a></p>
 
 <p><a href="./encryption.html">1.1 Encryption; 加密</a></p>
 :ET

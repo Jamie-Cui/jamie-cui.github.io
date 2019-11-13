@@ -66,15 +66,12 @@ $$
 
 ### SVP; Shortest Vector Problem
 
-> For a real number $p ≥ 1$, the p-norm or $L^p$-norm of $x$ is defined by $\|x\|_p=(|x_1|^p+|x_2|^p+...+|x_n|^p)^{1/p}$
+> For a real number $p ≥ 1$, the p-norm or $L^p$-norm of $x$ is defined by $\|x\|_p=(\|x_1\|^p+\|x_2\|^p+...+\|x_n\|^p)^{1/p}$
 
 Assume we are given with a basis in vector space $V$ and a norm $N$ (Ususally L2-norm). Let $\lambda(L)$ be the length of shorted non-zero vector in the lattice $L$, that is,
 $$
 \lambda (L)=\min_{v\in L\setminus \{\mathbf {0} \}}\|v\|_{N}
 $$
-下图是维基百科给出的比较形象化的SVP：
-
-<img src="/Users/jamie/Library/Application Support/typora-user-images/image-20191113084228806.png" alt="image-20191113084228806" style="zoom:50%;" />
 
 ### RLWE; Ring Learning with Errors
 

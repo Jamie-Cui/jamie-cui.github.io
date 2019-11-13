@@ -1,4 +1,4 @@
-I"�<h1 id="cryptographic-hardness-assumptions">Cryptographic Hardness Assumptions</h1>
+I"u<h1 id="cryptographic-hardness-assumptions">Cryptographic Hardness Assumptions</h1>
 
 <h3 id="integer-factorization">Integer Factorization</h3>
 
@@ -62,26 +62,14 @@ $\text{Adv}^{\mathcal{A}}$ is called the <strong>advantage</strong> of $\mathcal
 <h3 id="svp-shortest-vector-problem">SVP; Shortest Vector Problem</h3>
 
 <blockquote>
-  <table>
-    <tbody>
-      <tr>
-        <td>For a real number $p ≥ 1$, the p-norm or $L^p$-norm of $x$ is defined by $|x|_p=(</td>
-        <td>x_1</td>
-        <td>^p+</td>
-        <td>x_2</td>
-        <td>^p+…+</td>
-        <td>x_n</td>
-        <td>^p)^{1/p}$</td>
-      </tr>
-    </tbody>
-  </table>
+  <p>For a real number $p ≥ 1$, the p-norm or $L^p$-norm of $x$ is defined by $|x|_p=(|x_1|^p+|x_2|^p+…+|x_n|^p)^{1/p}$</p>
 </blockquote>
 
 <p>Assume we are given with a basis in vector space $V$ and a norm $N$ (Ususally L2-norm). Let $\lambda(L)$ be the length of shorted non-zero vector in the lattice $L$, that is,
 <script type="math/tex">\lambda (L)=\min_{v\in L\setminus \{\mathbf {0} \}}\|v\|_{N}</script>
 下图是维基百科给出的比较形象化的SVP：</p>
 
-<p><img src="/Users/jamie/Library/Application Support/typora-user-images/image-20191113084228806.png" alt="image-20191113084228806" style="zoom:50%;" /></p>
+<p><img src="https://en.wikipedia.org/wiki/Lattice_problem#/media/File:SVP.svg" style="zoom:50%;" /></p>
 
 <h3 id="rlwe-ring-learning-with-errors">RLWE; Ring Learning with Errors</h3>
 
@@ -99,12 +87,5 @@ In the RLWE context the coefficients of the polynomials and all operations invol
 
 <p>The RLWE context works with a finite quotient ring of this infinite ring.</p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>The quotient ring is typically the finite Quotient ring</td>
-      <td>quotient (factor) ring formed by reducing all of the polynomials in $\mathbf{F}_q[x]$ modulo an irreducible polynomial $\Phi(x)$.  This finite quotient ring can be written as $\mathbf{F}_q[x]/\Phi(x)$ though many authors write $\mathbf{Z}_q[x]/\Phi(x)$</td>
-    </tr>
-  </tbody>
-</table>
+<p>The quotient ring is typically the finite Quotient ring/quotient (factor) ring formed by reducing all of the polynomials in $\mathbf{F}_q[x]$ modulo an irreducible polynomial $\Phi(x)$.  This finite quotient ring can be written as $\mathbf{F}_q[x]/\Phi(x)$ though many authors write $\mathbf{Z}_q[x]/\Phi(x)$</p>
 :ET
