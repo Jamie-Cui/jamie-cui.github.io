@@ -2,122 +2,22 @@
 layout: default
 ---
 
-Text can be **bold**, _italic_, or ~~strikethrough~~.
+# Cryptology；
 
-[Link to another page](./another-page.html).
+古典密码学最早追溯于很久很久之前...
 
-There should be whitespace between paragraphs.
+现代密码学起源于1970年代，首先随着RSA加密算法的出现，引出了公私钥（非对称）密码学。
 
-There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
+- 古典密码学，移位，乱序，但是可以通过频率分析等方法在有限时间内破解
+- 对称密码学，例如AES、DES具有很高的保密性，但是需要较长的密钥长度，以及加密解密使用的相同密钥，不能保证安全的特异性。
+- 非对称密码学，引出了数字签名、零知识证明、不经意传输等等现代密码学的building block。
 
-# Header 1
+在现代密码学开始阶段，密码学协议基于常用的数学难题：离散对数问题、因式分解问题。由于上世纪末出现了Shor算法使得传统的因式分解问题在量子计算机下不再安全。在下面列举了我比较喜欢的几个参考资料，如果喜欢的话，请访问下面链接：
 
-This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.
+- [Boneh Dan et.al. --- "A Graduate Course in Applied Cryptography“](https://crypto.stanford.edu/~dabo/cryptobook/BonehShoup_0_4.pdf)
+- [Boneh's Introcution to Cryptography](https://crypto.stanford.edu/pbc/notes/crypto/)
 
-## Header 2
-
-> This is a blockquote following a header.
->
-> When something is important enough, you do it even if the odds are not in your favor.
-
-### Header 3
-
-```js
-// Javascript code with syntax highlighting.
-var fun = function lang(l) {
-  dateformat.i18n = require('./lang/' + l)
-  return true;
-}
-```
-
-```ruby
-# Ruby code with syntax highlighting
-GitHubPages::Dependencies.gems.each do |gem, version|
-  s.add_dependency(gem, "= #{version}")
-end
-```
-
-#### Header 4
-
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-*   This is an unordered list following a header.
-
-##### Header 5
-
-1.  This is an ordered list following a header.
-2.  This is an ordered list following a header.
-3.  This is an ordered list following a header.
-
-###### Header 6
-
-| head1        | head two          | three |
-|:-------------|:------------------|:------|
-| ok           | good swedish fish | nice  |
-| out of stock | good and plenty   | nice  |
-| ok           | good `oreos`      | hmm   |
-| ok           | good `zoute` drop | yumm  |
-
-### There's a horizontal rule below this.
-
-* * *
-
-### Here is an unordered list:
-
-*   Item foo
-*   Item bar
-*   Item baz
-*   Item zip
-
-### And an ordered list:
-
-1.  Item one
-1.  Item two
-1.  Item three
-1.  Item four
-
-### And a nested list:
-
-- level 1 item
-  - level 2 item
-  - level 2 item
-    - level 3 item
-    - level 3 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-  - level 2 item
-  - level 2 item
-- level 1 item
-
-### Small image
-
-![Octocat](https://github.githubassets.com/images/icons/emoji/octocat.png)
-
-### Large image
-
-![Branching](https://guides.github.com/activities/hello-world/branching.png)
+> 16/08/2019 by Jamie
 
 
-### Definition lists can be used with HTML syntax.
-
-<dl>
-<dt>Name</dt>
-<dd>Godzilla</dd>
-<dt>Born</dt>
-<dd>1952</dd>
-<dt>Birthplace</dt>
-<dd>Japan</dd>
-<dt>Color</dt>
-<dd>Green</dd>
-</dl>
-
-```
-Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this.
-```
-
-```
-The final element.
-```
+[1.1 Encryption; 加密](./encryption.html)

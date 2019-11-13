@@ -4,3 +4,6 @@ description: Do Cryptology
 show_downloads: false
 google_analytics:
 theme: jekyll-theme-minimal
+
+site:
+  author: Jamie-Cui
