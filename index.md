@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# Cryptology；
+# Cryptology
 
 古典密码学最早追溯于很久很久之前...
 
