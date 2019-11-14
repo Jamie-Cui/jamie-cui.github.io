@@ -20,7 +20,7 @@ author: Jamie
 
 接下来让我们看一下洋葱网络到底长什么样子，Initiator是通信的发起方而responder是通信的回应方，Node 1是第一个节点也是用户连接到洋葱网络的入口，经过Node 1之后的线路是由Node 1来进行选择的，因此Node 1是最敏感也是最容易遭受到入侵的节点。但是即使Node 1 被入侵之后（也就是被入侵者控制），只要在洋葱网络中还存在一个诚实的节点，整个网络都是匿名的（但是之后有一些论文推翻了这种论断，在这篇文章中我们暂且认为这个是对的）。
 
-![Octocat](https://github.com/Jamie-Cui/blog/tree/master/assets/img/OnionRouter.png)
+![Octocat](https://github.com/Jamie-Cui/blog/blob/master/assets/img/OnionRouter.png)
 
 我们必须注意到洋葱网络并不是一个匿名网络，通信双方如果想知道对面的身份还是可以请求到的，洋葱网络只是将通信的socket包加密因此无法通过分析网络流量来得到通信双方的身份信息。
 
