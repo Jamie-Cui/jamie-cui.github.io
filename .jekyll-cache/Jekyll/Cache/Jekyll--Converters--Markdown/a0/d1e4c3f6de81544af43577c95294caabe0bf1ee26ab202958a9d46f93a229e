@@ -1,6 +1,4 @@
-I"u<h1 id="cryptographic-hardness-assumptions">Cryptographic Hardness Assumptions</h1>
-
-<h3 id="integer-factorization">Integer Factorization</h3>
+I"<h2 id="integer-factorization">Integer Factorization</h2>
 
 <blockquote>
   <p><strong>Integer factorization</strong> is the decomposition of a <a href="https://en.wikipedia.org/wiki/Composite_number">composite number</a> into a product of smaller integers. <a href="https://en.wikipedia.org/wiki/Integer_factorization#cite_note-rsa768-1">[wikipedia]</a></p>
@@ -66,10 +64,7 @@ $\text{Adv}^{\mathcal{A}}$ is called the <strong>advantage</strong> of $\mathcal
 </blockquote>
 
 <p>Assume we are given with a basis in vector space $V$ and a norm $N$ (Ususally L2-norm). Let $\lambda(L)$ be the length of shorted non-zero vector in the lattice $L$, that is,
-<script type="math/tex">\lambda (L)=\min_{v\in L\setminus \{\mathbf {0} \}}\|v\|_{N}</script>
-下图是维基百科给出的比较形象化的SVP：</p>
-
-<p><img src="https://en.wikipedia.org/wiki/Lattice_problem#/media/File:SVP.svg" style="zoom:50%;" /></p>
+<script type="math/tex">\lambda (L)=\min_{v\in L\setminus \{\mathbf {0} \}}\|v\|_{N}</script></p>
 
 <h3 id="rlwe-ring-learning-with-errors">RLWE; Ring Learning with Errors</h3>
 

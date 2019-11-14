@@ -1,10 +1,11 @@
 ---
-layout: default
+layout: post
+title:  "那些密码学基于的数学难题 — Hardness Assumptions"
+date:   2019-11-12 12:00:00 +0000
+author: Jamie
 ---
 
-# Cryptographic Hardness Assumptions
-
-### Integer Factorization
+## Integer Factorization
 
 > **Integer factorization** is the decomposition of a [composite number](https://en.wikipedia.org/wiki/Composite_number) into a product of smaller integers. [[wikipedia]](https://en.wikipedia.org/wiki/Integer_factorization#cite_note-rsa768-1)
 
@@ -18,7 +19,7 @@ $$
 $$
 对于量子攻击算法 Shor' algorithm （7个qubits）来说的话，解决问题仅仅需要 $O(b^3)$ 时间复杂度以及 $O(b)$ 空间复杂度。
 
-### DL; Discrete Logarithm
+## DL; Discrete Logarithm
 
 > For a suitable cyclic group $G=\langle g\rangle$, take $y\in G$ of order $m$, The **DL** is to find an interger $x\in\mathbb{Z}_m$ such that $g^x=y$.
 
@@ -26,12 +27,12 @@ $$
 
 $$\text{DDH}\leq\text{CDH}\leq\text{DL}$$
 
-### CDH; Computation Diffie-Hellman
+## CDH; Computation Diffie-Hellman
 
 > Given a cyclic group $G=\langle g\rangle$ of order $m$, $g^a,g^b$ where $a,b\gets\mathbb{Z}_m$, the **CDH** is to compute $g^{ab}$
 
 
-### DDH; Decisional Diffie-Hellman
+## DDH; Decisional Diffie-Hellman
 
 > Given a group $G=\langle g\rangle$ of order $m$, $g^a,g^b, g^c$ where $a,b,c\gets\mathbb{Z}_m$, the **DDH** is to decide whether $c=ab$ or $c\gets\mathbb{Z}_m$.
 
@@ -54,7 +55,7 @@ $$
 $$
 $\text{Adv}^{\mathcal{A}}$ is called the **advantage** of $\mathcal{A}$.
 
-### ECDLP; Elliptic Curve Discrete Logarithm Problem
+## ECDLP; Elliptic Curve Discrete Logarithm Problem
 
 >  Let $E$ be an elliptic curve over a finite field $\mathbb{F}_q$, where $q=p^n$ and $p$ is prime.  Given points $P,Q\in E(\mathbb{F}_q) $ to find an integer $a$, if it exists, such that $Q=aP$.
 
@@ -64,7 +65,7 @@ y^2=x^3+ax+b
 $$
 椭圆曲线以及椭圆曲线上定义的加法以及乘法构成了一个 Abelian group。
 
-### SVP; Shortest Vector Problem
+## SVP; Shortest Vector Problem
 
 > For a real number $p ≥ 1$, the p-norm or $L^p$-norm of $x$ is defined by $\|x\|_p=(\|x_1\|^p+\|x_2\|^p+...+\|x_n\|^p)^{1/p}$
 
@@ -73,7 +74,7 @@ $$
 \lambda (L)=\min_{v\in L\setminus \{\mathbf {0} \}}\|v\|_{N}
 $$
 
-### RLWE; Ring Learning with Errors
+## RLWE; Ring Learning with Errors
 
 > An important feature  is  that the solution to the RLWE problem may be  reducible to the [NP-hard](https://en.wikipedia.org/wiki/NP-hard) [shortest vector problem](https://en.wikipedia.org/wiki/Shortest_vector_problem) (SVP) in a lattice.[[1\]](https://en.wikipedia.org/wiki/Ring_learning_with_errors#cite_note-:0-1)
 

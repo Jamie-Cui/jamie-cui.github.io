@@ -19,6 +19,7 @@ layout: default
 
 > 16/08/2019 by Jamie
 
-[番外：那些密码学基于的数学难题 Cryptographic Hardness Assumptions](./hard_problems.html)
+- [番外：那些密码学基于的数学难题 --- Hardness Assumptions](./post_hard_problems.html)
+- [番外：洋葱路由的起点 --- Hiding Routing Information](./post_onion.html)
 
-[1.1 Encryption; 加密](./encryption.html)
+[1.1 Encryption; 加密](./post_encryption.html)
