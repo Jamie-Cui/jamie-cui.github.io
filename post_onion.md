@@ -20,7 +20,7 @@ author: Jamie
 
 接下来让我们看一下洋葱网络到底长什么样子，Initiator是通信的发起方而responder是通信的回应方，Node 1是第一个节点也是用户连接到洋葱网络的入口，经过Node 1之后的线路是由Node 1来进行选择的，因此Node 1是最敏感也是最容易遭受到入侵的节点。但是即使Node 1 被入侵之后（也就是被入侵者控制），只要在洋葱网络中还存在一个诚实的节点，整个网络都是匿名的（但是之后有一些论文推翻了这种论断，在这篇文章中我们暂且认为这个是对的）。
 
-![Octocat](https://github.com/Jamie-Cui/blog/blob/master/assets/img/OnionRouter.png)
+<img src="{{site.url}}{{site.baseurl}}/assets/img/OnionRouter.png" alt="Drawing" style="width: 600px;"/>
 
 我们必须注意到洋葱网络并不是一个匿名网络，通信双方如果想知道对面的身份还是可以请求到的，洋葱网络只是将通信的socket包加密因此无法通过分析网络流量来得到通信双方的身份信息。
 
@@ -39,38 +39,40 @@ Dr. Chaum 1981年发表了一篇论文[Untraceable Electronic Mail, Return Addre
 幸运的是利用密码学中的加密和解密，我们可以让每个节点受到和发出的信息都不同。如上图 Node 1 在收到 Initiator 发送的信息 m 之后，会随机建立一条匿名网络之内的信息传播路径，ps. 匿名网络中的所有节点都有下面者一个表格，里面存储了该匿名网络中所有节点以其对应的public key。
 
 接下来Node 1 会生成加密信息C ：
-`Enc( Enc( Enc( Enc(m, pk5), pk4), pk3), pk2)`
+
+$$Enc( Enc( Enc( Enc(m, pk_5), pk_4), pk_3), pk_2)$$
 
 Node 2 发送出去的加密信息为：
-`Enc( Enc( Enc(m, pk5), pk4), pk3)`
+
+$$Enc( Enc( Enc(m, pk_5), pk_4), pk_3)$$
 
 以此类推......
 
 Node 5 发送出去的加密信息为：
-`m`
+$m$
 
 | Node No. | Public Key |
 |----------|------------|
-| Node 1   | pk1        |
-| Node 2   | pk2        |
-| Node 3   | pk3        |
-| Node 4   | pk4        | 
-| Node 5   | pk5        |
+| Node 1   | $pk_1$     |
+| Node 2   | $pk_2$     |
+| Node 3   | $pk_3$     |
+| Node 4   | $pk_4$     | 
+| Node 5   | $pk_5$     |
 |          |            |
 
 *这样我们就解决了各个节点传输信息相同的问题。接下来我们来看一下个节点Forward的包的格式是怎么样的，在其中又考虑了哪些安全的因素。*
 
 右面展示了每个节点Forward的包的格式：
-<img src="{{site.url}}{{site.baseurl}}/img/ForwardPackage.png" alt="Drawing" style="width: 350px;"/>
+$$\{\text{exp_time}, \text{nex_hop}, F_f, K_f, K_b, \text{payload}\}_{PK_x}$$
 
-* `exp_time`：包的有效期，包的有效期到了之后node会drop掉这个包
-* `next_hop`：下一个节点的信息
-* `(Ff,Kfz)`：存储了下一个节点的Forward message 和下一个节点的 public key
-* `(Fb,Kby)`：存储了上一个节点的Forward message 和上一个节点的 public key
+* $\text{exp_time}$：包的有效期，包的有效期到了之后node会drop掉这个包
+* $\text{next_hop}$：下一个节点的信息
+* $(F_f,K_{fz})$：存储了下一个节点的Forward message 和下一个节点的 public key
+* $(F_b,K_{by})$：存储了上一个节点的Forward message 和上一个节点的 public key
 
 下面这张图具体解释了 X -> Y -> Z 是如何向下一个节点传递包的。首先因为X是第一个节点，所以X知道所有节点的信息，因此在利用Y和Z的public key对原明文信息message进行加密的时候，向每一层填入了上一个节点和下一个节点的信息（因为通信不是一次性单向的而是多次双向的通信）。这样就保证了整条通信线路的完整性和保密性（上一个节点下一个节点的信息都是通过该节点的public key进行加密过的）。
 
-<img src="{{site.url}}{{site.baseurl}}/img/Forward Onion.png" alt="Drawing" style="width: 400px;"/>
+<img src="{{site.url}}{{site.baseurl}}/assets/img/Forward Onion.png" alt="Drawing" style="width: 400px;"/>
 
 *我们能注意到最后一个包也就是Node5解密后的包是有一段padding的，原因是通过加入一串随机长度的字符可以让入侵者无法真正知道网络中的哪个包是最后一次传输用的包，因为如果不加padding的话最后一个包的长度就很固定，容易被发觉从而判断出通信一方。*
 
@@ -86,7 +88,7 @@ Node 5 发送出去的加密信息为：
 
 我们现在知道整条线路的信息其实都存在Node 1中，如果**Node1被入侵**也就是通信发起者连接洋葱网络的代理服务器被入侵，那就证明洋葱网络失去了安全性，所有的routing信息都会泄露。但是除此之外只要有一个“诚实”的节点我们就可以保证通信的私密性，因为只要有一个节点进行解密加密就无法了解到后面的节点（除非猜出来）。
 
-`Expire-time是为了抵御重放攻击`关于重放攻击可以看之前的这篇博客[网络安全 --- Network Seecurity][post-networking]，但是这样会使整个网络易受到DDos攻击，如果expire time设置很短，入侵者就可以无限制向某一个节点发送数据然后快速Drop掉数据包（expire time到了重新发送数据包），但是如果time很长，就使每个节点记录了更多的信息（不安全）。
+`Expire-time是为了抵御重放攻击`，但是这样会使整个网络易受到DDos攻击，如果expire time设置很短，入侵者就可以无限制向某一个节点发送数据然后快速Drop掉数据包（expire time到了重新发送数据包），但是如果time很长，就使每个节点记录了更多的信息（不安全）。
 
 **Node5被入侵** 和node1被入侵相同
 

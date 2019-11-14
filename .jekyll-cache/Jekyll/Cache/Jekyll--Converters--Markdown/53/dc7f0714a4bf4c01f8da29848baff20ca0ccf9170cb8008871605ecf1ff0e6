@@ -1,4 +1,4 @@
-I":$<p>这篇post我们会提及一下洋葱路由的发展过程，尤其是在刚提出匿名网络时洋葱网络的初始化设计方案。
+I"8$<p>这篇post我们会提及一下洋葱路由的发展过程，尤其是在刚提出匿名网络时洋葱网络的初始化设计方案。
 这篇post是基于论文：</p>
 
 <p><a href="https://link-springer-com.ezproxy.is.ed.ac.uk/chapter/10.1007/3-540-61996-8_37">Hiding routing information (Goldschlag, D.M. ; Reed, M.G. ; Syverson, P.F.)</a></p>
@@ -13,7 +13,7 @@
 
 <p>接下来让我们看一下洋葱网络到底长什么样子，Initiator是通信的发起方而responder是通信的回应方，Node 1是第一个节点也是用户连接到洋葱网络的入口，经过Node 1之后的线路是由Node 1来进行选择的，因此Node 1是最敏感也是最容易遭受到入侵的节点。但是即使Node 1 被入侵之后（也就是被入侵者控制），只要在洋葱网络中还存在一个诚实的节点，整个网络都是匿名的（但是之后有一些论文推翻了这种论断，在这篇文章中我们暂且认为这个是对的）。</p>
 
-<p><img src="https://github.com/Jamie-Cui/blog/blob/master/assets/img/OnionRouter.png" alt="Octocat" /></p>
+<p><img src="http://localhost:4000/assets/img/OnionRouter.png" alt="Drawing" style="width: 600px;" /></p>
 
 <p>我们必须注意到洋葱网络并不是一个匿名网络，通信双方如果想知道对面的身份还是可以请求到的，洋葱网络只是将通信的socket包加密因此无法通过分析网络流量来得到通信双方的身份信息。</p>
 
