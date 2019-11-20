@@ -1,4 +1,4 @@
-I"k<h1 id="cryptology">Cryptology</h1>
+I"�<h1 id="cryptology">Cryptology</h1>
 
 <p>古典密码学最早追溯于很久很久之前…</p>
 
@@ -24,6 +24,7 @@
 <ul>
   <li><a href="./post_hard_problems.html">番外：那些密码学基于的数学难题 — Hardness Assumptions</a></li>
   <li><a href="./post_onion.html">番外：洋葱路由的起点 — Hiding Routing Information</a></li>
+  <li><a href="./post_mpc.html">番外：多方安全计算 — Secure Multiparty Computation</a></li>
 </ul>
 
 <p><a href="./post_encryption.html">1.1 Encryption; 加密</a></p>

@@ -21,5 +21,6 @@ layout: default
 
 - [番外：那些密码学基于的数学难题 --- Hardness Assumptions](./post_hard_problems.html)
 - [番外：洋葱路由的起点 --- Hiding Routing Information](./post_onion.html)
+- [番外：多方安全计算 --- Secure Multiparty Computation](./post_mpc.html)
 
 [1.1 Encryption; 加密](./post_encryption.html)

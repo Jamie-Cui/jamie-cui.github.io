@@ -1,0 +1,237 @@
+I">/<ul>
+  <li>Awesome List: <a href="https://github.com/rdragos/awesome-mpc">Github: rdragos/awesome-mpc</a></li>
+  <li>Book: <a href="https://securecomputation.org/">A Pragmatic Introcution to Secure Multi-Party Computation</a></li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Protocols</th>
+      <th># Parties</th>
+      <th># Rounds</th>
+      <th># Circuit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Yao</td>
+      <td>2</td>
+      <td>Constant</td>
+      <td>Boolean</td>
+    </tr>
+    <tr>
+      <td>GMW</td>
+      <td>$\geq$ 3</td>
+      <td>Circuit depth</td>
+      <td>Boolean or arithmetic</td>
+    </tr>
+    <tr>
+      <td>BGW</td>
+      <td>$\geq$ 3</td>
+      <td>Circuit depth</td>
+      <td>Boolean or arithmetic</td>
+    </tr>
+    <tr>
+      <td>BMR</td>
+      <td>$\geq$ 3</td>
+      <td>Constant</td>
+      <td>Boolean</td>
+    </tr>
+    <tr>
+      <td>GESS</td>
+      <td>2</td>
+      <td>Constant</td>
+      <td>Boolean <em>formula</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="1-yaogarbled-circuit">1. Yao/Garbled Circuit</h2>
+
+<blockquote>
+  <p>A. C. Yao.  Protocols for secure computations.  In23rd FOCS, pages 160–164, 1982</p>
+</blockquote>
+
+<p>Yao’s protocol is usually seen as best-performing, and many state-of-art protocols build on Yap’s GC. 那么通常来说，使用姚式电路意味着比较低的通信复杂度（固定轮数通信）。</p>
+
+<h3 id="protocol简化版本协议">Protocol；简化版本协议</h3>
+
+<p><strong>Step 1: Assume we want to evaluate $\mathcal{F}(x,y)$, where party $P_1$ holds $x\in X$ and $P_2$ holds $y\in Y.$</strong></p>
+
+<p>我们首先将函数$\mathcal{F}(x,y)$想象成一个查表算法（对于较小的$X,Y$来说）。那么 $P_1$ 可以生成Table  $T_{x,y} = \langle \mathcal{F}(x,y)\rangle$ 。$P_1$ will then encrypt $T$ by assigning a randomly-chosen strong key to <em>each</em> possible input $x$ and $y$. That is, for each $x\in X$ and each $y \in Y$, $P_1$ will randomly choose $k_x\in_R {0,1}^k$ and $k_y\in_R {0,1}^k$.</p>
+
+<p><strong>Step 2: $P_1$ will send the encrypted (and permuted!) table $\langle Enc_{k_x, k_y}(T_{x,y})\rangle$ to $P_2$ and $k_x$.</strong></p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>现在 $P_2$ 就拥有了 $\langle Enc_{k_x, k_y}(T_{x,y})\rangle$、$y$、$k_x$，那么仅仅缺少正确的 $k_y$ 就可以正确还原出查表的结果了。当然， $k_y$ 的获取不可以通过明文传输的形式，因为映射 $\mathcal{R}: y\to k_y$ 是由$P_1$ 生成，因此在获取$k_x$ 的过程中使用了 1-out-of-</td>
+      <td>Y</td>
+      <td>OT协议。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Step 3: $P_2$ obtains $k_y$ using $\text{OT}^1_{|Y|}$</strong></p>
+
+<p>获取到 $k_x, k_y$ 后 $P_2$ 会针对 $T$ 的每一行进行解密，只有一行会解密成功并得到计算结果。</p>
+
+<h3 id="protocol完整协议">Protocol；完整协议</h3>
+
+<p><strong>Step 1: Assume we want to evaluate $\mathcal{F}(x,y)$, where party $P_1$ holds $x\in X$ and $P_2$ holds $y\in Y.$</strong></p>
+
+<p><strong>Step 2: $P_1$ will send the encrypted (and permuted!) table $\langle Enc_{k_x, k_y}(T_{x,y})\rangle$ to $P_2$ and $k_x$.</strong></p>
+
+<p><strong>Step 3: $P_2$ obtains $k_y$ using $\text{OT}^1_{|Y|}$</strong></p>
+
+<h3 id="optimaization优化">Optimaization；优化</h3>
+
+<p><strong>1. $P_2$ 如何判断哪一行是正确结果呢？（假设解密函数不会返回ERROR）</strong></p>
+
+<p>最简单的办法是让 $P_1$ 在 $T$ 的明文末尾加入0，这样的话对于 $P_2$ 来说只有解密后结果末尾为0的才是正确结果（效率比较低下）。</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>（优化后的高效方法）Point-and-Permute：</strong> Interpret part of the key as a pointer to the permuted table $T$. It means on receivingg $k_x, k_y$, $P_2$ can efficiently use the first  $\lceil log|X|\rceil$ bits of $k_x$ and $\lceil log</td>
+      <td>Y</td>
+      <td>\rceil$ bits of $k_y$ to locate one row in $T$. Besides, key size must be maintained t o achieve the corresponding level of security.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>2. 如何有效减少 $T$ 的大小？</strong></p>
+
+<p>Before optimazation size of $T$ scales linearly with the domain size of $\mathcal{F}$. Boolean circuit has domain size of 4, so we need to represent $\mathcal{F}$ as Boolean circuit $\mathcal{C}$.</p>
+
+<p>Each cell of the look-up table encrypts the <em>label corresponding to the output computed by the gate.</em> 那么，对于一个布尔电路的 $\mathcal{C}$ 的一个 Gate（input wires: $w_i,w_j$, output wire: $w_t$）来说:</p>
+
+<p><script type="math/tex">T_{G}= \begin{bmatrix} \text{Enc}_{k_i^0,k_j^0}(k_t^{G(0,0)}) \\ \text{Enc}_{k_i^0,k_j^1}(k_t^{G(0,1)}) \\ \text{Enc}_{k_i^1,k_j^0}(k_t^{G(1,0)}) \\ \text{Enc}_{k_i^1,k_j^1}(k_t^{G(1,1)}) \end{bmatrix}</script> if G is AND, then <script type="math/tex">T_{G}= \begin{bmatrix} \text{Enc}_{k_i^0,k_j^0}(k_t^{0}) \\ \text{Enc}_{k_i^0,k_j^1}(k_t^{0}) \\ \text{Enc}_{k_i^1,k_j^0}(k_t^{0}) \\ \text{Enc}_{k_i^1,k_j^1}(k_t^{1}) \end{bmatrix}</script></p>
+
+<p>在这种情况下（Boolean），我们只需要 1bit 的Point-and-Permute就可以成功定位了。</p>
+
+<p><strong>3. 恶意安全模型？</strong></p>
+
+<p>At an intuitive level, it is easy to see that this circuit-based construction is secure under semi-honest adversary.</p>
+
+<p><strong>Security against malicious $P_1$ is easy</strong>, (we exclued OT, which has been fully studied) since it reveives no messages from $P_2$.</p>
+
+<p><strong>Security against malicious $P_2$</strong>, security boils down to the observation that the <strong>evaluator $P_2$ never sees both labels for the same wire.</strong></p>
+
+<p>To simulate $P_2$’s view, the simulator $Sim_{P_2}$ chooses random active labels for each wire, simulates the three “inactive” ciphertexts of each garbled gate as dummy cipher texts, and produces decoding information that decodes the active output wires to the function’s output.</p>
+
+<h2 id="2-gmw-protocol">2. GMW Protocol</h2>
+
+<blockquote>
+  <p>O. Goldreich, S. Micali, and A. Wigderson.  How to play any mental game or A completenesstheorem for protocols with honest majority.  In19th STOC, pages 218–229, 1987.</p>
+</blockquote>
+
+<p>GMW适用于布尔电路和运算电路。使用正常的Secret Sharing，并使用 Beaver’s Multiplication Triples 去解决乘法问题以及AND门问题，下面使用运算电路进行举例。</p>
+
+<ul>
+  <li>Addition gates: $[x]+[y]$</li>
+  <li>Multiplication gates: $[x]\cdot[y]$</li>
+  <li>Multiplication-by-constant gates: $[x]\cdot c$</li>
+</ul>
+
+<h3 id="add-gate">ADD Gate</h3>
+
+<p>For addition gate, consider input wires $\alpha, \beta$ and output wires $\gamma$. And consider the case we want to secure perform:</p>
+
+<script type="math/tex; mode=display">f_\text{add}([\upsilon_\alpha],[\upsilon_\beta])=[\upsilon_\alpha+\upsilon_\beta]</script>
+
+<p>Wire $\alpha$ shares its value with $x_{\alpha1}$ and $x_{\alpha2}$.
+Wire $\beta$ shares its value to $x_{\beta1}$ and $x_{\beta2}$.</p>
+
+<p>Wire $\alpha$ computes $(x_{\alpha1}+x_{\beta1})$</p>
+
+<p>Wire $\beta$ computes $(x_{\alpha2}+x_{\beta2})$</p>
+
+<h3 id="mul-gate">MUL Gate</h3>
+
+<p>For multiplication gate, consider input wires $\alpha, \beta$ and output wires $\gamma$. And consider the case we want to secure perform:</p>
+
+<script type="math/tex; mode=display">f_\text{mul}([\upsilon_\alpha],[\upsilon_\beta])=[\upsilon_\alpha\times\upsilon_\beta]</script>
+
+<p>Wire $\alpha$ shares its value with $x_{\alpha1}$ and $x_{\alpha2}$.
+Wire $\beta$ shares its value to $x_{\beta1}$ and $x_{\beta2}$.</p>
+
+<p>为了成功计算MUL门，我们需要一个semi-honest并且不会合谋攻击的第三方生成并秘密共享$(a,b,c)$， 其中 $c=a\cdot b$</p>
+
+<p>Wire $\alpha$ computes $(x_{\alpha1}+a_1)$, $(x_{\beta1}+b_1)$; Wire $\beta$ computes $(x_{\alpha2}+a_2)$, $(x_{\beta2}+b_2)$</p>
+
+<p>执行一次秘密重构，那么双方就均持有 $(x_{\alpha}+a)$ 和  $(x_{\beta}+b)$</p>
+
+<p>Wire $\alpha$ computes $(x_{\alpha}+a)(x_{\beta}+b) + x_{\beta1}(x_{\alpha}+a) + x_{\alpha1}(x_{\beta}+a) + c_1$</p>
+
+<p>Wire $\beta$ computes $x_{\beta2}(x_{\alpha}+a) + x_{\alpha2}(x_{\beta}+a) + c_2$</p>
+
+<h2 id="3-bgw-protocol">3. BGW Protocol</h2>
+
+<blockquote>
+  <p>Completeness theorems for non-cryptographic fault-tolerant distributed computation, Ben-Or, Goldwasser, and Wigderson, 1988</p>
+</blockquote>
+
+<p>BGW协议是最先被提出的多方安全计算协议[1]，一些细节信息如下所示：
+The BGW protocol can be used to evaluate an <strong>arithmetic circuit over a field $\mathbb{F}$</strong>.</p>
+
+<ul>
+  <li>Addition gates: $[x]+[y]$</li>
+  <li>Multiplication gates: $[x]\cdot[y]$</li>
+  <li>Multiplication-by-constant gates: $[x]\cdot c$</li>
+</ul>
+
+<p>该协议使用 shamir 秘密共享(Shamir, 1979)，并利用了其某些同态性质。下列公式为 shamir 秘密共享的方式，假设我们想针对秘密 $s$ 进行秘密分享，那么我们令 $a_0:=s$, $a_1\cdots a_t\leftarrow^r\mathbb{Z}_q$</p>
+
+<script type="math/tex; mode=display">p(X)=a_0+a_1X+...+a_{t-1}X^{t-1}\text{ for all }a_i\in\mathbb{Z}_q</script>
+
+<p>If we know $t$ points $(x_1,y_1), …,(x_t,y_t)$, we can build the system on:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{bmatrix}1 & x_0 & ... &x_0^{t-1} \\\vdots &\vdots & ... &\vdots \\1 & x_{t-1} &... & x_{t-1}^{t-1}\end{bmatrix}\begin{bmatrix}a_0 \\\vdots \\a_{t-1} \end{bmatrix}=\begin{bmatrix}y_0 \\\vdots \\y_{t-1} \end{bmatrix}\text{ mod }q %]]></script>
+
+<p>If the determinant of $X$ is nonzero, we can solve $A=X^{-1}Y$ and find the coefficients of $p(X)$ using Lagrange interpolation.</p>
+
+<h3 id="add-gate-1">ADD Gate</h3>
+
+<p>For addition gate, consider input wires $\alpha, \beta$ and output wires $\gamma$. And consider the case we want to secure perform:</p>
+
+<script type="math/tex; mode=display">f_\text{add}([\upsilon_\alpha],[\upsilon_\beta])=[\upsilon_\alpha+\upsilon_\beta]</script>
+
+<p>we assume wire $\alpha$ shares its value with $(x_{\alpha1},p_{\alpha}(x_{\alpha1}))$ and $(x_{\alpha2},p_{\alpha}(x_{\alpha2}))$.
+Wire $\beta$ shares its value to $(x_{\beta1},p_{\beta}(x_{\beta1}))$ and $(x_{\beta2},p_{\beta}(x_{\beta2}))$.</p>
+
+<p>Then after sharing, wire $\alpha$ has
+<script type="math/tex">(x_{\alpha1},p_{\alpha}(x_{\alpha1})), (x_{\beta1},p_{\beta}(x_{\beta1}))</script></p>
+
+<p>And wire $\beta$ has
+<script type="math/tex">(x_{\alpha2},p_{\alpha}(x_{\alpha2})), (x_{\beta2},p_{\beta}(x_{\beta2}))</script></p>
+
+<p>How  about adding them together  as we did in GMW?
+Defineing a new polynomial $p_{\gamma}(x)=p_{\alpha}(x)+p_{\beta}(x)$, then we’ll find the above result is</p>
+
+<script type="math/tex; mode=display">(x_{\alpha1}+x_{\beta1},p_{\gamma}(x_{\alpha1}+x_{\beta1}))</script>
+
+<script type="math/tex; mode=display">(x_{\alpha2}+x_{\beta2},p_{\gamma}(x_{\alpha2}+x_{\beta2}))</script>
+
+<p>which results in a valid polynimial $p_{\gamma}(x)$ and revealing $[\upsilon_\alpha+\upsilon_\beta]$</p>
+
+<h3 id="mul-gate-1">MUL Gate</h3>
+
+<p>For multiplication gate, consider input wires $\alpha, \beta$ and output wires $\gamma$. And consider the case we want to secure perform:</p>
+
+<script type="math/tex; mode=display">f_\text{mul}([\upsilon_\alpha],[\upsilon_\beta])=[\upsilon_\alpha\times\upsilon_\beta]</script>
+
+<h2 id="4-bmr-protocol">4. BMR Protocol</h2>
+
+<blockquote>
+  <p>D. Beaver,  S. Micali,  and P. Rogaway.  The round complexity of secure protocols.  In22ndSTOC, pages 503–513, 1990.</p>
+</blockquote>
+
+<p>将 Yao 电路（双方安全计算）扩展成为多方安全计算。Perform a <strong>distributed</strong> GC generation, so that no single party knows the GC gneration secrets - the label assignment and correspondence.</p>
+
+<p>GC generation is <em>independent</em> of the depth of the computed circuit $\mathcal{C}$. Therefore, $\mathcal{C}_{GEN}$ is constantly-depth for all compued circuits.</p>
+
+<p>GC evaluation may be delivered to a designated player who will then evaluate it similarly to Yao’s GC.</p>
+
+:ET
