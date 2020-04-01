@@ -23,4 +23,7 @@ layout: default
 - [番外：洋葱路由的起点 --- Hiding Routing Information](./post_onion.html)
 - [番外：多方安全计算 --- Secure Multiparty Computation](./post_mpc.html)
 
+10th BIU Winter School 笔记
+- [1. Information Theoretic Cryptography](./post_biu_itc.html)
+
 [1.1 Encryption; 加密](./post_encryption.html)
