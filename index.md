@@ -2,28 +2,6 @@
 layout: default
 ---
 
-# Cryptology
+I’m an Algorithm Engineer at Ant Group. My research interests mostly in the area of secure computation (which is a subfield of cryptography), and I am currently particularly interested in lattice and building blocks such as private information retrieval (PIR).
 
-古典密码学最早追溯于很久很久之前...
-
-现代密码学起源于1970年代，首先随着RSA加密算法的出现，引出了公私钥（非对称）密码学。
-
-- 古典密码学，移位，乱序，但是可以通过频率分析等方法在有限时间内破解
-- 对称密码学，例如AES、DES具有很高的保密性，但是需要较长的密钥长度，以及加密解密使用的相同密钥，不能保证安全的特异性。
-- 非对称密码学，引出了数字签名、零知识证明、不经意传输等等现代密码学的building block。
-
-在现代密码学开始阶段，密码学协议基于常用的数学难题：离散对数问题、因式分解问题。由于上世纪末出现了Shor算法使得传统的因式分解问题在量子计算机下不再安全。在下面列举了我比较喜欢的几个参考资料，如果喜欢的话，请访问下面链接：
-
-- [Boneh Dan et.al. --- "A Graduate Course in Applied Cryptography“](https://crypto.stanford.edu/~dabo/cryptobook/BonehShoup_0_4.pdf)
-- [Boneh's Introcution to Cryptography](https://crypto.stanford.edu/pbc/notes/crypto/)
-
-> 16/08/2019 by Jamie
-
-- [番外：那些密码学基于的数学难题 --- Hardness Assumptions](./post_hard_problems.html)
-- [番外：洋葱路由的起点 --- Hiding Routing Information](./post_onion.html)
-- [番外：多方安全计算 --- Secure Multiparty Computation](./post_mpc.html)
-
-10th BIU Winter School 笔记
-- [1. Information Theoretic Cryptography](./post_biu_itc.html)
-
-[1.1 Encryption; 加密](./post_encryption.html)
+Before I work at Ant Group, I graduated from the University of Edinburgh in 2018, and I was fortunate to be supervised by Dr Myrto Arapinis. My thesis is ``A bitcoin wallet implementation using trusted execution environments''.
