@@ -1,3 +1,7 @@
 # My Personal Homepage
 
-Please check this url: https://jamie-cui.github.io/homepage/
+
+
+Url: https://jamie-cui.github.io/homepage/
+
+This repo is a fork from https://github.com/pages-themes/minimal
