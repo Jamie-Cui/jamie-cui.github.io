@@ -10,5 +10,5 @@ Before I work at Ant Group, I graduated from the University of Edinburgh in 2018
 I am maintaining an awesome list for secure computation papers (inluding MPC, lattice, DP, etc.) at: [https://github.com/Jamie-Cui/awesome-crypto](https://github.com/Jamie-Cui/awesome-crypto)
 
 ---
-**Piblications**
+**Publications**
 - Privacy-Preserving Computation over Genetic Data: HLA Matching and so on. Jinming Cui, Huaping Li, Meng Yang, IJCAI19' workshop , [ePrint Arch](https://eprint.iacr.org/2019/1305). 
