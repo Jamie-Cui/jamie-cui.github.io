@@ -7,7 +7,7 @@ I’m an Algorithm Engineer at Ant Group. My research interests mostly in the ar
 Before I work at Ant Group, I graduated from the University of Edinburgh in 2018, and I was fortunate to be supervised by Dr Myrto Arapinis. My thesis is "A Bitcoin Wallet Implementation using Trusted Execution Environments".
 
 ---
-I am maintaining a awesomelist for secure computation papers (inluding MPC, lattice, DP, etc.) at: https://github.com/Jamie-Cui/awesome-crypto
+I am maintaining an awesome list for secure computation papers (inluding MPC, lattice, DP, etc.) at: https://github.com/Jamie-Cui/awesome-crypto
 
 ---
 **Piblications**
