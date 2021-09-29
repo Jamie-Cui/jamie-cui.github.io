@@ -12,6 +12,7 @@ I maintain an awesome list for secure computation papers (including MPC, lattice
 
 - **Secure computation**: PSI, PIR, FSS, etc.
 - **Foundations of cryptography**
+- **Privacy-preserving machine learning**
 
 ## Publications
 
