@@ -18,7 +18,7 @@ I maintain an awesome list for secure computation papers (including MPC, lattice
 
 - **Exploiting Data Sparsity in Secure Cross-Platform Social Recommendation**  
    Jamie Cui, Chaochao Chen, Lingjuan Lyu, Carl Yang, Wang Li  
-   NeurIPS 2021
+   NeurIPS 2021, [[eprint]](https://arxiv.org/abs/2202.07253)
 - **Privacy-Preserving Computation over Genetic Data: HLA Matching and so on**  
    Jinming Cui, Huaping Li, Meng Yang  
    IJCAI 2019 workshop, [[eprint]](https://eprint.iacr.org/2019/1305) 
