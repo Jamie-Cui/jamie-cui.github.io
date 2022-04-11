@@ -10,7 +10,7 @@ I maintain an awesome list for secure computation papers (including MPC, lattice
 
 ## Research Interests
 
-- Secure computation: FSS, PSI, PIR, OT, etc.
+- Secure computation: PSI, OPRF, OT, etc.
 - Foundations of cryptography
 - Privacy-preserving machine learning
 
