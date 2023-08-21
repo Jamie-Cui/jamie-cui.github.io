@@ -17,15 +17,15 @@ I maintain an awesome list for secure computation papers (including MPC, lattice
 ## Publications
 
 - **Online-Efficient Secure Logistic Regression based on Function Secret Sharing**  
-  Jing Liu, **Jamie Cui**, Cen Chen  // Co-first-author  
+  Jing Liu, *Jamie Cui*, Cen Chen  // Co-first-author  
   CIKM 2023
 - **Robust Clustered Federated Learning**  
-   Tiandi Ye, Senhui Wei, **Jamie Cui**, Cen Chen, Yingnan Fu, Ming Gao  
+   Tiandi Ye, Senhui Wei, *Jamie Cui*, Cen Chen, Yingnan Fu, Ming Gao  
    DASFAA 2023, [[link]](https://dl.acm.org/doi/abs/10.1007/978-3-031-30637-2_45)
 - **Exploiting Data Sparsity in Secure Cross-Platform Social Recommendation**  
-   **Jamie Cui**, Chaochao Chen, Lingjuan Lyu, Carl Yang, Wang Li  
+   *Jamie Cui*, Chaochao Chen, Lingjuan Lyu, Carl Yang, Wang Li  
    NeurIPS 2021, [[eprint]](https://arxiv.org/abs/2202.07253)
 - **Privacy-Preserving Computation over Genetic Data: HLA Matching and so on**  
-   **Jinming Cui**, Huaping Li, Meng Yang  
+   *Jinming Cui*, Huaping Li, Meng Yang  
    IJCAI 2019 workshop, [[eprint]](https://eprint.iacr.org/2019/1305) 
 
