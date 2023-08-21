@@ -10,7 +10,7 @@ I maintain an awesome list for secure computation papers (including MPC, lattice
 
 ## Research Interests
 
-- Secure computation primitives and protocols: OPRF, OT, VOLE, PSI, etc.
+- Secure computation primitives and protocols: OT, VOLE, PSI, etc.
 - Foundations of cryptography
 - Privacy-preserving machine learning
 
