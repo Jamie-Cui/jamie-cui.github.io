@@ -4,7 +4,7 @@ layout: default
 
 ## About Me
 
-I’m an Algorithm Engineer at Ant Group. Before I work at Ant Group, I graduated from the University of Edinburgh in 2018, and I was fortunate to be supervised by Dr Myrto Arapinis.
+I’m a Senior Security Algorithm Engineer at Ant Group and a PhD candidate at ECNU. Before I work at Ant Group, I graduated from the University of Edinburgh in 2018, and I was fortunate to be supervised by Dr Myrto Arapinis.
 
 I maintain an awesome list for secure computation papers (including MPC, lattice, DP, etc.) at: [https://github.com/Jamie-Cui/awesome-secure-computation](https://github.com/Jamie-Cui/awesome-secure-computation)
 
