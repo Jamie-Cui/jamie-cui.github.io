@@ -23,7 +23,7 @@ I maintain an awesome list for secure computation papers (including MPC, lattice
    Tiandi Ye, Senhui Wei, *Jamie Cui*, Cen Chen, Yingnan Fu, Ming Gao  
    DASFAA 2023, [[link]](https://dl.acm.org/doi/abs/10.1007/978-3-031-30637-2_45)
 - **A Customized Text Sanitization Mechanism with Differential Privacy**  
-  Sai Chen, Fengran Mo, Yanhao Wang, Cen Chen, Jian-Yun Nie, Chengyu Wang, *Jamie Cui*
+  Sai Chen, Fengran Mo, Yanhao Wang, Cen Chen, Jian-Yun Nie, Chengyu Wang, *Jamie Cui*  
   ACL 2023, [[eprint]](https://arxiv.org/abs/2207.01193)
 - **Exploiting Data Sparsity in Secure Cross-Platform Social Recommendation**  
    *Jamie Cui*, Chaochao Chen, Lingjuan Lyu, Carl Yang, Wang Li  
