@@ -21,7 +21,7 @@ I maintain an awesome list for secure computation papers (including MPC, lattice
   BIBM 2024
 - **Online-Efficient Secure Logistic Regression based on Function Secret Sharing**  
   Jing Liu, *Jamie Cui*, Cen Chen  /* Co-first-author */  
-  CIKM 2023, [[link]](https://arxiv.org/abs/2309.09486?context=cs)
+  CIKM 2023, [[eprint]](https://arxiv.org/abs/2309.09486?context=cs)
 - **Robust Clustered Federated Learning**  
    Tiandi Ye, Senhui Wei, *Jamie Cui*, Cen Chen, Yingnan Fu, Ming Gao  
    DASFAA 2023, [[link]](https://dl.acm.org/doi/abs/10.1007/978-3-031-30637-2_45)
