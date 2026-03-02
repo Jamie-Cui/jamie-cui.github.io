@@ -1,26 +1,19 @@
 # Jamie Cui's Personal Homepage
 
-Source for [jamie-cui.github.io](https://jamie-cui.github.io/), built with Jekyll using the [minimal](https://github.com/pages-themes/minimal) theme.
-
-## Local Development
-
-```bash
-# Install dependencies
-script/bootstrap
-
-# Serve locally with live reload
-bundle exec jekyll serve
-```
-
-Site will be available at `http://localhost:4000`.
+Source for [jamie-cui.github.io](https://jamie-cui.github.io/).
 
 ## Structure
 
-- `index.md` — Homepage content (about, research, publications)
-- `_layouts/` — HTML templates
-- `_sass/` — Stylesheets
+- `index.html` — Homepage (about, research, publications, GitHub stats)
 - `assets/` — Images and static files
-- `_config.yml` — Jekyll configuration
+
+## Local Preview
+
+```bash
+python3 -m http.server 8080
+```
+
+Then open http://localhost:8080
 
 ## License
 
