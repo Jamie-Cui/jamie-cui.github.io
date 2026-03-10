@@ -47,9 +47,13 @@ def export_org(org_path, output_path):
     out_s = str(output_path).replace("\\", "\\\\").replace('"', '\\"')
 
     cmd = [
-        "emacs", "--batch", "--no-init-file",
-        "--load", el,
-        "--eval", f'(blog-export-file "{org_s}" "{out_s}")',
+        "emacs",
+        "--batch",
+        "--no-init-file",
+        "--load",
+        el,
+        "--eval",
+        f'(blog-export-file "{org_s}" "{out_s}")',
     ]
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
@@ -66,18 +70,24 @@ def inject_blog_list(index_path, posts):
     items = []
     for p in posts:
         title_escaped = html.escape(p["title"])
-        date_span = f' <span style="color:#555">({html.escape(p["date"])})</span>' if p["date"] else ""
+        date_span = (
+            f' <span style="color:#555">({html.escape(p["date"])})</span>'
+            if p["date"]
+            else ""
+        )
         items.append(
             f'        <li><a href="/blogs/{p["slug"]}.html">{title_escaped}</a>{date_span}</li>'
         )
 
-    blog_html = "\n".join([
-        "      <h2>Blog</h2>",
-        "",
-        "      <ul>",
-        "\n".join(items) if items else "        <li>No posts yet.</li>",
-        "      </ul>",
-    ])
+    blog_html = "\n".join(
+        [
+            "      <h2>Blogs</h2>",
+            "",
+            "      <ul>",
+            "\n".join(items) if items else "        <li>No posts yet.</li>",
+            "      </ul>",
+        ]
+    )
 
     new_content = re.sub(
         r"<!-- BLOG_LIST_START -->.*?<!-- BLOG_LIST_END -->",
