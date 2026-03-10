@@ -88,6 +88,20 @@
         margin: 1em 0;
       }
 
+      header {
+        display: flex;
+        align-items: center;
+        gap: 1.2em;
+      }
+
+      .avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
       .subtitle {
         color: #555;
         font-size: 0.95em;
@@ -105,9 +119,12 @@
   </head>
   <body>
     <header>
-      <h1><a href="/">Jamie Cui</a></h1>
-      <p class="subtitle">jamie [dot] cui [at] outlook [dot] com</p>
-      <p><a href="https://github.com/Jamie-Cui">GitHub</a></p>
+      <img src="imgs/avatar.jpg" alt="Jamie Cui" class="avatar">
+      <div>
+        <h1><a href="/">Jamie Cui</a></h1>
+        <p class="subtitle">jamie [dot] cui [at] outlook [dot] com</p>
+        <p><a href="https://github.com/Jamie-Cui">GitHub</a></p>
+      </div>
     </header>
 
     <section>
@@ -147,6 +164,9 @@
           <em>Jinming Cui</em>, Huaping Li, Meng Yang<br>
           IJCAI 2019 workshop, <a href="https://eprint.iacr.org/2019/1305">eprint</a></li>
       </ul>
+
+      <!-- BLOG_LIST_START -->
+      <!-- BLOG_LIST_END -->
     </section>
 
     <footer>
