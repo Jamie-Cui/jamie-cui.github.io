@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build org-mode blog posts and assemble the site into _site/."""
 
+import html
 import re
 import shutil
 import subprocess
@@ -64,9 +65,10 @@ def inject_blog_list(index_path, posts):
 
     items = []
     for p in posts:
-        date_span = f' <span style="color:#555">({p["date"]})</span>' if p["date"] else ""
+        title_escaped = html.escape(p["title"])
+        date_span = f' <span style="color:#555">({html.escape(p["date"])})</span>' if p["date"] else ""
         items.append(
-            f'        <li><a href="/blogs/{p["slug"]}.html">{p["title"]}</a>{date_span}</li>'
+            f'        <li><a href="/blogs/{p["slug"]}.html">{title_escaped}</a>{date_span}</li>'
         )
 
     blog_html = "\n".join([
@@ -131,7 +133,7 @@ def main():
             posts.append({"title": title, "date": date, "slug": slug})
 
     # Sort by date, newest first
-    posts.sort(key=lambda p: p.get("date", ""), reverse=True)
+    posts.sort(key=lambda p: p["date"], reverse=True)
 
     # Inject blog list into index.html
     inject_blog_list(SITE_DIR / "index.html", posts)
