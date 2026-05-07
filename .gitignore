@@ -6,3 +6,9 @@ Gemfile.lock
 
 *.DS_Store
 /.agent-shell/
+
+__pycache__/
+*.py[cod]
+.env
+venv/
+env/

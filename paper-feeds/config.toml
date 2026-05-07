@@ -1,0 +1,76 @@
+# Configuration for Paper Feeds
+
+[general]
+# Number of days to keep papers and cache summaries
+days_back = 30
+
+# Base URL of the GitHub Pages site (used for RSS feed links)
+# Example: "https://username.github.io/paper-feeds"
+site_url = "https://jamie-cui.github.io/paper-feeds"
+
+# Data storage paths (relative to project root)
+data_dir = "data"
+papers_file = "papers.json"
+failed_file = "failed.json"
+
+[fetchers]
+# arXiv fetcher settings
+[fetchers.arxiv]
+# Categories to fetch from arXiv
+categories = ["cs.CR", "cs.AI", "cs.LG", "cs.CL"]
+# Delay between requests (seconds) - arXiv recommends 3+ seconds
+delay = 3.0
+# Maximum number of results per category
+max_results = 500
+batch_size = 100
+
+# IACR fetcher settings
+[fetchers.iacr]
+# Delay between requests (seconds)
+delay = 2.0
+
+[summarizer]
+# AI model settings for DashScope API
+model = "qwen-plus"  # Options: qwen-turbo, qwen-plus, qwen-max
+max_tokens = 1500  # Increased for bilingual summaries (Chinese + English)
+temperature = 0.7
+timeout = 60
+
+# Rate limiting
+rate_limit_delay = 1.0  # Delay between summarization API calls (seconds)
+max_retries = 3
+retry_delay = 5.0
+
+# Prompt template for paper summarization
+# Note: The bilingual prompt is hard-coded in summarizer.py for better control
+# This template is kept for backward compatibility and custom single-language summaries
+# To modify the bilingual prompt, edit _create_bilingual_prompt() in scripts/summarizer.py
+prompt_template = """你是一位精通各领域前沿研究的学术文献解读专家，面对一篇给定的论文，请你高效阅读并迅速提取出其核心内容。要求在解读过程中，先对文献的背景、研究目的和问题进行简明概述，再详细梳理研究方法、关键数据、主要发现及结论，同时对新颖概念进行通俗易懂的解释，帮助读者理解论文的逻辑与创新点；最后，请对文献的优缺点进行客观评价，并指出可能的后续研究方向。整体报告结构清晰、逻辑严谨。
+
+Title: {title}
+
+Abstract: {abstract}
+
+Provide a concise summary:"""
+
+[rss]
+# Maximum number of papers to include in the RSS feed
+max_items = 50
+
+[frontend]
+# Number of papers to display per page
+papers_per_page = 10
+
+[email]
+# Which summary language to include in the daily email digest
+# Options: "zh" (Chinese only), "en" (English only), "both" (Chinese + English)
+summary_language = "zh"
+
+[keywords]
+# Path to keyword filter configuration file
+file = "keywords.txt"
+
+# Control which sources should apply keyword filtering
+# Set to true to apply keyword filtering, false to fetch all papers from that source
+apply_to_arxiv = true
+apply_to_iacr = false

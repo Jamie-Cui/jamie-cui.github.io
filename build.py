@@ -13,8 +13,17 @@ BLOG_DIR = Path("blogs")
 PUBLISH_EL = Path("publish.el")
 
 # Files and directories to copy to the output site
-STATIC_FILES = ["index.html", "thumbnail.png", "LICENSE"]
-STATIC_DIRS = ["imgs"]
+STATIC_FILES = ["index.html", "site.css", "thumbnail.png", "LICENSE"]
+STATIC_DIRS = ["imgs", "publications"]
+PAPER_FEEDS_FILES = [
+    "index.html",
+    "styles.css",
+    "app.js",
+    "config.js",
+    "feed.xml",
+    "LICENSE",
+]
+PAPER_FEEDS_DATA_FILES = ["papers.json"]
 
 
 def parse_org_metadata(filepath):
@@ -63,9 +72,9 @@ def export_org(org_path, output_path):
     return True
 
 
-def inject_blog_list(index_path, posts):
-    """Replace the blog-list marker region in index.html with a post list."""
-    content = index_path.read_text(encoding="utf-8")
+def inject_blog_list(page_path, posts):
+    """Replace the blog-list marker region in an HTML file with a post list."""
+    content = page_path.read_text(encoding="utf-8")
 
     items = []
     for p in posts:
@@ -95,7 +104,28 @@ def inject_blog_list(index_path, posts):
         content,
         flags=re.DOTALL,
     )
-    index_path.write_text(new_content, encoding="utf-8")
+    page_path.write_text(new_content, encoding="utf-8")
+
+
+def copy_paper_feeds():
+    """Copy the Paper Feeds frontend into the output site."""
+    src_dir = Path("paper-feeds")
+    dest_dir = SITE_DIR / "paper-feeds"
+    if not src_dir.is_dir():
+        return
+
+    dest_dir.mkdir()
+    for name in PAPER_FEEDS_FILES:
+        src = src_dir / name
+        if src.exists():
+            shutil.copy2(src, dest_dir / name)
+
+    data_dir = dest_dir / "data"
+    data_dir.mkdir()
+    for name in PAPER_FEEDS_DATA_FILES:
+        src = src_dir / "data" / name
+        if src.exists():
+            shutil.copy2(src, data_dir / name)
 
 
 def main():
@@ -116,6 +146,11 @@ def main():
         src = Path(name)
         if src.is_dir():
             shutil.copytree(src, SITE_DIR / name)
+    copy_paper_feeds()
+
+    blog_index = BLOG_DIR / "index.html"
+    if blog_index.exists():
+        shutil.copy2(blog_index, SITE_DIR / "blogs" / "index.html")
 
     # .nojekyll to prevent GitHub Pages Jekyll processing
     (SITE_DIR / ".nojekyll").touch()
@@ -145,8 +180,8 @@ def main():
     # Sort by date, newest first
     posts.sort(key=lambda p: p["date"], reverse=True)
 
-    # Inject blog list into index.html
-    inject_blog_list(SITE_DIR / "index.html", posts)
+    # Inject blog list into blogs/index.html
+    inject_blog_list(SITE_DIR / "blogs" / "index.html", posts)
 
     print(f"\nDone: {len(posts)} post(s) published to {SITE_DIR}/")
 

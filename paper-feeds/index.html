@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--
+Paper Feeds - Research Paper Aggregator
+
+Copyright (C) 2024-2026 Paper Pulse Contributors
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Feeds - Jamie Cui</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="alternate" type="application/rss+xml" title="Paper Feeds RSS Feed" href="feed.xml">
+</head>
+<body>
+    <header>
+        <h1>Paper Feeds</h1>
+        <p class="subtitle">Research paper feeds from arXiv and IACR</p>
+    </header>
+
+    <nav class="site-nav" aria-label="Sections">
+        <a href="/">Home</a>
+        <a href="/publications/">Publications</a>
+        <a href="/blogs/">Blogs</a>
+    </nav>
+
+    <main>
+        <p><a href="feed.xml">RSS Feed</a></p>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by title, author, or keywords...">
+            </div>
+
+            <div class="filters">
+                <select id="sourceFilter">
+                    <option value="all">All Sources</option>
+                    <option value="arXiv">arXiv</option>
+                    <option value="IACR">IACR</option>
+                </select>
+
+                <select id="sortBy">
+                    <option value="date-desc">Newest First</option>
+                    <option value="date-asc">Oldest First</option>
+                    <option value="title">Title A-Z</option>
+                </select>
+
+                <button id="exportAllBtn" class="export-btn">Export All as BibTeX</button>
+            </div>
+        </div>
+
+        <div id="stats" class="stats"></div>
+
+        <div id="papersList" class="papers-list">
+            <div class="loading">Loading papers...</div>
+        </div>
+
+        <div id="pagination"></div>
+    </main>
+
+    <footer>
+        <p>Last updated: <span id="lastUpdated">-</span></p>
+        <p>Data fetched daily from arXiv and IACR ePrint Archive | <a href="feed.xml">RSS Feed</a></p>
+    </footer>
+
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

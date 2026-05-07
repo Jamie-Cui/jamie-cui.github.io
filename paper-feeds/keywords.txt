@@ -1,0 +1,61 @@
+# Keyword filter configuration
+# Each line is an OR condition
+# Multiple words on the same line use AND logic (all must match)
+# Lines starting with # are comments
+# Empty lines are ignored
+
+# LLM and AI related
+# llm
+# large language model
+# language model
+# gpt
+# bert
+# transformer
+# neural network
+# deep learning
+# machine learning
+# ai
+# artificial intelligence
+
+# Generative AI
+# generative
+# chatbot
+# prompt
+# fine-tuning
+# foundation model
+# diffusion
+
+# AI Security specific
+adversarial machine learning
+backdoor neural
+trojan ai
+model poisoning
+data poisoning
+membership inference
+model extraction
+prompt injection
+jailbreak llm
+
+llm security
+agent security
+inference security
+train security
+
+# Cryptography + AI combinations
+privacy-preserving machine learning
+federated learning
+homomorphic encryption machine learning
+secure multi-party computation machine learning
+differential privacy machine learning
+zkp machine learning
+zero-knowledge machine learning
+
+# Crypto
+crypto
+DP
+differential privacy
+
+# Code and AI
+# code generation
+# copilot
+# program synthesis ai

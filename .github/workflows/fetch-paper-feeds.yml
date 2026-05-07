@@ -1,0 +1,78 @@
+name: Fetch Paper Feeds
+
+on:
+  # Daily at 00:00 UTC
+  schedule:
+    - cron: '0 0 * * *'
+
+  # Manual trigger
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-and-summarize:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: paper-feeds/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          pip install -r paper-feeds/requirements.txt
+
+      - name: Fetch and summarize papers
+        id: fetch
+        env:
+          MODELSCOPE_API_KEY: ${{ secrets.MODELSCOPE_API_KEY }}
+          DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+        run: |
+          python paper-feeds/scripts/main.py
+
+      - name: Generate frontend config
+        run: |
+          python paper-feeds/scripts/generate_config.py
+
+      - name: Get current date
+        id: date
+        run: echo "date=$(date -u +'%Y-%m-%d %H:%M UTC')" >> $GITHUB_OUTPUT
+
+      - name: Get repository info
+        id: repo
+        run: |
+          echo "owner=${{ github.repository_owner }}" >> $GITHUB_OUTPUT
+          echo "repo=${{ github.event.repository.name }}" >> $GITHUB_OUTPUT
+
+      - name: Send email notification
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: Paper Feeds Daily Report - ${{ steps.date.outputs.date }}
+          to: ${{ secrets.EMAIL_TO }}
+          from: Paper Feeds Bot <${{ secrets.EMAIL_USERNAME }}>
+          body: file://paper-feeds/data/email_report.txt
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add paper-feeds/data/ paper-feeds/feed.xml paper-feeds/config.js
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update paper feeds data - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push
+          fi
