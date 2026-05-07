@@ -97,24 +97,28 @@ federated learning       # 包含 "federated learning" 的论文
 ## 项目结构
 
 ```
-paper-feeds/
+.
 ├── .github/workflows/
-│   └── fetch-papers.yml      # 每日自动化工作流
-├── scripts/
-│   ├── fetchers/
-│   │   ├── arxiv.py          # arXiv API 抓取器
-│   │   └── iacr.py           # IACR RSS 抓取器
-│   ├── filter.py             # 关键词过滤引擎
-│   ├── summarizer.py         # 中英双语 AI 摘要生成
-│   ├── rss.py                # RSS 订阅源生成
-│   └── main.py               # 流水线调度器
-├── data/
-│   ├── papers.json           # 论文数据库
-│   └── failed.json           # 摘要生成失败队列
-├── config.toml               # 全部配置
-├── keywords.txt              # 关键词过滤规则
-├── index.html / app.js / styles.css  # 前端页面
-└── feed.xml                  # RSS 订阅源（自动生成）
+│   └── fetch-paper-feeds.yml # 每日自动化工作流
+├── tools/paper-feeds/
+│   ├── scripts/
+│   │   ├── fetchers/
+│   │   │   ├── arxiv.py      # arXiv API 抓取器
+│   │   │   └── iacr.py       # IACR RSS 抓取器
+│   │   ├── filter.py         # 关键词过滤引擎
+│   │   ├── summarizer.py     # 中英双语 AI 摘要生成
+│   │   ├── rss.py            # RSS 订阅源生成
+│   │   └── main.py           # 流水线调度器
+│   ├── reports/
+│   │   └── failed.json       # 摘要生成失败队列
+│   ├── config.toml           # 全部配置
+│   └── keywords.txt          # 关键词过滤规则
+└── src/paper-feeds/
+    ├── data/
+    │   └── papers.json       # 论文数据库
+    ├── index.html / app.js / styles.css  # 前端页面
+    ├── config.js             # 前端配置（自动生成）
+    └── feed.xml              # RSS 订阅源（自动生成）
 ```
 
 ## 工作原理

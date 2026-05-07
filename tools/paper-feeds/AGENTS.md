@@ -9,15 +9,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development Commands
 
 ```bash
-# Install dependencies
-pip install -r requirements.txt
+# Install dependencies from the repository root
+pip install -r tools/paper-feeds/requirements.txt
 
 # Run the paper fetcher (requires API key)
 export DASHSCOPE_API_KEY="your-key"   # or MODELSCOPE_API_KEY
-python scripts/main.py
+python tools/paper-feeds/scripts/main.py
 
-# View results locally: open index.html in a browser
-# Data outputs: data/papers.json, data/failed.json
+# View results via the root site build
+python3 build.py
+python3 -m http.server 8080 -d _site
+
+# Public outputs: src/paper-feeds/data/papers.json, src/paper-feeds/feed.xml
+# Private reports/cache: tools/paper-feeds/reports/
 ```
 
 There are no tests, linting, or build steps. The GitHub Actions workflow runs on Python 3.11.
@@ -36,20 +40,20 @@ The pipeline runs sequentially: **Fetch → Filter → Summarize → Merge → S
 
 4. **Merge & Save** — Deduplicates by paper ID, removes papers older than `days_back` (configured in `config.toml`, currently 30 days), sorts by date descending. Previously failed summaries are retried each run.
 
-5. **RSS** — `scripts/rss.py` generates `feed.xml` (RSS 2.0) in the project root after saving. Uses English summary as item description, falls back to abstract. Limited to `max_items` (default 50) most recent papers. Requires `site_url` in `config.toml` for absolute feed links. Uses only stdlib (`xml.etree.ElementTree`).
+5. **RSS** — `scripts/rss.py` generates `src/paper-feeds/feed.xml` (RSS 2.0) after saving. Uses English summary as item description, falls back to abstract. Limited to `max_items` (default 50) most recent papers. Requires `site_url` in `config.toml` for absolute feed links. Uses only stdlib (`xml.etree.ElementTree`).
 
 ### Frontend (index.html, app.js, styles.css, config.js)
 
-Static site served from repo root via GitHub Pages (master branch, `/` directory). Client-side search/filter/sort with pagination. Key features:
+Static frontend source lives in `src/paper-feeds/` and is copied to `_site/paper-feeds/` by the root `build.py`. Client-side search/filter/sort with pagination. Key features:
 - Pagination: configurable via `papers_per_page` in `config.toml` (default 10), generated to `config.js` by `scripts/generate_config.py`
 - Bilingual summary toggle (中/EN buttons) per card via `toggleLanguage(index, lang)` in `app.js`
 - Markdown rendering via marked.js (CDN)
 - BibTeX export (single paper and bulk)
 - `summary` field defaults to `summary_zh` for backward compatibility; language toggle only appears when both `summary_zh` and `summary_en` exist
 
-### GitHub Actions (.github/workflows/fetch-papers.yml)
+### GitHub Actions (.github/workflows/fetch-paper-feeds.yml)
 
-Daily at 00:00 UTC (also manual trigger). Fetches papers, generates `config.js` from `config.toml`, commits changes to `data/`, `feed.xml`, and `config.js` with `github-actions[bot]`, sends email notification with statistics. Only commits if `git diff --staged --quiet` detects changes.
+Daily at 00:00 UTC (also manual trigger). Fetches papers, generates `src/paper-feeds/config.js` from `tools/paper-feeds/config.toml`, commits changes to `src/paper-feeds/data/`, `src/paper-feeds/feed.xml`, and `src/paper-feeds/config.js` with `github-actions[bot]`, sends email notification with statistics from `tools/paper-feeds/reports/email_report.txt`. Only commits if `git diff --staged --quiet` detects changes.
 
 ### Supporting Module
 
@@ -57,7 +61,7 @@ Daily at 00:00 UTC (also manual trigger). Fetches papers, generates `config.js` 
 
 ## Key Data Structures
 
-**Paper object** (in `data/papers.json`):
+**Paper object** (in `src/paper-feeds/data/papers.json`):
 ```json
 {
   "id": "arxiv_2401.12345",
@@ -91,7 +95,7 @@ Paper ID format: `arxiv_{arxiv_id}` or `iacr_{iacr_id}`.
 
 **`keywords.txt`** — Keyword rules. Lines starting with `#` are comments. Each non-empty line is an OR rule; words within a line are AND conditions.
 
-**`scripts/generate_config.py`** — Generates `config.js` from `config.toml` for frontend configuration. Run automatically by GitHub Actions workflow.
+**`scripts/generate_config.py`** — Generates `src/paper-feeds/config.js` from `config.toml` for frontend configuration. Run automatically by GitHub Actions workflow.
 
 ## Important Implementation Details
 
@@ -101,5 +105,5 @@ Paper ID format: `arxiv_{arxiv_id}` or `iacr_{iacr_id}`.
 - **IACR User-Agent**: The IACR fetcher must send a browser-like `User-Agent` header or the server returns robots.txt instead of RSS.
 - **Token budget**: `max_tokens` in config.toml must accommodate both Chinese (~60-70%) and English (~30-40%) summaries.
 - **Dependencies**: `requests`, `feedparser`, `python-dateutil`. `tomli` only needed for Python < 3.11 (3.11+ has `tomllib` built-in).
-- **GitHub Pages**: `index.html`, `app.js`, `styles.css`, `config.js`, `feed.xml`, and `data/` must remain in the repo root.
-- **Frontend config**: `config.js` is auto-generated from `config.toml` by `scripts/generate_config.py` and must be committed to git for GitHub Pages to serve it.
+- **GitHub Pages**: `src/paper-feeds/index.html`, `app.js`, `styles.css`, `config.js`, `feed.xml`, and `data/` are copied to `_site/paper-feeds/` by the root build.
+- **Frontend config**: `src/paper-feeds/config.js` is auto-generated from `config.toml` by `scripts/generate_config.py` and must be committed to git for GitHub Pages to serve it.

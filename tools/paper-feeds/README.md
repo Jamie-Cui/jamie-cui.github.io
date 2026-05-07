@@ -98,26 +98,29 @@ See [CONFIG_GUIDE.md](CONFIG_GUIDE.md) for all options.
 ## Project Structure
 
 ```
-paper-feeds/
+.
 ├── .github/workflows/
-│   └── fetch-papers.yml      # Daily automation
-├── scripts/
-│   ├── fetchers/
-│   │   ├── arxiv.py          # arXiv API fetcher
-│   │   └── iacr.py           # IACR RSS fetcher
-│   ├── filter.py             # Keyword filtering engine
-│   ├── summarizer.py         # Bilingual AI summarization
-│   ├── rss.py                # RSS feed generator
-│   ├── generate_config.py    # Frontend config generator
-│   └── main.py               # Pipeline orchestrator
-├── data/
-│   ├── papers.json           # Paper database
-│   └── failed.json           # Failed summarization queue
-├── config.toml               # All configuration
-├── keywords.txt              # Keyword filter rules
-├── index.html / app.js / styles.css  # Frontend
-├── config.js                 # Frontend config (auto-generated)
-└── feed.xml                  # RSS feed (auto-generated)
+│   └── fetch-paper-feeds.yml # Daily automation
+├── tools/paper-feeds/
+│   ├── scripts/
+│   │   ├── fetchers/
+│   │   │   ├── arxiv.py      # arXiv API fetcher
+│   │   │   └── iacr.py       # IACR RSS fetcher
+│   │   ├── filter.py         # Keyword filtering engine
+│   │   ├── summarizer.py     # Bilingual AI summarization
+│   │   ├── rss.py            # RSS feed generator
+│   │   ├── generate_config.py # Frontend config generator
+│   │   └── main.py           # Pipeline orchestrator
+│   ├── reports/
+│   │   └── failed.json       # Failed summarization queue
+│   ├── config.toml           # All configuration
+│   └── keywords.txt          # Keyword filter rules
+└── src/paper-feeds/
+    ├── data/
+    │   └── papers.json       # Paper database
+    ├── index.html / app.js / styles.css  # Frontend
+    ├── config.js             # Frontend config (auto-generated)
+    └── feed.xml              # RSS feed (auto-generated)
 ```
 
 ## How It Works

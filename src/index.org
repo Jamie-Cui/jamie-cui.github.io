@@ -1,0 +1,13 @@
+#+TITLE: Jamie Cui
+#+OPTIONS: toc:nil num:nil title:nil
+
+* About
+
+PhD candidate at ECNU. Previously worked at Ant Group (2020-2024).
+Graduated from the University of Edinburgh in 2018, supervised by Dr. Myrto
+Arapinis.
+
+I maintain an awesome list for secure computation papers:
+[[https://github.com/Jamie-Cui/awesome-secure-computation][github.com/Jamie-Cui/awesome-secure-computation]]
+
+* Activities

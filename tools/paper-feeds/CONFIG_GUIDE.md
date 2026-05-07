@@ -220,12 +220,12 @@ prompt_template = """请用2-3句中文总结这篇论文的核心贡献。
 修改配置后，可以本地测试：
 
 ```bash
-pip install -r requirements.txt
+pip install -r tools/paper-feeds/requirements.txt
 export DASHSCOPE_API_KEY="your-key"
-python scripts/main.py
+python tools/paper-feeds/scripts/main.py
 ```
 
-查看 `data/papers.json` 确认效果。
+查看 `src/paper-feeds/data/papers.json` 确认效果。
 
 ## 注意事项
 

@@ -77,6 +77,10 @@ pre {
   overflow-x: auto;
 }
 
+.org-src-container {
+  margin: 0 0 1em 0;
+}
+
 hr {
   border: none;
   border-top: 1px solid #999;
@@ -110,6 +114,28 @@ footer {
   color: #555;
   font-size: 0.95em;
   margin-bottom: 1em;
+}
+
+.date,
+.author {
+  color: #555;
+  font-size: 0.95em;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table td,
+table th {
+  border: 1px solid #ddd;
+  padding: 0.4em 0.8em;
+}
+
+table th {
+  background: #f4f4f4;
+  font-weight: bold;
 }
 
 .tags {

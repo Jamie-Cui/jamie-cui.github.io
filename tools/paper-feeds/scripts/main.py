@@ -18,16 +18,19 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import json
 import os
 import sys
-import json
 from datetime import datetime, timedelta
 from pathlib import Path
 
-APP_DIR = Path(__file__).resolve().parent.parent
+TOOL_DIR = Path(__file__).resolve().parent.parent
+REPO_ROOT = TOOL_DIR.parent.parent
+PUBLIC_DIR = REPO_ROOT / "src" / "paper-feeds"
+REPORTS_DIR = TOOL_DIR / "reports"
 
 # Add scripts directory to path
-sys.path.insert(0, str(APP_DIR / "scripts"))
+sys.path.insert(0, str(TOOL_DIR / "scripts"))
 
 from fetchers.arxiv import ArxivFetcher
 from fetchers.iacr import IACRFetcher
@@ -264,7 +267,7 @@ def retry_failed_summaries(
 
 def load_config() -> dict:
     """Load configuration from config.toml."""
-    config_path = APP_DIR / "config.toml"
+    config_path = TOOL_DIR / "config.toml"
 
     if config_path.exists():
         with open(config_path, "rb") as f:
@@ -285,9 +288,9 @@ def main():
 
     # Configuration with defaults
     DAYS_BACK = config.get("general", {}).get("days_back", 7)
-    DATA_DIR = APP_DIR / config.get("general", {}).get("data_dir", "data")
+    DATA_DIR = PUBLIC_DIR / config.get("general", {}).get("data_dir", "data")
     PAPERS_FILE = DATA_DIR / config.get("general", {}).get("papers_file", "papers.json")
-    FAILED_FILE = DATA_DIR / config.get("general", {}).get("failed_file", "failed.json")
+    FAILED_FILE = REPORTS_DIR / config.get("general", {}).get("failed_file", "failed.json")
 
     # Get API key from environment
     api_key = os.getenv("MODELSCOPE_API_KEY") or os.getenv("DASHSCOPE_API_KEY")
@@ -321,7 +324,7 @@ def main():
         keywords_config = config.get("keywords", {})
         keywords_file = keywords_config.get("file")
         if keywords_file:
-            keywords_file = APP_DIR / keywords_file
+            keywords_file = TOOL_DIR / keywords_file
         keyword_filter = KeywordFilter(config_file=keywords_file)
 
         # Get summarizer config
@@ -469,7 +472,7 @@ def main():
         usage_stats = summarizer.get_usage_stats()
         site_url = config.get("general", {}).get("site_url", "")
         summary_language = config.get("email", {}).get("summary_language", "zh")
-        email_report_path = DATA_DIR / "email_report.txt"
+        email_report_path = REPORTS_DIR / "email_report.txt"
         generate_email_report(
             new_papers=[],
             retry_papers=[],
@@ -500,7 +503,7 @@ def main():
         # Generate RSS feed
         rss_config = config.get("rss", {})
         site_url = config.get("general", {}).get("site_url", "")
-        feed_path = APP_DIR / "feed.xml"
+        feed_path = PUBLIC_DIR / "feed.xml"
         generate_rss_feed(
             papers=all_papers,
             output_path=feed_path,
@@ -557,7 +560,7 @@ def main():
     # Generate email report with paper details
     site_url = config.get("general", {}).get("site_url", "")
     summary_language = config.get("email", {}).get("summary_language", "zh")
-    email_report_path = DATA_DIR / "email_report.txt"
+    email_report_path = REPORTS_DIR / "email_report.txt"
     generate_email_report(
         new_papers=newly_summarized,
         retry_papers=retry_successful,

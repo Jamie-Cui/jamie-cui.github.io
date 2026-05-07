@@ -32,7 +32,7 @@ DashScope提供免费试用额度:
 
 ```bash
 export DASHSCOPE_API_KEY="your-api-key-here"
-python scripts/main.py
+python tools/paper-feeds/scripts/main.py
 ```
 
 ## 故障排除

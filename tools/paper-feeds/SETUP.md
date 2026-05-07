@@ -58,7 +58,7 @@ The workflow runs automatically every day at 00:00 UTC.
 
 ## Step 6: Verify
 
-1. After the workflow completes, check that `data/papers.json` has been created
+1. After the workflow completes, check that `src/paper-feeds/data/papers.json` has been created
 2. Visit your GitHub Pages URL
 3. You should see the papers displayed in card format with bilingual summaries
 
@@ -76,7 +76,7 @@ The workflow runs automatically every day at 00:00 UTC.
 ### GitHub Pages shows 404
 - Make sure you selected `/ (root)` as the folder in Pages settings
 - Wait a few minutes after enabling Pages for DNS to propagate
-- Check that `index.html` exists in your repository root
+- Check that `src/paper-feeds/index.html` exists in your repository
 
 ### Rate limiting issues
 - The default delays (3s for arXiv, 1s for summarization) should prevent rate limiting
@@ -86,7 +86,7 @@ The workflow runs automatically every day at 00:00 UTC.
 
 ### Change keyword filters
 
-Edit `keywords.txt` in the repository root to customize which papers are included.
+Edit `tools/paper-feeds/keywords.txt` to customize which papers are included.
 
 **Format:**
 - Each line is an OR condition
@@ -158,16 +158,16 @@ Test the fetcher locally before deploying:
 
 ```bash
 # Install dependencies
-pip install -r requirements.txt
+pip install -r tools/paper-feeds/requirements.txt
 
 # Set API key
 export DASHSCOPE_API_KEY="your-key-here"
 
 # Run the script
-python scripts/main.py
+python tools/paper-feeds/scripts/main.py
 ```
 
-This will create `data/papers.json` which you can inspect. Open `index.html` in a browser to view the results.
+This will update `src/paper-feeds/data/papers.json` and `src/paper-feeds/feed.xml`. Run `python3 build.py`, then serve `_site/` to view the results.
 
 ## License
 

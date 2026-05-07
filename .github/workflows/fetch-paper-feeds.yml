@@ -24,11 +24,11 @@ jobs:
         with:
           python-version: '3.11'
           cache: 'pip'
-          cache-dependency-path: paper-feeds/requirements.txt
+          cache-dependency-path: tools/paper-feeds/requirements.txt
 
       - name: Install dependencies
         run: |
-          pip install -r paper-feeds/requirements.txt
+          pip install -r tools/paper-feeds/requirements.txt
 
       - name: Fetch and summarize papers
         id: fetch
@@ -36,11 +36,11 @@ jobs:
           MODELSCOPE_API_KEY: ${{ secrets.MODELSCOPE_API_KEY }}
           DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
         run: |
-          python paper-feeds/scripts/main.py
+          python tools/paper-feeds/scripts/main.py
 
       - name: Generate frontend config
         run: |
-          python paper-feeds/scripts/generate_config.py
+          python tools/paper-feeds/scripts/generate_config.py
 
       - name: Get current date
         id: date
@@ -63,13 +63,13 @@ jobs:
           subject: Paper Feeds Daily Report - ${{ steps.date.outputs.date }}
           to: ${{ secrets.EMAIL_TO }}
           from: Paper Feeds Bot <${{ secrets.EMAIL_USERNAME }}>
-          body: file://paper-feeds/data/email_report.txt
+          body: file://tools/paper-feeds/reports/email_report.txt
 
       - name: Commit and push changes
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add paper-feeds/data/ paper-feeds/feed.xml paper-feeds/config.js
+          git add src/paper-feeds/data/ src/paper-feeds/feed.xml src/paper-feeds/config.js
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
