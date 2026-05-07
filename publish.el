@@ -45,7 +45,8 @@ table th { background: #f4f4f4; font-weight: bold; }
 (setq org-html-html5-fancy t)
 (setq org-html-head-include-default-style nil)
 (setq org-html-head-include-scripts nil)
-(setq org-html-head (format "<style>%s</style>" blog-css))
+(setq org-html-head
+      (format "<link rel=\"icon\" type=\"image/svg+xml\" href=\"/favicon.svg\">\n<style>%s</style>" blog-css))
 
 ;; Preamble: back to home link
 (setq org-html-preamble t)

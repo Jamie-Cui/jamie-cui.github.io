@@ -13,7 +13,7 @@ BLOG_DIR = Path("blogs")
 PUBLISH_EL = Path("publish.el")
 
 # Files and directories to copy to the output site
-STATIC_FILES = ["index.html", "site.css", "thumbnail.png", "LICENSE"]
+STATIC_FILES = ["index.html", "site.css", "favicon.svg", "thumbnail.png", "LICENSE"]
 STATIC_DIRS = ["imgs", "publications"]
 PAPER_FEEDS_FILES = [
     "index.html",
