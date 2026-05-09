@@ -4,7 +4,7 @@
     <title>Paper Feeds</title>
     <link>https://jamie-cui.github.io/paper-feeds</link>
     <description>Keyword-based research paper feeds from arXiv and IACR</description>
-    <lastBuildDate>Fri, 08 May 2026 03:58:15 -0000</lastBuildDate>
+    <lastBuildDate>Sat, 09 May 2026 03:48:18 -0000</lastBuildDate>
     <atom:link href="https://jamie-cui.github.io/paper-feeds/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Patch2Vuln: Agentic Reconstruction of Vulnerabilities from Linux Distribution Binary Patches</title>
