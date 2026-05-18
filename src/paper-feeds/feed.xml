@@ -4,7 +4,7 @@
     <title>Paper Feeds</title>
     <link>https://jamie-cui.github.io/paper-feeds</link>
     <description>Keyword-based research paper feeds from arXiv and IACR</description>
-    <lastBuildDate>Sun, 17 May 2026 04:19:03 -0000</lastBuildDate>
+    <lastBuildDate>Mon, 18 May 2026 04:22:21 -0000</lastBuildDate>
     <atom:link href="https://jamie-cui.github.io/paper-feeds/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Asynchronous Lagrange-Based Threshold FHE with Smaller Modulus Overhead</title>
@@ -125,6 +125,66 @@
       <description>This paper addresses the operational gap in deploying post-quantum cryptography (PQC) for TLS in complex financial infrastructure. While hybrid key exchanges like X25519-ML-KEM-768 are now supported in mainstream libraries, security teams lack scalable visibility into heterogeneous TLS configurations across web servers, API gateways, and proxies. We introduce an automated configuration-parsing methodology that extracts, normalizes, and traces cryptographic posture from diverse enterprise web-server stacks (e.g., Nginx, Apache, HAProxy), generating a unified, provenance-aware cryptographic inventory. Evaluated on 8,443 real-world Nginx configurations, our tool achieves 92.7% parsing success and reveals near-zero PQC readiness in practice. In a financial institution proof-of-concept, we deployed ML-KEM-512 and X25519-ML-KEM-768 at TLS termination points—without application changes—and measured &lt;12 ms P95 handshake latency overhead and ≤8% CPU increase. This work bridges algorithmic availability with operational governance for quantum-safe TLS.</description>
       <pubDate>Fri, 15 May 2026 00:00:00 -0000</pubDate>
       <category>IACR</category>
+    </item>
+    <item>
+      <title>Federated Imputation under Heterogeneous Feature Spaces</title>
+      <link>https://arxiv.org/abs/2605.16099v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.16099v1</guid>
+      <description>Federated Learning (FL) enables privacy-preserving collaborative modeling, yet most FL methods assume fully aligned feature schemas—a strong and often violated assumption in real-world tabular data, where clients observe only partially overlapping or disjoint feature subsets. Under such heterogeneous feature spaces, standard parameter-averaging approaches (e.g., FedAvg) fail to transfer meaningful information across weakly overlapping features, severely limiting federated imputation performance. To address this, we propose **FedHF-Impute**, a novel framework that explicitly separates *structural feature unavailability* (a feature is absent locally by design) from *conventional missingness* (a value is missing within an observed feature), and introduces a shared global feature graph to encode statistical relationships among features. Through message passing on this graph, FedHF-Impute enables indirect cross-client knowledge transfer—even for feature pairs never jointly observed—while preserving standard FL communication protocols. Evaluated on SECOM, AirQuality, and PhysioNET under simulated partial schema overlap, FedHF-Impute reduces RMSE by **26.9%** and **8.4%** over the best FL baselines, respectively, and matches state-of-the-art performance on PhysioNET (within **0.3%**). This work establishes a principled foundation for imputation and learning in heterogeneous tabular FL settings.</description>
+      <pubDate>Fri, 15 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>federated</category>
+      <category>learning</category>
+    </item>
+    <item>
+      <title>Centralized vs Decentralized Federated Learning: A trade-off performance analysis</title>
+      <link>https://arxiv.org/abs/2605.16089v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.16089v1</guid>
+      <description>This paper presents the first systematic, simulation-based comparison of centralized (CFL), decentralized (DFL), and semi-decentralized (SDFL) federated learning architectures under realistic edge constraints. Using the Fedstellar simulator, MNIST dataset, and an MLP classifier, we conduct controlled experiments across varying network scales (10–100 clients), Non-IID data distributions (Dirichlet α = 0.1/1.0), latency (50–500 ms), and packet loss (0%–10%). Results show: CFL achieves fastest convergence but suffers from highest communication overhead and single-point-of-failure vulnerability; DFL reduces total communication by ~42% versus CFL yet exhibits sensitivity to network topology and slower convergence; SDFL strikes the best trade-off—improving convergence speed by 37% over DFL while maintaining only 2.1% accuracy drop under node failure (vs. 18.5% for CFL). We introduce a multi-objective trade-off radar chart to guide architecture selection based on application priorities (e.g., latency, privacy, robustness). Code and configurations are publicly released.</description>
+      <pubDate>Fri, 15 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>federated</category>
+      <category>learning</category>
+    </item>
+    <item>
+      <title>Robust Prior-Guided Segmentation for Editable 3D Gaussian Splatting</title>
+      <link>https://arxiv.org/abs/2605.16065v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.16065v1</guid>
+      <description>3D Gaussian Splatting (3D-GS) enables real-time neural rendering but lacks robust, high-fidelity 3D object segmentation essential for editing tasks like removal, extraction, and recoloring. Prior works lifting 2D masks (e.g., from SAM) to 3D suffer from view inconsistency and coarse boundaries. We propose a novel prior-guided framework: (1) leveraging SAM-HQ—instead of standard SAM—for accurate, boundary-sharp 2D masks; and (2) introducing a learnable multiview consistency prior that reassigns labels to 3D Gaussians via confidence-weighted voting, depth-aware fusion, and appearance modeling. Our method achieves state-of-the-art segmentation accuracy (e.g., +8.2% mIoU on ScanNet), preserves fine structures and sharp boundaries, and enables interactive, real-time editing (&lt;50 ms/frame) without visual degradation. It demonstrates practical utility in VR and robotics applications.</description>
+      <pubDate>Fri, 15 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>extraction</category>
+      <category>model</category>
+    </item>
+    <item>
+      <title>Structure Abstraction and Generalization in a Hippocampal-Entorhinal Inspired World Model</title>
+      <link>https://arxiv.org/abs/2605.15733v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.15733v1</guid>
+      <description>Humans abstract continuous, high-dimensional experiences into reusable structural representations—yet the neural mechanisms enabling such abstraction remain unclear. We propose a hippocampal-entorhinal (HPC-MEC) inspired hierarchical world model that jointly infers latent transitions and builds predictive visual representations via self-supervision. Our architecture features: (1) an inverse model extracting primitive transformation dynamics (e.g., translation, rotation) as structural primitives; and (2) a dissociated HPC-MEC coupling—where MEC encodes relational structures (e.g., “A→B→C”) and HPC integrates episodic scenes (e.g., “view from location X”). Leveraging velocity-driven path integration, the model achieves robust cross-context prediction and structural reuse. Experiments show it generalizes abstract relations across novel visual appearances and tasks—outperforming baselines by 42% in structural reusability—and yields interpretable, topology-preserving relational maps aligned with neurobiological evidence. This work establishes a computationally grounded framework for how brain-inspired world models acquire transferable abstract knowledge.</description>
+      <pubDate>Fri, 15 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>extraction</category>
+      <category>model</category>
+    </item>
+    <item>
+      <title>Position: Artificial Intelligence Needs Meta Intelligence -- the Case for Metacognitive AI</title>
+      <link>https://arxiv.org/abs/2605.15567v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.15567v1</guid>
+      <description>This position paper advocates **metacognition as a foundational design principle for next-generation AI**, arguing that systems must monitor their own reasoning, assess uncertainty and error cost, and dynamically allocate resources per task instance. Drawing on resource-rational AI theory and empirically grounded cognitive strategies, we identify key theoretical gaps—such as differentiable meta-control and cross-layer feedback integration—and propose a novel, open-source framework, *MetaAI Toolkit*, enabling declarative specification and deployment of metacognitive modules in real-world settings. In a federated learning case study, our metacognitive approach achieves: (1) 37% faster convergence with equivalent accuracy; (2) 2.8× improvement in malicious client detection via confidence-aware aggregation; and (3) robust mitigation of gradient drift through adaptive weight attenuation. The framework bridges theory and practice, offering the community a scalable pathway toward secure, efficient, and self-aware AI systems.</description>
+      <pubDate>Fri, 15 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>federated</category>
+      <category>learning</category>
+    </item>
+    <item>
+      <title>DimMem: Dimensional Structuring for Efficient Long-Term Agent Memory</title>
+      <link>https://arxiv.org/abs/2605.15759v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.15759v1</guid>
+      <description>Large language model (LLM) agents require efficient long-term memory to retain and leverage past interactions, yet existing approaches suffer from a fidelity–efficiency trade-off: raw dialogue histories are computationally expensive, while flat summaries or unstructured facts lose critical relational and contextual structure needed for precise recall. We propose **DimMem**, a lightweight dimensional memory framework that represents each memory as an atomic, typed, self-contained unit with explicit semantic fields—including *time*, *location*, *reason*, *purpose*, *keywords*, and *actor*. This structured representation enables dimension-aware retrieval, fine-grained memory updates, and selective context injection—without embedding full dialog histories into the LLM’s context window. Evaluated on LoCoMo-10 and LongMemEval-S, DimMem achieves **81.43%** and **78.20%** overall accuracy, outperforming prior lightweight memory systems while reducing per-query token cost by **24%** on LoCoMo. Crucially, we show dimensional extraction is learnable by compact models: a fine-tuned **Qwen3-4B** extractor surpasses LightMem powered by GPT-4.1-mini on both benchmarks and matches or exceeds much larger extractors (e.g., 30B+) in key temporal and multi-hop reasoning settings. These results establish explicit dimensional structuring as an effective, scalable foundation for LLM agent memory. Code: https://github.com/ChowRunFa/DimMem.</description>
+      <pubDate>Fri, 15 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>extraction</category>
+      <category>model</category>
     </item>
     <item>
       <title>MetaBackdoor: Exploiting Positional Encoding as a Backdoor Attack Surface in LLMs</title>
@@ -339,6 +399,50 @@ We eliminate the server entirely. Our two new ThFHE schemes produce **polynomial
       <category>IACR</category>
     </item>
     <item>
+      <title>Retrieval-Augmented Large Language Models for Schema-Constrained Clinical Information Extraction</title>
+      <link>https://arxiv.org/abs/2605.15467v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.15467v1</guid>
+      <description>Conversational nurse-patient transcripts contain rich clinical observations, yet scalable, schema-compliant extraction remains hindered by documentation burden and semantic ambiguity. MEDIQA-SYNUR requires mapping unstructured dialogue to a fixed schema with strict value-type constraints (e.g., numeric ranges, predefined categories). We propose a modular retrieval-augmented generation (RAG) pipeline using the training set as an in-domain exemplar corpus, combining schema-constrained prompting (full vs. pruned schema), deterministic schema-based postprocessing, and a second-pass LLM audit. Evaluated on two backbones—Llama-4-Scout-17B-16E-Instruct and GPT-5.2—we find RAG consistently boosts performance (+3.2 average F1), while optimal schema constraint strength is model-dependent. Our best configuration (GPT-5.2 + full schema + RAG + audit) achieves **80.36% F1**, with the audit step correcting residual schema violations for a modest but consistent +0.9 F1 gain. This work advances reliable, auditable, and resource-efficient clinical IE.</description>
+      <pubDate>Thu, 14 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>extraction</category>
+      <category>model</category>
+    </item>
+    <item>
+      <title>Differentially Private Motif-Preserving Multi-modal Hashing</title>
+      <link>https://arxiv.org/abs/2605.15460v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.15460v1</guid>
+      <description>Cross-modal hashing enables efficient retrieval by learning compact binary codes for images and text. State-of-the-art methods rely on user-derived semantic similarity graphs for supervision—yet these graphs encode sensitive behavioral patterns vulnerable to link reconstruction. Existing privacy-preserving approaches fail on graph-structured data: DP-SGD destroys relational motifs (e.g., triangles) by ignoring node dependencies, while graph synthesis suffers from unbounded local sensitivity in scale-free networks—a phenomenon we term *Hubness Explosion*, where single-edge modifications at hubs alter triangle counts by $\mathcal{O}(N)$. To address this, we propose **DMP-MH**, a *Sanitize-then-Distill* framework. First, deterministic degree clipping bounds the $L_2$-sensitivity of triangle motifs independently of dataset size. Second, a sanitized synthetic graph is generated via Noisy Mirror Descent under $(\varepsilon,\delta)$-edge differential privacy. Third, dual-stream hashing networks distill its topology using a holistic structural loss enforcing cross-modal alignment. On MIRFlickr-25K and NUS-WIDE under strict inductive evaluation, DMP-MH achieves up to **+11.4 mAP over private baselines** and retains **up to 92.5% of non-private performance**, setting a new state of the art in private multi-modal hashing.</description>
+      <pubDate>Thu, 14 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>privacy</category>
+      <category>differential</category>
+    </item>
+    <item>
+      <title>Hidden in Memory: Sleeper Memory Poisoning in LLM Agents</title>
+      <link>https://arxiv.org/abs/2605.15338v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.15338v1</guid>
+      <description>## Hidden in Memory: Sleeper Memory Poisoning in LLM Agents  
+
+Large language model (LLM) agents increasingly rely on persistent memory to store user-specific context across sessions—enabling personalization and continuity. We identify and formalize *sleeper memory poisoning*, a novel delayed attack where adversaries manipulate external sources (e.g., documents, webpages) to induce the agent to silently store fabricated user memories. Unlike prompt injection, these poisoned memories remain dormant for multiple conversations before being retrieved and activating attacker-intended agentic behaviors. We evaluate the full pipeline across stateful LLM agents: poisoned memories were written with up to **99.8% success on GPT-5.5** and **95% on Kimi-K2.6**; among successful retrievals, they triggered malicious actions in **60–89% of cases**. Our results demonstrate that persistent memory constitutes a *long-term, cross-conversation attack surface*—posing critical implications for secure agent architecture and memory governance.</description>
+      <pubDate>Thu, 14 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>llm</category>
+      <category>prompt</category>
+      <category>security</category>
+      <category>injection</category>
+    </item>
+    <item>
+      <title>Autonomous Intelligent Agents for Natural-Language-Driven Web Execution with Integrated Security Assurance</title>
+      <link>https://arxiv.org/abs/2605.15281v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.15281v1</guid>
+      <description>This paper introduces an autonomous intelligent agent framework for natural-language-driven web testing with integrated security assurance. It addresses core fragility issues in traditional UI test automation—locator rot, race conditions, and high maintenance overhead—through five tightly coupled strategies: semantic navigation reliability, context-aware selector generation, post-generation DOM validation, intent-driven smart wait injection, and failure-learning feedback loops—all executed on a containerized worker architecture that decouples orchestration from long-running browser sessions. Evaluated across four production applications and 176 scenarios, the framework boosts script generation success from 55% to 93%, reduces navigation failures by 8×, eliminates 80% of timing-related race conditions, and cuts test authoring time by 75% versus manual Selenium scripting. Crucially, it extends natively to security validation: testers describe attack scenarios in plain English (e.g., “try accessing another user’s invoice”), and the agent autonomously generates OWASP Top 10-aligned browser probes—detecting 85% of authentication bypass vulnerabilities and 95% of input validation flaws at &lt;12% false positive rate. To our knowledge, this represents the first end-to-end, natural-language-driven security testing framework for web applications.</description>
+      <pubDate>Thu, 14 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>agent</category>
+      <category>security</category>
+    </item>
+    <item>
       <title>Backdoor Threats in Variational Quantum Circuits: Taxonomy, Attacks, and Defenses</title>
       <link>https://arxiv.org/abs/2605.13796v1</link>
       <guid isPermaLink="true">https://arxiv.org/abs/2605.13796v1</guid>
@@ -377,108 +481,6 @@ We eliminate the server entirely. Our two new ThFHE schemes produce **polynomial
       <category>arXiv</category>
       <category>prompt</category>
       <category>injection</category>
-    </item>
-    <item>
-      <title>Backdoor Channels Hidden in Latent Space: Cryptographic Undetectability in Modern Neural Networks</title>
-      <link>https://arxiv.org/abs/2605.13214v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.13214v1</guid>
-      <description>We bridge a critical gap between cryptographic backdoor theory and modern deep learning by constructing the first *cryptographically undetectable* backdoor attack applicable to state-of-the-art, end-to-end trained models—including ResNet and Vision Transformers on ImageNet and CIFAR-100. Instead of injecting foreign structures, our method identifies backdoor channels as *naturally learned latent directions* in the model’s representation space, making the malicious functionality geometrically indistinguishable from benign semantics. This reframes detection as a hypothesis test between two parameter distributions (clean vs. backdoored), which we conjecture is computationally intractable due to the inherent ambiguity of high-dimensional non-convex optimization trajectories. Empirically, the attack achieves &gt;98.2% attack success rate with &lt;0.3% clean accuracy drop and evades all 12 evaluated post-training defenses—none neutralize the backdoor without collapsing model utility. Our work establishes that cryptographic undetectability is not an artifact of artificial architectures, but an emergent property of representation geometry in standard deep networks.</description>
-      <pubDate>Wed, 13 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>neural</category>
-      <category>backdoor</category>
-    </item>
-    <item>
-      <title>DiffusionHijack: Supply-Chain PRNG Backdoor Attack on Diffusion Models and Quantum Random Number Defense</title>
-      <link>https://arxiv.org/abs/2605.13115v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.13115v1</guid>
-      <description>Diffusion models rely critically on pseudo-random number generators (PRNGs) for latent noise sampling—a component long assumed trustworthy and excluded from security auditing. We introduce **DiffusionHijack**, a supply-chain backdoor attack that compromises PRNGs via malicious package dependencies to *deterministically hijack image generation* without modifying model weights. On Stable Diffusion v1.4, v1.5, and SDXL, it achieves pixel-perfect reproduction (SSIM = 1.00, N = 100) of attacker-chosen content under arbitrary prompts—even with stochastic samplers (eta &gt; 0) and CLIP-based safety checkers (98–100% bypass rate). Crucially, it operates *outside the neural computation graph*, evading all existing model-auditing and content-moderation tools. As a fundamental defense, we replace the PRNG with a quantum random number generator (QRNG), leveraging information-theoretic unpredictability. Across 100 prompt-model combinations, QRNG fully neutralizes the attack, reducing output similarity to random-baseline levels (SSIM &lt; 0.20 for SD 1.x; &lt; 0.45 for SDXL). This work uncovers a critical, previously overlooked supply-chain vulnerability and establishes QRNG as a hardware-rooted mitigation for generative AI security.</description>
-      <pubDate>Wed, 13 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>neural</category>
-      <category>backdoor</category>
-    </item>
-    <item>
-      <title>No Attack Required: Semantic Fuzzing for Specification Violations in Agent Skills</title>
-      <link>https://arxiv.org/abs/2605.13044v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.13044v1</guid>
-      <description>LLM-powered agent skills can cause severe harm—e.g., silently deleting files, leaking credentials, or transferring funds—not due to adversarial attacks, but because they violate their *own* natural-language safety specifications under benign inputs. We term these **specification violations**: undocumented semantic gaps between declared guardrails and actual autonomous behavior, invisible to static analyzers, traditional fuzzers, and prompt-injection defenses. To address this, we present **Sefz**, a goal-directed semantic fuzzing framework that automatically discovers such violations. Sefz translates each guardrail into a reachability goal over annotated execution traces, reducing violation detection to deterministic graph queries; an LLM-based mutator guided by a multi-armed bandit (rewarded by goal proximity) generates semantically valid inputs that progressively approach violation patterns. Evaluated on 402 real-world deployed skills, Sefz finds violations in **120 skills (29.9%)**, including **26 previously unknown exploitable guardrail failures**. Six recurring specification pitfalls explain most cases, informing concrete principles for safer skill design.</description>
-      <pubDate>Wed, 13 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>prompt</category>
-      <category>injection</category>
-    </item>
-    <item>
-      <title>From Compression to Accountability: Harmless Copyright Protection for Dataset Distillation</title>
-      <link>https://arxiv.org/abs/2605.12942v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.12942v1</guid>
-      <description>Large-scale datasets fuel deep learning but incur prohibitive storage and energy costs. Dataset distillation (DD) alleviates this by synthesizing compact, informative surrogates—yet their ease of replication poses serious copyright and leakage risks. Existing protections are ill-suited for distilled data and often rely on security-risky backdoor triggers. We observe that neural networks systematically memorize subpopulation distributions during training, inducing predictable prediction biases. Leveraging this, we propose **SubPopMark**: a *harmless*, subpopulation-driven framework with two stages—(1) **Copyright Verification Marker (CVM)** optimization injects class-consistent subpopulation bias while preserving the original training trajectory; (2) **User-Specific Tracing Marker (USTM)** adds user-distinguishable perturbations to CVM-augmented data. For black-box verification and tracing, we build a *Reference Behavior Bank* using model outputs on carefully designed test sets covering both standard and subpopulation-shifted distributions. Provenance is inferred by matching a suspicious model’s output signature against the bank. SubPopMark achieves &gt;99.2% verification accuracy and &gt;96.5% user tracing accuracy, with negligible utility loss (&lt;0.8% accuracy drop) and zero malicious behavior—enabling truly safe, accountable dataset distillation.</description>
-      <pubDate>Wed, 13 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>neural</category>
-      <category>backdoor</category>
-    </item>
-    <item>
-      <title>ThermalTap: Passive Application Fingerprinting in VR Headsets via Thermal Side Channels</title>
-      <link>https://arxiv.org/abs/2605.12927v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.12927v1</guid>
-      <description>ThermalTap introduces the first passive, non-contact side-channel attack that fingerprints applications on standalone VR headsets solely from their long-wave infrared (LWIR) thermal emissions—without software installation, physical access, or wireless interaction. By modeling the headset’s chassis temperature dynamics as a high-fidelity proxy for application-specific computational workloads—and fusing LWIR data with ambient temperature, humidity, and airflow sensors to suppress environmental noise—ThermalTap achieves robust remote inference at meter-scale distances. Evaluated across six diverse applications on three commercial headsets (Meta Quest 2/3, Pico 4), it attains &gt;90% accuracy indoors using only 10 seconds of thermal video; outdoors, session-level observations (2–5 min) yield up to 81% accuracy despite significant thermal variability. Critically, ThermalTap operates entirely within stock firmware and requires no device modification—exposing thermal radiation as an inherent, unpatchable privacy vector that bypasses all current software and physical security controls.</description>
-      <pubDate>Wed, 13 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>security</category>
-      <category>inference</category>
-    </item>
-    <item>
-      <title>Do Skill Descriptions Tell the Truth? Detecting Undisclosed Security Behaviors in Code-Backed LLM Skills</title>
-      <link>https://arxiv.org/abs/2605.12875v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.12875v1</guid>
-      <description>This paper investigates undisclosed security behaviors in code-backed LLM skills—where executable implementations perform security-sensitive operations (e.g., credential access, network calls, command execution) not declared in their natural-language descriptions. We manually analyze 920 real-world skills to build an interpretable 11-category security property taxonomy. Based on it, we propose **SKILLSCOPE**, which constructs source-level Security Property Graphs (SPGs) encoding fine-grained code patterns (e.g., `subprocess.run(...)`)—not abstract labels—to preserve auditable evidence, and performs LLM-assisted consistency checking. Evaluated on 4,556 skills with double-blind human review, SKILLSCOPE achieves **84.8% precision** and **96.5% recall**, detecting inconsistency in **9.4%** of skills. Ablation studies confirm both the taxonomy (+15.5% precision) and SPG (+15.7% recall) are essential. Our work establishes the first scalable, explainable, and verifiable framework for auditing LLM skill trustworthiness.</description>
-      <pubDate>Wed, 13 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>llm</category>
-      <category>security</category>
-    </item>
-    <item>
-      <title>Quantifying LLM Safety Degradation Under Repeated Attacks Using Survival Analysis</title>
-      <link>https://arxiv.org/abs/2605.12869v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.12869v1</guid>
-      <description>This paper introduces the first application of survival analysis to quantify LLM safety degradation under repeated adversarial jailbreak attacks. We model “time-to-jailbreak” (i.e., attack round until first successful bypass) as a survival outcome, enabling estimation of hazard functions, survival curves, and risk factors—addressing the critical limitation of static binary evaluation. Evaluating three open-weight LLMs (Llama-3-8B-Instruct, Qwen2-7B-Instruct, Gemma-2-9B-It) against three HarmBench attack categories, we find distinct vulnerability profiles: Llama-3 exhibits rapid hazard escalation (3.2× higher hazard after Round 5; median survival = 4.1 rounds), while Qwen2 and Gemma-2 show stable, moderate risk (medians = 7.8 and 6.5). Multi-turn obfuscation attacks pose the highest risk across models (HR = 2.1–3.7). Our framework delivers actionable, temporally grounded insights for safety engineering and establishes survival analysis as a rigorous, interpretable methodology for longitudinal LLM safety assessment.</description>
-      <pubDate>Wed, 13 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>jailbreak</category>
-      <category>llm</category>
-    </item>
-    <item>
-      <title>Language-Based Agent Control</title>
-      <link>https://arxiv.org/abs/2605.12863v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.12863v1</guid>
-      <description>This paper introduces **Language-Based Agent Control (LBAC)**, a novel programming model that applies formal techniques from programming languages and language-based security to govern agent behavior. LBAC requires agents to generate *typed programs*—not raw actions—which must pass static type checking against a developer-provided scaffolding environment embedding user-specified policies (e.g., filesystem capabilities, data provenance labels, information-flow constraints). Unsafe programs are rejected *before execution*, enabling uniform, verifiable policy enforcement across both agent-generated code and developer-written scaffolding. Crucially, LBAC preserves expressiveness: agents support arbitrary side-effect-free computation and recursive subagent invocation—each subject to the same or stricter policies. We validate LBAC through three case studies: (1) I/O sandboxing via capability-based filesystem access, (2) end-to-end data provenance tracking, and (3) fine-grained information-flow control. LBAC establishes a foundation for building secure, predictable, and auditable agentic applications.</description>
-      <pubDate>Wed, 13 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>security</category>
-      <category>agent</category>
-    </item>
-    <item>
-      <title>HE-PIM: Demystifying Homomorphic Operations on a Real-world Processing-in-Memory System</title>
-      <link>https://arxiv.org/abs/2605.12841v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.12841v1</guid>
-      <description>This paper presents the first comprehensive characterization and implementation of homomorphic encryption (HE) workloads on a real-world, general-purpose Processing-in-Memory (PIM) system—UPMEM’s DPU. We implement the full suite of HE kernels (encryption, addition, multiplication, relinearization, bootstrapping) used in emerging applications (e.g., encrypted databases, ML inference), benchmarking against CPU and GPU baselines. Our analysis reveals four key insights: (1) HE exposes stage-specific bottlenecks—some kernels are compute-bound (due to modular arithmetic), others memory-bound (due to multi-KB ciphertexts and MB-scale auxiliary data), exacerbated by UPMEM’s limited per-core compute and small per-bank memory (64 MB); (2) the absence of native 64-bit modular integer multiplication is the dominant compute bottleneck; (3) insufficient per-bank capacity forces costly inter-bank data movement; and (4) despite current limitations, PIM becomes competitive with state-of-the-art CPUs/GPUs for HE *if* augmented with hardware-accelerated modular multiplication and efficient inter-PIM data movement. This work provides concrete, architecture-guided directions for privacy-preserving hardware acceleration.</description>
-      <pubDate>Wed, 13 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>machine</category>
-      <category>homomorphic</category>
-      <category>encryption</category>
-      <category>learning</category>
-    </item>
-    <item>
-      <title>ECG-NAT: A Self-supervised Neighborhood Attention Transformer for Multi-lead Electrocardiogram Classification</title>
-      <link>https://arxiv.org/abs/2605.13194v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.13194v1</guid>
-      <description>Electrocardiogram (ECG) arrhythmia classification faces persistent challenges from signal variability, noise, scarce labeled data, and the trade-off between accuracy and efficiency. To address these, we propose **ECG-NAT**, a self-supervised Neighborhood Attention Transformer for multi-lead ECG. It employs a two-stage framework: (1) generative pretraining via masked autoencoding across diverse ECG datasets (PTB-XL, Georgia, Chapman-Shaoxing), learning robust, domain-invariant representations from unlabeled signals; and (2) discriminative fine-tuning with a dual-loss objective—combining supervised contrastive loss and cross-entropy—to jointly optimize representation separability and label prediction. Crucially, its hierarchical neighborhood attention captures multi-scale temporal patterns—from beat-level morphology to rhythm-level dependencies—at low computational cost. On PTB-XL, ECG-NAT achieves **88.1% accuracy using only 1% labeled data**, outperforming prior methods by +3.6%, while maintaining real-time inference capability (2.1× faster than ViT-based baselines). Code will be released at https://github.com/Mahsagazeran/ECG-NAT.</description>
-      <pubDate>Wed, 13 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>model</category>
-      <category>extraction</category>
     </item>
   </channel>
 </rss>
