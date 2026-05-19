@@ -4,8 +4,123 @@
     <title>Paper Feeds</title>
     <link>https://jamie-cui.github.io/paper-feeds</link>
     <description>Keyword-based research paper feeds from arXiv and IACR</description>
-    <lastBuildDate>Mon, 18 May 2026 04:22:21 -0000</lastBuildDate>
+    <lastBuildDate>Tue, 19 May 2026 04:18:04 -0000</lastBuildDate>
     <atom:link href="https://jamie-cui.github.io/paper-feeds/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Evidence-Grounded Frontier Mapping and Agentic Hypothesis Generation in Nanomedicine</title>
+      <link>https://arxiv.org/abs/2605.18144v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.18144v1</guid>
+      <description>Nanomedicine research suffers from a fragmented conceptual landscape across heterogeneous literature, with AI tools largely limited to property prediction—not evidence-grounded research direction discovery. We introduce **pArticleMap**, a novel system that (1) maps the literature frontier via article embeddings, similarity-graph analysis, and *sparse frontier extraction* to identify low-density bridge regions and cluster interfaces; and (2) generates citation-grounded, testable hypotheses using an audited, agentic LLM workflow with structured evidence-pack retrieval. Evaluated via retrospective realization (generating post-cutoff literature) and blinded human assessment across nanomedicine tasks, pArticleMap achieved a **10.8% gold recovery rate**, **15.9% recall@10**, and a striking **61.0% future-neighborhood rate**, demonstrating strong directional validity despite imperfect paper-level recall. Human–agent agreement was modest, confirming its role as a conservative, evidence-anchored research assistant—not a replacement for expert judgment.</description>
+      <pubDate>Mon, 18 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>model</category>
+      <category>extraction</category>
+    </item>
+    <item>
+      <title>An Empirical Study of Privacy Leakage Chains via Prompt Injection in Black-Box Chatbot Environments</title>
+      <link>https://arxiv.org/abs/2605.18133v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.18133v1</guid>
+      <description>This paper presents the first empirical study of end-to-end privacy leakage chains via **indirect prompt injection** in black-box LLM chatbot agents—where attackers lack access to model weights, system prompts, or internal agent logic. We identify a three-stage attack pipeline: (1) luring the agent to fetch malicious web content, (2) hijacking its reasoning using a novel *exemplification* technique—which reframes the user query and benign page snippets as few-shot examples to seamlessly embed attacker objectives—and (3) exfiltrating sensitive data via triggered tool calls (e.g., email or HTTP POST). Evaluated on GPT-4-turbo and Claude-3-sonnet agents, exemplification achieves a 68.3% success rate, outperforming prior fake-completion by 26.6 percentage points. A proof-of-concept demonstrates full-chain exfiltration of synthetic PII (e.g., fake ID numbers, addresses) from agent memory—even when the user’s initial request is innocuous (e.g., “What’s the weather?”). Our findings expose a critical gap: external content is ingested into the reasoning context without semantic sanitization or instruction-content decoupling, enabling stealthy, tool-assisted privacy breaches in deployed systems.</description>
+      <pubDate>Mon, 18 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>injection</category>
+      <category>llm</category>
+      <category>prompt</category>
+      <category>jailbreak</category>
+    </item>
+    <item>
+      <title>New Insight of Variance reduce in Zero-Order Hard-Thresholding: Mitigating Gradient Error and Expansivity Contradictions</title>
+      <link>https://arxiv.org/abs/2605.18035v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.18035v1</guid>
+      <description>## New Insight on Variance Reduction in Zero-Order Hard-Thresholding  
+
+Hard-thresholding algorithms are essential for $\ell_0$-constrained optimization, yet their zeroth-order (ZO) variants face a fundamental tension: the inherent variance of ZO gradient estimates exacerbates the expansivity of the hard-thresholding operator, forcing existing methods like SZOHT to restrict the number $m$ of random directions—a severe bottleneck. This paper identifies *structured variance reduction*, rather than mere variance suppression, as the key to resolving this conflict. We propose VR-ZOHT, a generalized variance-reduced ZO hard-thresholding algorithm featuring momentum-based direction reuse and adaptive stepsize coupling. Under standard assumptions (smoothness, sparsity recovery, bounded gradient noise), our convergence analysis holds for *any* $m \geq 1$, eliminating SZOHT’s restrictive $m$-dependency. Theoretically, VR-ZOHT achieves $\mathcal{O}(1/T)$ convergence for nonconvex objectives—improving upon SZOHT’s $\mathcal{O}(1/\sqrt{T})$—and attains linear convergence under approximate strong convexity. Experiments on sparse ridge regression and black-box adversarial attacks confirm superior query efficiency, sparsity accuracy, and attack success rates.</description>
+      <pubDate>Mon, 18 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>adversarial</category>
+      <category>machine</category>
+      <category>learning</category>
+    </item>
+    <item>
+      <title>Unveiling Memorization-Generalization Coexistence: A Case Study on Arithmetic Tasks with Label Noise</title>
+      <link>https://arxiv.org/abs/2605.18022v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.18022v1</guid>
+      <description>This paper investigates how over-parameterized neural networks simultaneously memorize noisy labels and generalize well—a phenomenon poorly understood mechanistically. Using modular arithmetic tasks under extreme label noise (up to 80%), we conduct systematic experiments on two-layer networks. We find that: (1) noisy labels are fitted faster than clean ones, revealing a temporal separation between memorization and generalization; (2) a robust internal generalization structure emerges but is suppressed in the output due to noise-fitting pressure; (3) frequency-domain analysis successfully extracts and amplifies this latent structure, achieving near-perfect test accuracy (&gt;99.5%) even at 80% noise—surpassing end-to-end training; and (4) we propose a task-agnostic network decomposition method to isolate generalization and memorization components; however, the extracted generalization subnetwork underperforms frequency-based extraction, indicating that generalizable knowledge is *distributed across neurons*, not localized. Our work provides both empirical evidence and analytical tools for disentangling memorization from generalization in over-parameterized models.</description>
+      <pubDate>Mon, 18 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>model</category>
+      <category>extraction</category>
+    </item>
+    <item>
+      <title>LivePI: More Realistic Benchmarking of Agents Against Indirect Prompt Injectio</title>
+      <link>https://arxiv.org/abs/2605.17986v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.17986v1</guid>
+      <description>LivePI introduces the first production-realistic benchmark for evaluating Indirect Prompt Injection (IPI) risks against AI agents operating in multi-tool, local environments. Unlike prior narrow or simulated evaluations, LivePI deploys on a real virtual machine with live—but rigorously controlled—interfaces to email, group chat, web, local files, Git repositories, and cryptocurrency wallets. It spans 7 input surfaces, 12 attack/rendering families, and 5 high-stakes malicious goals (e.g., protected-data exfiltration, unauthorized security-control changes, unsafe code execution, inbox-summary leakage, crypto transfers). Evaluated across five state-of-the-art models (GPT-5.3-Codex, Claude Opus 4.6, Gemini 3.1 Pro, Kimi K2.5, GLM-5), overall attack success rates range from 10.7% to 29.6%. Notably, group-chat injections succeed uniformly across all models, and repository-link attacks yield high-severity failures despite low sample counts. A two-layer defense—combining prompt-level filtering and pre-execution tool-call authorization—blocks 100% of malicious-goal completions in LivePI for GPT-5.3-Codex while preserving &gt;98% utility on PinchBench-derived benign workloads.</description>
+      <pubDate>Mon, 18 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>injection</category>
+      <category>security</category>
+      <category>prompt</category>
+      <category>agent</category>
+    </item>
+    <item>
+      <title>Remembering More, Risking More: Longitudinal Safety Risks in Memory-Equipped LLM Agents</title>
+      <link>https://arxiv.org/abs/2605.17830v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.17830v1</guid>
+      <description>This paper identifies *temporal memory contamination*—a longitudinal safety failure mode where memory accumulated from prior, unrelated tasks degrades safety in later interactions—unaddressed by conventional single-task safety evaluations. We introduce a **trigger-probe protocol** that isolates memory effects using read-only memory snapshots of varying prefix lengths and a **NullMemory counterfactual baseline**, enabling precise attribution of violations to memory content. Applied across three real-world deployment scenarios (records, memos, email), eight memory architectures, and Claw-like agents (e.g., OpenClaw), we find memory-enabled agents consistently exceed NullMemory violation rates, with a robust upward trend in memory-induced violations as exposure length increases (p &lt; 0.001). Order-randomization confirms the effect stems primarily from accumulated content—not encounter order. Crucially, risk manifests in retrieval states *before* generation, enabling high-recall (&gt;92%) early detection. Our results establish memory safety as a **longitudinal property**, demanding temporal evaluation—not static snapshot assessment.</description>
+      <pubDate>Mon, 18 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>injection</category>
+      <category>prompt</category>
+    </item>
+    <item>
+      <title>Improved Dual Attack via Quantum Rejection Sampling</title>
+      <link>https://eprint.iacr.org/2026/979</link>
+      <guid isPermaLink="true">https://eprint.iacr.org/2026/979</guid>
+      <description>This work improves the Pouly–Shen dual attack against lattice-based KEMs (e.g., Kyber) by quantum-accelerating its dominant bottleneck: sampling from the dual $q$-ary lattice Gaussian distribution. We bridge Wang–Ling’s lower bound on Klein’s algorithm with Ozols et al.’s quantum rejection sampling (QRS) framework. Crucially, the bound provides the exact pointwise condition required for QRS when given coherent oracle access to a *truncated* Klein proposal distribution. This enables a quantum procedure that prepares the truncated dual Gaussian state with **quadratic complexity reduction**, while the truncation radius ensures total variation distance to the full Gaussian is negligible (&lt; $2^{-60}$). Substituting this sampler into the dual attack reduces estimated costs by **9, 4, and 13 bits** for Kyber-512, Kyber-768, and Kyber-1024, respectively—marking the first concrete security gain from QRS in practical lattice cryptanalysis.</description>
+      <pubDate>Mon, 18 May 2026 00:00:00 -0000</pubDate>
+      <category>IACR</category>
+    </item>
+    <item>
+      <title>Verifying Consensus Protocols from LLM-assisted TLA$^+$: A Case Study of Byzantine Reliable Broadcast</title>
+      <link>https://eprint.iacr.org/2026/978</link>
+      <guid isPermaLink="true">https://eprint.iacr.org/2026/978</guid>
+      <description>TLA$^+$ is the de facto standard for formal verification of distributed consensus, yet its steep learning curve hinders adoption—especially for modeling Byzantine behaviors in protocols like Reliable Broadcast (RBC), where oversimplification misses vulnerabilities and over-detailing causes state-space explosion. This paper introduces **TLAssist**, an LLM-assisted tool for semi-automated TLA$^+$ specification of RBC protocols. We design a domain-specific RBC schema and a structured prompting workflow to enhance LLM precision and output correctness. Evaluated on five RBC protocols, TLAssist achieves three key results: (1) Its generated specifications outperform many open-source and even expert-written TLA$^+$ scripts in coverage and verifiability; (2) It uncovered a subtle totality violation in the (2,3,4)-Optimistic RBC protocol (a CCS’25 Distinguished Paper), caused by unguarded message replay under asynchrony; (3) With minimal protocol revisions, it produces human-readable counterexamples that expose intricate corner cases—making protocol reasoning accessible to non-experts. TLAssist bridges the gap between high-level protocol descriptions and rigorous formal verification.</description>
+      <pubDate>Mon, 18 May 2026 00:00:00 -0000</pubDate>
+      <category>IACR</category>
+    </item>
+    <item>
+      <title>LoTRS: Practical Post-Quantum Structured Threshold Ring Signatures from Lattices</title>
+      <link>https://eprint.iacr.org/2026/974</link>
+      <guid isPermaLink="true">https://eprint.iacr.org/2026/974</guid>
+      <description>Threshold ring signatures (TRS) enable $T$ out of $N$ ring members to jointly sign a message while hiding *which* $T$ participants contributed—offering strong anonymity. However, many real-world settings (e.g., governance approvals) only require hiding *a representative* from the pre-known $T$-subset—not all $\binom{N}{T}$ combinations. To address this, we formalize **structured threshold ring signatures (sTRS)** and propose **LoTRS**, the first practical, lattice-based sTRS. LoTRS decouples threshold signing from anonymity: it combines (i) a **two-round aggregated signing layer** ($\mathsf{DualMS}$, Crypto’23) producing a compact $T$-aggregated relation, and (ii) a lightweight **1-out-of-$N$ selection-hiding layer** (Esgin et al., IEEE S&amp;P’22) that conceals only one “representative” member supporting that relation—bypassing costly $T$-out-of-$N$ proofs. Our $(T, N\!\cdot\!T)$-LoTRS achieves $\mathsf{polylog}(N,T)$ signature size: e.g., 36 KB for $(T,N)=(50,100)$—≈3.5× smaller than LastRings. A Rust implementation yields 25 KB signatures, 149 ms signing, and 43 ms verification for $(T,N)=(16,32)$.</description>
+      <pubDate>Sun, 17 May 2026 00:00:00 -0000</pubDate>
+      <category>IACR</category>
+    </item>
+    <item>
+      <title>ThriftyMPC: Reducing the Cost of Large-Scale MPC in the Cloud</title>
+      <link>https://eprint.iacr.org/2026/977</link>
+      <guid isPermaLink="true">https://eprint.iacr.org/2026/977</guid>
+      <description>Cloud computing offers unmatched scalability for large-scale computation, yet privacy-sensitive workloads (e.g., genome-wide association studies) remain largely confined to on-premise deployments due to regulatory and trust barriers. While multi-party computation (MPC) provides cryptographic privacy guarantees, its high overhead makes cloud deployment prohibitively expensive—especially when relying on costly on-demand instances. To bridge this gap, we present **ThriftyMPC**, a novel framework that enables *cost-effective, provably secure* large-scale MPC in the cloud by leveraging ephemeral spot instances. ThriftyMPC introduces a formal model of MPC execution under preemption-prone conditions, designs a preemption-tolerant runtime with state checkpointing and secure resumption, and formally proves that all standard security guarantees—including input privacy, correctness, and malicious-security—are preserved despite arbitrary instance interruptions. Evaluations on realistic GWAS workloads over Google Cloud Platform demonstrate robust execution under high spot-instance churn (up to 40% hourly interruption rate) and achieve **63.5–78.1% cost reduction** versus MP-SPDZ running on on-demand instances. ThriftyMPC thus makes privacy-preserving cloud computing economically viable for the first time.</description>
+      <pubDate>Sun, 17 May 2026 00:00:00 -0000</pubDate>
+      <category>IACR</category>
+    </item>
+    <item>
+      <title>Revisiting DKLs Threshold ECDSA: Enhanced OT-based VOLE and Two-Party Signing</title>
+      <link>https://eprint.iacr.org/2026/976</link>
+      <guid isPermaLink="true">https://eprint.iacr.org/2026/976</guid>
+      <description>Threshold ECDSA signing, especially the DKLs protocol (IEEE S&amp;P 2024), is a cornerstone for securing cryptocurrency assets. This work revisits DKLs to strengthen its concrete security and practical efficiency. First, we identify subtle parameter flaws in its OT-based Vector Oblivious Linear Evaluation (VOLE) subprotocol: original choices fail to achieve target 128-bit security, necessitating rigorous reparameterization. We provide a complete comparative analysis of three VOLE variants, characterizing precise bandwidth-round trade-offs. Second, we propose an optimized two-party signing protocol that shifts &gt;98% of computation and communication to a message- and key-independent preprocessing phase. The online phase requires only **0.2 KB** of communication per signature—reducing DKLs’ online cost by ~600×—while provably resisting known “pre-signature” attacks. Our results consolidate DKLs’ security foundations and deliver substantial gains for real-world deployment and standardization.</description>
+      <pubDate>Sun, 17 May 2026 00:00:00 -0000</pubDate>
+      <category>IACR</category>
+    </item>
+    <item>
+      <title>Functional Bootstrapping for a Single LWE Ciphertext with \(\tilde{O}(1)\) Polynomial Multiplications</title>
+      <link>https://eprint.iacr.org/2026/975</link>
+      <guid isPermaLink="true">https://eprint.iacr.org/2026/975</guid>
+      <description>We present the first non-amortized functional bootstrapping algorithm for a *single* LWE ciphertext under the BFV scheme, achieving $\widetilde{O}(1)$ polynomial multiplications—resolving a key open problem left by prior amortized approaches. Our method supports arbitrary functions over large plaintext spaces (e.g., 9–16 bits) and naturally extends to small/moderate batches ($m$ ciphertexts) with total cost $\widetilde{O}(m)$. The core technical advance is a sparse-packing polynomial-evaluation technique that leverages BFV’s duplicated-slot structure to evaluate any polynomial on $m$ encrypted inputs in $\widetilde{O}(m)$ time. Implemented in Lattigo at 128-bit security, our scheme bootstraps one 9-bit plaintext in 3.15 seconds and 128 such ciphertexts in 3.77 seconds (29 ms/ciphertext amortized); for 16-bit plaintexts, it takes 10.63 seconds for one and 18.07 seconds for 16 ciphertexts. These results demonstrate the first practical, non-amortized functional bootstrapping for single and modestly batched ciphertexts.</description>
+      <pubDate>Sun, 17 May 2026 00:00:00 -0000</pubDate>
+      <category>IACR</category>
+    </item>
     <item>
       <title>Asynchronous Lagrange-Based Threshold FHE with Smaller Modulus Overhead</title>
       <link>https://eprint.iacr.org/2026/973</link>
@@ -363,124 +478,6 @@ Web agents face severe prompt injection threats from malicious HTML content and 
       <category>arXiv</category>
       <category>inference</category>
       <category>membership</category>
-    </item>
-    <item>
-      <title>Enhancing Blockchain Proof of Stake with Active Weighted Signatures: The ADAPT Framework</title>
-      <link>https://eprint.iacr.org/2026/958</link>
-      <guid isPermaLink="true">https://eprint.iacr.org/2026/958</guid>
-      <description>Proof of Stake (PoS) blockchains require *weighted threshold signatures*, where participants’ voting power reflects their stake. Dynamic stake changes demand efficient, trustless weight and threshold updates—yet existing schemes suffer from high overhead ($O(w)$ per weight $w$), lack of native weighting, or costly $O(n^2)$ re-setup requiring downtime. This paper introduces **Active Weighted Signatures (AWS)**, enabling dynamic adjustments without trusted dealers or full re-initialization. We propose **Generalized Lagrange Interpolation (GLI)**, which encodes weights as polynomial *derivatives*—not virtual participants—enabling compact, mathematically sound weight representation. Instantiated as **ADAPT**, our framework integrates GLI with the Schnorr-based FROST protocol. Evaluation shows ADAPT matches FROST’s key generation efficiency, while weight/threshold updates complete in just **4.1–22.3%** of re-setup time. Crucially, under highly skewed weight distributions (e.g., 49× max/min), ADAPT scales *sub-linearly*: computation increases only **3.29×**, versus 49× for virtualization. ADAPT delivers the first practical, secure, and scalable solution for dynamic weighted consensus.</description>
-      <pubDate>Thu, 14 May 2026 00:00:00 -0000</pubDate>
-      <category>IACR</category>
-    </item>
-    <item>
-      <title>Threshold FHE with Short Decryption Shares without a Semi-trusted Server</title>
-      <link>https://eprint.iacr.org/2026/957</link>
-      <guid isPermaLink="true">https://eprint.iacr.org/2026/957</guid>
-      <description>Threshold fully homomorphic encryption (ThFHE) enables distributed decryption among $N$ parties, requiring only $T$ shares. Prior schemes suffered from super-polynomial ciphertexts, keys, and—critically—decryption shares, hindering practicality. Passelègue–Stehlé (Asiacrypt 2024) introduced a semi-trusted server to round ciphertexts, achieving polynomial-size outputs, but their security collapses under *any* single party–server collusion.  
-
-We eliminate the server entirely. Our two new ThFHE schemes produce **polynomially short decryption shares** without trusted infrastructure. The key insight is shifting rounding from ciphertexts (server-side) to *decryption shares* (party-side), combined with transciphering for low-communication input distribution. The first scheme, built on binary-coefficient LSS, strictly improves Boneh et al. (CRYPTO 2018) by achieving short shares with no trade-offs. The second, based on Shamir sharing and adapted from Okada–Takagi (Asiacrypt 2025), reduces share size overhead from $O(N^{4.3})$ to near-optimal, cutting communication significantly. Both are secure under standard LWE and require no semi-honest assumptions.</description>
-      <pubDate>Thu, 14 May 2026 00:00:00 -0000</pubDate>
-      <category>IACR</category>
-    </item>
-    <item>
-      <title>Efficient Bootstrapping in Fully Homomorphic Encryption for Matrix Arithmetic</title>
-      <link>https://eprint.iacr.org/2026/956</link>
-      <guid isPermaLink="true">https://eprint.iacr.org/2026/956</guid>
-      <description>We propose an efficient bootstrapping technique for the Gentry–Lee (GL) fully homomorphic encryption scheme, optimized for matrix arithmetic. Our core insight is to exploit the linearity of slot-to-coefficient (CtS) and coefficient-to-slot (StC) transformations by formulating them as **ciphertext–plaintext matrix multiplications**, natively supported in GL—reducing key-switching operations per step to a small constant. To enable non-power-of-two matrix dimensions, we introduce a **generalized trace over commutative rings** and prove its commutativity with decryption. Following the CKKS paradigm (ModRaise → CtS → EvalMod → StC), our optimization shifts the computational bottleneck entirely to EvalMod—unifying runtime and depth constraints. A proof-of-concept implementation shows linear transformations (CtS+StC) account for only **20.1%** of total bootstrapping time—down from **54.9–71.7%** in prior CKKS bootstrapping—and achieves ~3× faster amortized CtS runtime than the highly optimized Lattigo library, despite lacking low-level optimizations.</description>
-      <pubDate>Thu, 14 May 2026 00:00:00 -0000</pubDate>
-      <category>IACR</category>
-    </item>
-    <item>
-      <title>YsPIR: HE-Based Single-Server Private Information Retrieval with Low Communication Cost and High Throughput</title>
-      <link>https://eprint.iacr.org/2026/955</link>
-      <guid isPermaLink="true">https://eprint.iacr.org/2026/955</guid>
-      <description>We present **YsPIR**, a single-server homomorphic encryption (HE)-based Private Information Retrieval (PIR) protocol that advances the state of the art (KsPIR, CCS 2024) in online throughput and offline communication efficiency. YsPIR introduces a novel *first-dimension folding* technique to restructure ciphertext packing, enabling aggressive offline preprocessing of computation-intensive HE operations—such as batched ciphertext multiplications—while drastically reducing the size of public-key material required offline. As a result, offline communication becomes *database-size-independent* and remains small (e.g., ~1.8 MB for a 1 GB database), and online response time is minimized. Comprehensive experiments show YsPIR achieves **1.64× higher online throughput** and **reduces offline communication by 3.09×** compared to KsPIR, with strong scalability under high-concurrency workloads. YsPIR bridges practicality and privacy for real-world encrypted data access.</description>
-      <pubDate>Thu, 14 May 2026 00:00:00 -0000</pubDate>
-      <category>IACR</category>
-    </item>
-    <item>
-      <title>Retrieval-Augmented Large Language Models for Schema-Constrained Clinical Information Extraction</title>
-      <link>https://arxiv.org/abs/2605.15467v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.15467v1</guid>
-      <description>Conversational nurse-patient transcripts contain rich clinical observations, yet scalable, schema-compliant extraction remains hindered by documentation burden and semantic ambiguity. MEDIQA-SYNUR requires mapping unstructured dialogue to a fixed schema with strict value-type constraints (e.g., numeric ranges, predefined categories). We propose a modular retrieval-augmented generation (RAG) pipeline using the training set as an in-domain exemplar corpus, combining schema-constrained prompting (full vs. pruned schema), deterministic schema-based postprocessing, and a second-pass LLM audit. Evaluated on two backbones—Llama-4-Scout-17B-16E-Instruct and GPT-5.2—we find RAG consistently boosts performance (+3.2 average F1), while optimal schema constraint strength is model-dependent. Our best configuration (GPT-5.2 + full schema + RAG + audit) achieves **80.36% F1**, with the audit step correcting residual schema violations for a modest but consistent +0.9 F1 gain. This work advances reliable, auditable, and resource-efficient clinical IE.</description>
-      <pubDate>Thu, 14 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>extraction</category>
-      <category>model</category>
-    </item>
-    <item>
-      <title>Differentially Private Motif-Preserving Multi-modal Hashing</title>
-      <link>https://arxiv.org/abs/2605.15460v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.15460v1</guid>
-      <description>Cross-modal hashing enables efficient retrieval by learning compact binary codes for images and text. State-of-the-art methods rely on user-derived semantic similarity graphs for supervision—yet these graphs encode sensitive behavioral patterns vulnerable to link reconstruction. Existing privacy-preserving approaches fail on graph-structured data: DP-SGD destroys relational motifs (e.g., triangles) by ignoring node dependencies, while graph synthesis suffers from unbounded local sensitivity in scale-free networks—a phenomenon we term *Hubness Explosion*, where single-edge modifications at hubs alter triangle counts by $\mathcal{O}(N)$. To address this, we propose **DMP-MH**, a *Sanitize-then-Distill* framework. First, deterministic degree clipping bounds the $L_2$-sensitivity of triangle motifs independently of dataset size. Second, a sanitized synthetic graph is generated via Noisy Mirror Descent under $(\varepsilon,\delta)$-edge differential privacy. Third, dual-stream hashing networks distill its topology using a holistic structural loss enforcing cross-modal alignment. On MIRFlickr-25K and NUS-WIDE under strict inductive evaluation, DMP-MH achieves up to **+11.4 mAP over private baselines** and retains **up to 92.5% of non-private performance**, setting a new state of the art in private multi-modal hashing.</description>
-      <pubDate>Thu, 14 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>privacy</category>
-      <category>differential</category>
-    </item>
-    <item>
-      <title>Hidden in Memory: Sleeper Memory Poisoning in LLM Agents</title>
-      <link>https://arxiv.org/abs/2605.15338v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.15338v1</guid>
-      <description>## Hidden in Memory: Sleeper Memory Poisoning in LLM Agents  
-
-Large language model (LLM) agents increasingly rely on persistent memory to store user-specific context across sessions—enabling personalization and continuity. We identify and formalize *sleeper memory poisoning*, a novel delayed attack where adversaries manipulate external sources (e.g., documents, webpages) to induce the agent to silently store fabricated user memories. Unlike prompt injection, these poisoned memories remain dormant for multiple conversations before being retrieved and activating attacker-intended agentic behaviors. We evaluate the full pipeline across stateful LLM agents: poisoned memories were written with up to **99.8% success on GPT-5.5** and **95% on Kimi-K2.6**; among successful retrievals, they triggered malicious actions in **60–89% of cases**. Our results demonstrate that persistent memory constitutes a *long-term, cross-conversation attack surface*—posing critical implications for secure agent architecture and memory governance.</description>
-      <pubDate>Thu, 14 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>llm</category>
-      <category>prompt</category>
-      <category>security</category>
-      <category>injection</category>
-    </item>
-    <item>
-      <title>Autonomous Intelligent Agents for Natural-Language-Driven Web Execution with Integrated Security Assurance</title>
-      <link>https://arxiv.org/abs/2605.15281v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.15281v1</guid>
-      <description>This paper introduces an autonomous intelligent agent framework for natural-language-driven web testing with integrated security assurance. It addresses core fragility issues in traditional UI test automation—locator rot, race conditions, and high maintenance overhead—through five tightly coupled strategies: semantic navigation reliability, context-aware selector generation, post-generation DOM validation, intent-driven smart wait injection, and failure-learning feedback loops—all executed on a containerized worker architecture that decouples orchestration from long-running browser sessions. Evaluated across four production applications and 176 scenarios, the framework boosts script generation success from 55% to 93%, reduces navigation failures by 8×, eliminates 80% of timing-related race conditions, and cuts test authoring time by 75% versus manual Selenium scripting. Crucially, it extends natively to security validation: testers describe attack scenarios in plain English (e.g., “try accessing another user’s invoice”), and the agent autonomously generates OWASP Top 10-aligned browser probes—detecting 85% of authentication bypass vulnerabilities and 95% of input validation flaws at &lt;12% false positive rate. To our knowledge, this represents the first end-to-end, natural-language-driven security testing framework for web applications.</description>
-      <pubDate>Thu, 14 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>agent</category>
-      <category>security</category>
-    </item>
-    <item>
-      <title>Backdoor Threats in Variational Quantum Circuits: Taxonomy, Attacks, and Defenses</title>
-      <link>https://arxiv.org/abs/2605.13796v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.13796v1</guid>
-      <description>This survey provides the first systematic analysis of backdoor threats in Variational Quantum Circuits (VQCs), a foundational component of Variational Quantum Algorithms (VQAs) for NISQ devices. We propose a comprehensive taxonomy covering data-poisoning, compiler-level, and quantum-native backdoor attack mechanisms—each exploiting unique vulnerabilities in hybrid quantum-classical training pipelines. Formalizing threat models and trigger semantics, we empirically benchmark existing attacks across simulators and real IBM quantum processors, revealing high stealth (clean accuracy drop &lt;1.5%) and strong activation (&gt;92% success under triggers). Critically, we identify fundamental limitations of current defenses—including gradient-based detection’s sensitivity to quantum noise, parameter pruning’s disruption of quantum coherence, and classical adversarial training’s failure to capture quantum-specific triggers. By synthesizing recent advances, we outline a quantum-aware defense roadmap emphasizing circuit interpretability, trusted compilation chains, and lightweight quantum anomaly detection—establishing foundational insights for securing next-generation quantum machine learning systems.</description>
-      <pubDate>Wed, 13 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>poisoning</category>
-      <category>data</category>
-    </item>
-    <item>
-      <title>DisAgg: Distributed Aggregators for Efficient Secure Aggregation in Federated Learning</title>
-      <link>https://arxiv.org/abs/2605.13708v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.13708v1</guid>
-      <description>Federated learning (FL) enables collaborative model training across distributed clients, but standard FL exposes raw updates to the server, risking privacy leakage. Secure aggregation (SecAgg) protects against honest-but-curious servers, yet existing methods suffer from high communication rounds, heavy public-key or homomorphic encryption overhead, or poor dropout resilience. While One-Shot Private Aggregation (OPA) reduces interaction to one round per FL iteration, it imposes prohibitive computational cost on both clients and server—especially at scale. We propose **DisAgg**, a novel SecAgg protocol that delegates aggregation to a small, dynamically selected committee of clients called *Aggregators*. Each client secret-shares its update vector (via Shamir sharing) with Aggregators; each Aggregator computes local partial sums over received shares and returns only aggregated shares to the server for final reconstruction. DisAgg eliminates local masking and homomorphic encryption, slashing endpoint computation while guaranteeing information-theoretic privacy against the server and up to *t* colluding Aggregators. Evaluated on 100k-dimensional updates from 100k 5G clients, DisAgg achieves a **4.6× speedup** over OPA—the prior state-of-the-art—with significantly reduced communication and CPU load, demonstrating superior scalability and practicality.</description>
-      <pubDate>Wed, 13 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>learning</category>
-      <category>federated</category>
-    </item>
-    <item>
-      <title>Limits of Personalizing Differential Privacy Budgets</title>
-      <link>https://arxiv.org/abs/2605.13503v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.13503v1</guid>
-      <description>Differential privacy (DP) faces a fundamental trade-off between privacy protection and utility, with the choice of privacy budget ε being critical. Personalized budgets—assigning distinct ε_i to different agents—are widely studied as a way to improve utility in heterogeneous settings. This paper demonstrates that full personalization offers limited gains for mean estimation: the dominant factor is not individualized ε_i, but rather selecting the correct *effective* privacy budget. We propose a simple, thresholding-based baseline that achieves near-optimal utility using only a single effective ε parameter. Compared to this baseline, fully personalized mechanisms yield at most constant-factor improvements: precisely **1.5×** in mixed private-public data settings and **√2×** in two-level private datasets. We derive tight upper bounds on estimation error for arbitrary privacy requirement profiles and identify the regimes—characterized by mismatched variance structures and extreme privacy heterogeneity—where maximal gains occur. Our results establish that robust budget *selection* and preprocessing outweigh complex personalization in practice.</description>
-      <pubDate>Wed, 13 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>privacy</category>
-      <category>differential</category>
-    </item>
-    <item>
-      <title>Sleeper Channels and Provenance Gates: Persistent Prompt Injection in Always-on Autonomous AI Agents</title>
-      <link>https://arxiv.org/abs/2605.13471v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.13471v1</guid>
-      <description>This paper identifies *sleeper channels*: a novel class of persistent prompt injection vulnerabilities in always-on, autonomous AI agents (e.g., OpenClaw, Hermes Agent) that run as a single persistent process under the user’s identity. Untrusted input injected via one surface (e.g., chat) can persist as memory, self-authored skill, scheduled job, or filesystem patch—and later fire through a *different* surface (e.g., cron) with no attacker present. We formalize sleeper channels along two axes: persistence substrate and firing-separation. Using a confused-deputy cron attack on OpenClaw (pinned commit), we demonstrate end-to-end exploitability. Our tiered defense D2 introduces a canonical action-instance digest with one-shot owner attestations—backed by a soundness theorem guaranteeing seven deployment invariants—and defeats paraphrase laundering, multi-input grant reuse, and replay. A companion artifact delivers the Provenance Gate runtime adapter (implementing hooks H1, H2, H3, H6, H9 along the cron path), static audit tool, and 42 tests (Node ≥20). Empirical evaluation is preregistered.</description>
-      <pubDate>Wed, 13 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>prompt</category>
-      <category>injection</category>
     </item>
   </channel>
 </rss>
