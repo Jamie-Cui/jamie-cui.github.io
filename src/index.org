@@ -13,6 +13,5 @@ I maintain an awesome list for secure computation papers:
 I built serveral tools for fun:
 - [[https://github.com/Jamie-Cui/overleaf-project][overleaf-project]] : Project-level Overleaf integration for Emacs
 - [[https://github.com/Jamie-Cui/magent][magent]] : An Emacs Lisp AI coding agent with multi-agent architecture, permission-based tool access, and LLM integration via gptel.
-- [[https://github.com/Jamie-Cui/bilive][bilive]] :  A lightweight, cross-platform Bilibili Live management service with a local web admin UI.
-
-* Activities
+- [[https://github.com/Jamie-Cui/bilive][bilive]] : A lightweight, cross-platform Bilibili Live management service with a local web admin UI.
+- [[https://github.com/Jamie-Cui/yacl-r][yacl-r]] : Yet Another Cryptographic Library for Research
