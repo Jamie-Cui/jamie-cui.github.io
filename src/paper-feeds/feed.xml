@@ -4,8 +4,40 @@
     <title>Paper Feeds</title>
     <link>https://jamie-cui.github.io/paper-feeds</link>
     <description>Keyword-based research paper feeds from arXiv and IACR</description>
-    <lastBuildDate>Thu, 21 May 2026 05:04:26 -0000</lastBuildDate>
+    <lastBuildDate>Fri, 22 May 2026 04:20:00 -0000</lastBuildDate>
     <atom:link href="https://jamie-cui.github.io/paper-feeds/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Symmetric Attribute-Based Encryption from Minimal Hardness Assumptions</title>
+      <link>https://eprint.iacr.org/2026/1018</link>
+      <guid isPermaLink="true">https://eprint.iacr.org/2026/1018</guid>
+      <description>We present the first *symmetric* ciphertext-policy attribute-based encryption (CP-ABE) scheme, where **both the decryptor *and* the encryptor must satisfy the access policy** to enable encryption—a paradigm shift from standard asymmetric ABE. Built solely on minimal assumptions—collision-resistant hash functions and pseudorandom functions—the scheme leverages linear secret sharing and polynomial interpolation, yielding **native post-quantum security**. We introduce an *extended access tree* model that trades bounded polynomial space expansion for a regular, analyzable topology, enhancing arithmetic expressiveness of the underlying secret sharing. Finally, we propose a rigorous, unified notation for access structures, sharing matrices, and interpolation weights—facilitating formal analysis and implementation of ABE primitives.</description>
+      <pubDate>Thu, 21 May 2026 00:00:00 -0000</pubDate>
+      <category>IACR</category>
+    </item>
+    <item>
+      <title>Quantum and Post-Quantum Blockchain: A Systematic Survey</title>
+      <link>https://eprint.iacr.org/2026/1017</link>
+      <guid isPermaLink="true">https://eprint.iacr.org/2026/1017</guid>
+      <description>This systematic survey analyzes 127 peer-reviewed works (2016–2024) on quantum and post-quantum blockchain. We categorize approaches into two paradigms: (1) *Post-quantum blockchains*—integrating NIST-standardized lattice-based cryptography (e.g., Kyber, Dilithium) into consensus, smart contracts, and light clients—yet facing critical trade-offs: 3–8× larger signatures and 40–200% higher verification latency; and (2) *Quantum blockchains*—leveraging quantum entanglement for tamper-evident ledgers, QKD-secured BFT protocols, and QRNG-driven consensus—demonstrating information-theoretic security and nanosecond timestamping in metropolitan testbeds, though limited by quantum memory coherence and repeater scalability. We propose the *Quantum Readiness Maturity Model (QRMM)* to benchmark 23 systems across cryptographic agility, protocol compatibility, and hardware dependency. Our key finding: hybrid architectures (PQ cryptography + QKD) represent the most viable near-term path toward quantum resilience.</description>
+      <pubDate>Thu, 21 May 2026 00:00:00 -0000</pubDate>
+      <category>IACR</category>
+    </item>
+    <item>
+      <title>Efficient Homomorphic String Search via TFHE</title>
+      <link>https://eprint.iacr.org/2026/1016</link>
+      <guid isPermaLink="true">https://eprint.iacr.org/2026/1016</guid>
+      <description>We propose an efficient homomorphic string search method using TFHE (Torus Fully Homomorphic Encryption) for secure pattern matching over encrypted texts. By ingeniously leveraging TFHE’s two integer-input operational modes—noise-free Boolean circuit evaluation and efficient (noisy) integer arithmetic—we design the first fully secure binary-search-style algorithm for encrypted pattern matching. Unlike the prior BGV-based approach (Bonte &amp; Iliashenko, CCSW ’20), which requires $O(|P| \cdot |T|)$ homomorphic character comparisons to locate pattern $P$ in text $T$, our method reduces the number of comparisons to $O(|P| \log |T|)$, dramatically improving scalability. Experimentally, our scheme finds a 100-character pattern in an encrypted 1-million-character genomic dataset in under 5 minutes—whereas prior work would take approximately 5 days. This &gt;1400× speedup demonstrates TFHE’s practical viability for large-scale secure string search and highlights the critical importance of tailoring algorithms to TFHE’s native primitives.</description>
+      <pubDate>Thu, 21 May 2026 00:00:00 -0000</pubDate>
+      <category>IACR</category>
+    </item>
+    <item>
+      <title>Comments on "Server-Aided Public Key Authenticated Searchable Encryption With Constant Ciphertext and Constant Trapdoor"</title>
+      <link>https://eprint.iacr.org/2026/1015</link>
+      <guid isPermaLink="true">https://eprint.iacr.org/2026/1015</guid>
+      <description>This note identifies fundamental security flaws in Cheng and Meng’s SA-PAEKS scheme (*IEEE T-IFS* 2024), which claims constant-size ciphertexts and trapdoors for server-aided public-key authenticated searchable encryption. We present two practical, polynomial-time attacks executable by the untrusted cloud server (tester): (1) a *ciphertext inversion attack* that recovers the hash of any target keyword $\text{H}(w)$ by exploiting shared randomness and hash-chain dependencies between ciphertexts and trapdoors; and (2) a *trapdoor equivalence attack* that detects whether two trapdoors correspond to the same keyword via signature component manipulation and response analysis. Both attacks require only black-box access to the test oracle—no private key or side channels—and succeed with high probability (e.g., &gt;80% keyword recovery within 100 queries on real-world implementations). Our results demonstrate that SA-PAEKS fails to achieve keyword privacy under standard cryptographic assumptions, exposing a critical trade-off between efficiency and security in server-aided searchable encryption. We conclude that outsourcing search capability to semi-honest servers necessitates stronger primitives—such as zero-knowledge proofs or TEEs—to guarantee keyword indistinguishability.</description>
+      <pubDate>Thu, 21 May 2026 00:00:00 -0000</pubDate>
+      <category>IACR</category>
+    </item>
     <item>
       <title>VIPER-MCP: Detecting and Exploiting Taint-Style Vulnerabilities in Model Context Protocol Servers</title>
       <link>https://arxiv.org/abs/2605.21392v1</link>
@@ -387,6 +419,22 @@
       <category>IACR</category>
     </item>
     <item>
+      <title>Sequence-Level Security for Active Weighted Signature Reconfiguration</title>
+      <link>https://eprint.iacr.org/2026/1013</link>
+      <guid isPermaLink="true">https://eprint.iacr.org/2026/1013</guid>
+      <description>Active weighted threshold signatures enable dynamic reconfiguration of signer weights, thresholds, and committee membership. We demonstrate that local validity of individual weight updates is *not compositional*: a sequence of locally valid operations can inadvertently elevate a sub-threshold coalition to an authorized, reachable state—enabling sequence-level forgery. To address this, we introduce **rank-exposure guards**, a compiler that enforces reconstruction-safety over all signing material (live, stale, derivative, public, and transient) by wrapping ledger-sound one-step update engines with atomic activation and digest-bound transition certificates tied to old-epoch digests. This lifts fixed-state weighted unforgeability and update soundness to **sequence-level active unforgeability**. We instantiate the compiler as **REG-ADAPT**, a guarded GLI reconfiguration scheme built atop ADAPT-style local updates and implemented on the public ADAPT Go artifact. Evaluation shows REG-ADAPT detects and rejects all unsafe update sequences with only microsecond-scale metadata and rank-audit overhead.</description>
+      <pubDate>Wed, 20 May 2026 00:00:00 -0000</pubDate>
+      <category>IACR</category>
+    </item>
+    <item>
+      <title>Updatable Public-Key Encryption from FESTA</title>
+      <link>https://eprint.iacr.org/2026/1014</link>
+      <guid isPermaLink="true">https://eprint.iacr.org/2026/1014</guid>
+      <description>We present the first practical, post-quantum secure Updatable Public-Key Encryption (UPKE) scheme supporting *unbounded* key updates. Our construction builds upon a dimension-four variant of the FESTA public-key encryption framework, leveraging supersingular isogeny cryptography. It enables efficient public-key updates and corresponding secret-key derivation tokens with constant-time isogeny computations per update—no full key regeneration is needed. We prove CCA security under the 4-Dimensional Supersingular Isogeny Decision Problem (4-SIDP), a well-studied hardness assumption in isogeny-based cryptography. The scheme achieves concrete efficiency: at the 128-bit security level, updates take ≈12 ms on standard hardware and public keys are ≈1.8 KB—35% smaller than prior isogeny-based UPKE attempts. This resolves a long-standing open problem in post-quantum secure messaging primitives.</description>
+      <pubDate>Wed, 20 May 2026 00:00:00 -0000</pubDate>
+      <category>IACR</category>
+    </item>
+    <item>
       <title>Detecting Fluent Optimization-Based Adversarial Prompts via Sequential Entropy Changes</title>
       <link>https://arxiv.org/abs/2605.19966v1</link>
       <guid isPermaLink="true">https://arxiv.org/abs/2605.19966v1</guid>
@@ -424,71 +472,6 @@
       <pubDate>Tue, 19 May 2026 00:00:00 -0000</pubDate>
       <category>arXiv</category>
       <category>dp</category>
-    </item>
-    <item>
-      <title>Smooth Partial Lotteries for Stable Randomized Selection</title>
-      <link>https://arxiv.org/abs/2605.20069v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.20069v1</guid>
-      <description>Competitive selection processes increasingly adopt partial lotteries to mitigate bias and noise in evaluation scores—but existing designs suffer from *instability*: tiny score perturbations (e.g., ±0.1) induce large, discontinuous jumps in selection probabilities. We propose *smoothness*—formalized as a Lipschitz condition on the score-to-probability mapping—as a foundational design principle. Our **Clipped Linear Lottery (CLL)** assigns probabilities linearly between lower and upper thresholds (0 and 1 outside), achieving near-optimal worst-case regret—within factor $(1 - k/n)$ of the theoretical lower bound for any smooth rule. Experiments on real peer-review data (ICLR 2025, NeurIPS 2024, SNF) confirm that standard lotteries exhibit severe instability (32–67 ppt probability shifts under single-score perturbation), while CLL caps shifts at ≤3.5 ppt and dominates alternatives in the smoothness-utility tradeoff.</description>
-      <pubDate>Tue, 19 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>privacy</category>
-      <category>differential</category>
-    </item>
-    <item>
-      <title>Auditing Privacy in Multi-Tenant RAG under Account Collusion</title>
-      <link>https://arxiv.org/abs/2605.19847v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.19847v1</guid>
-      <description>This paper audits privacy in multi-tenant RAG under account collusion, exposing a critical gap: per-account DP guarantees collapse when $k$ accounts within the *same tenant* collude against their shared index. For Gaussian-noised retrieval, joint leakage degrades unconditionally at rate $Θ(\sqrt{k} \cdot \varepsilon_{\text{acc}})$—a fundamental violation of the advertised privacy boundary. We design and empirically validate a concrete membership inference attack achieving this bound. To make the per-account/joint privacy gap quantitatively auditable, we propose the first protocol that operates on *unmodified* RAG deployments, issuing a quantitative $(\textsf{PASS}, \varepsilon_{\text{audit}})$ verdict for the retrieval-score channel—without index disclosure, pipeline changes, or model-weight exposure. The protocol composes six RAG-specific cryptographic primitives with generic ones (e.g., Merkle ledgers, ZK proofs, Gaussian noise attestations) and supports both closed-form bounds and Rényi-DP moment accounting. Generation-channel privacy remains a separate audit predicate.</description>
-      <pubDate>Tue, 19 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>dp</category>
-      <category>differential</category>
-      <category>privacy</category>
-    </item>
-    <item>
-      <title>General Lower Bounds for Differentially Private Federated Learning with Arbitrary Public-Transcript Interactions</title>
-      <link>https://arxiv.org/abs/2605.19813v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.19813v1</guid>
-      <description>We establish the first general lower bound for differentially private federated learning protocols with *arbitrary public-transcript interactions*—supporting adaptive rounds and client-level sample reuse. For parameter estimation under squared ℓ₂ loss, we derive a *federated van Trees bound* applicable to any estimator satisfying a total clientwise sample-level zero-concentrated differential privacy (zCDP) constraint. The key technical contribution is a *privacy-information contraction inequality* for complete public transcripts, which quantifies how zCDP fundamentally limits information extraction from interactive protocols. We instantiate the bound for mean estimation, linear regression (yielding Ω(d/(nα²)) for d-dimensional parameters), and nonparametric regression over Sobolev classes—thereby providing tight, unified statistical limits under realistic federated interaction models.</description>
-      <pubDate>Tue, 19 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>learning</category>
-      <category>privacy</category>
-      <category>federated</category>
-      <category>differential</category>
-    </item>
-    <item>
-      <title>Diffusion Graph Posterior Sampling for Nonlinear Inverse Problems with Application to Electrical Impedance Tomography</title>
-      <link>https://arxiv.org/abs/2605.19621v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.19621v1</guid>
-      <description>Deep generative models excel in inverse problems, yet their application to PDE-based tasks—like Electrical Impedance Tomography (EIT)—is hindered by the unstructured mesh discretization of physical domains, which breaks the assumptions of standard CNNs. We propose **Diffusion Graph Posterior Sampling (DGPS)**, the first framework extending score-based diffusion models to graph-structured data. Our unconditional diffusion prior is learned directly on a 2D triangular mesh, capturing geometric and topological priors intrinsic to the physics. To address severe ill-posedness, we introduce **Regularized DPS (RDPS)**, which explicitly incorporates total variation and generalized Tikhonov regularization into the diffusion sampling loop, synergizing implicit and explicit constraints. On synthetic and real 2D EIT benchmarks, RDPS achieves superior reconstruction accuracy (PSNR +4.2–6.8 dB under 5–15% noise), robust generalization to out-of-distribution inclusion geometries (52% lower zero-shot error), and significantly reduced artifacts compared to state-of-the-art solvers (e.g., GPnP-BM3D, DP-SGS).</description>
-      <pubDate>Tue, 19 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>dp</category>
-    </item>
-    <item>
-      <title>An exponential mechanism based on quadratic approximations for fine-tuning machine learning models with privacy guarantees</title>
-      <link>https://arxiv.org/abs/2605.20521v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.20521v1</guid>
-      <description>We propose a differentially private fine-tuning algorithm based on the exponential mechanism (EM), leveraging a *quadratic approximation* of the pretrained model’s loss landscape around its initial parameters. By designing a simple utility function that combines this local quadratic surrogate with task-specific data, our EM admits *exact closed-form sampling* from a multivariate Gaussian—eliminating MCMC approximations and ensuring rigorous ε-differential privacy. We derive tight sensitivity bounds for the utility, establish theoretical accuracy guarantees (MSE bounds), and introduce a random-projection strategy to scale to high-dimensional models (e.g., ResNet, BERT). Experiments on MNIST and the clinical MIMIC-III dataset show our method achieves competitive accuracy (e.g., 97.3% on MNIST at ε=2.0, δ=10⁻⁵) while outperforming DP-SGD and DP-Adam in both utility and stability.</description>
-      <pubDate>Tue, 19 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>machine</category>
-      <category>privacy</category>
-      <category>differential</category>
-      <category>learning</category>
-    </item>
-    <item>
-      <title>SMA-DP: Spectral Memory-Aware Differential Privacy for Deep Learning</title>
-      <link>https://arxiv.org/abs/2605.20450v1</link>
-      <guid isPermaLink="true">https://arxiv.org/abs/2605.20450v1</guid>
-      <description>Differentially private stochastic gradient descent (DP-SGD) suffers from high-variance updates that degrade utility on complex datasets like CIFAR-100. We propose **SMA-DP-SGD**, a spectral memory-aware variant that augments DP-SGD with a fractional memory branch built *exclusively* from previously privatized gradient releases—ensuring no additional privacy cost. Layer-wise power-law spectral exponents (inspired by WeightWatcher) provide group-level reliability signals to adaptively control memory decay and effective depth. Private-history alignment, norm matching, and warm-up activation stabilize memory integration. Crucially, conditioned on the private release history, the memory branch is deterministic; only the current clipped gradient sum—scaled by a fixed coefficient $β$—introduces new data dependence, preserving exact group-wise DP guarantees and recovering standard DP-SGD when $β = 1$. Experiments on CIFAR-100, CIFAR-10, and MNIST show consistent accuracy gains—up to +3.2% on CIFAR-100 at $(\varepsilon=2,\delta=10^{-5})$—with ablations confirming $β$’s role in steering the privacy–utility trade-off and spectral diagnostics validating controlled, lightweight memory usage. Runtime overhead is $2.94\times$ DP-SGD, reflecting a practical balance between adaptive private memory and efficiency.</description>
-      <pubDate>Tue, 19 May 2026 00:00:00 -0000</pubDate>
-      <category>arXiv</category>
-      <category>privacy</category>
-      <category>dp</category>
-      <category>differential</category>
     </item>
   </channel>
 </rss>
