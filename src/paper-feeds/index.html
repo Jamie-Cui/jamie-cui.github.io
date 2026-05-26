@@ -24,7 +24,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     <title>Paper Feeds - Jamie Cui</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="styles.css">
-    <link rel="alternate" type="application/rss+xml" title="Paper Feeds RSS Feed" href="feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="Paper Feeds" href="feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="Paper Feeds (arXiv)" href="feed-arxiv.xml">
+    <link rel="alternate" type="application/rss+xml" title="Paper Feeds (IACR)" href="feed-iacr.xml">
 </head>
 <body>
     <header>
@@ -39,7 +41,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     </nav>
 
     <main>
-        <p><a href="feed.xml">RSS Feed</a></p>
+        <p>
+            RSS Feeds:
+            <a href="feed.xml">All</a> /
+            <a href="feed-arxiv.xml">arXiv</a> /
+            <a href="feed-iacr.xml">IACR</a>
+        </p>
 
         <div class="controls">
             <div class="search-box">
@@ -74,7 +81,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
     <footer>
         <p>Last updated: <span id="lastUpdated">-</span></p>
-        <p>Data fetched daily from arXiv and IACR ePrint Archive | <a href="feed.xml">RSS Feed</a></p>
+        <p>Data fetched daily from arXiv and IACR ePrint Archive | RSS:
+            <a href="feed.xml">All</a> /
+            <a href="feed-arxiv.xml">arXiv</a> /
+            <a href="feed-iacr.xml">IACR</a>
+        </p>
     </footer>
 
     <!-- Marked.js for Markdown parsing -->

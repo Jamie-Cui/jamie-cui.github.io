@@ -154,7 +154,7 @@ def generate_rss_feed(
     ET.SubElement(channel, "lastBuildDate").text = format_datetime(datetime.now())
 
     if site_url:
-        feed_url = site_url.rstrip("/") + "/feed.xml"
+        feed_url = site_url.rstrip("/") + f"/{output_path.name}"
         atom_link = ET.SubElement(
             channel,
             "{http://www.w3.org/2005/Atom}link",

@@ -513,6 +513,21 @@ def main():
             max_items=rss_config.get("max_items", 50),
         )
 
+        source_feeds = [
+            ("arXiv", "feed-arxiv.xml", "Paper Feeds (arXiv)"),
+            ("IACR", "feed-iacr.xml", "Paper Feeds (IACR)"),
+        ]
+        for source, filename, feed_title in source_feeds:
+            source_papers = [p for p in all_papers if p.get("source") == source]
+            generate_rss_feed(
+                papers=source_papers,
+                output_path=PUBLIC_DIR / filename,
+                site_url=site_url,
+                title=feed_title,
+                description=f"Keyword-based research paper feeds from {source}",
+                max_items=rss_config.get("max_items", 50),
+            )
+
         if all_failed:
             failed_data = {
                 "papers": all_failed,
