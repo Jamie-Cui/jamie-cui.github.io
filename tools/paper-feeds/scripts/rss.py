@@ -32,6 +32,34 @@ def _date_to_rfc822(date_str: str) -> str:
         return format_datetime(datetime.now())
 
 
+def _paper_text(paper: dict, field: str) -> str:
+    value = paper.get(field, "")
+    return value.strip() if isinstance(value, str) else ""
+
+
+def _build_item_description(paper: dict) -> str:
+    """Build a readable RSS item body with links and bilingual summaries."""
+    url = _paper_text(paper, "url")
+    summary_zh = _paper_text(paper, "summary_zh") or _paper_text(paper, "summary")
+    summary_en = _paper_text(paper, "summary_en")
+    abstract = _paper_text(paper, "abstract")
+
+    sections = []
+    if url:
+        sections.append(f"Paper Link: {url}")
+
+    if summary_zh:
+        sections.append(f"AI Summary (中文):\n{summary_zh}")
+
+    if summary_en:
+        sections.append(f"AI Summary (English):\n{summary_en}")
+
+    if abstract:
+        sections.append(f"Abstract:\n{abstract}")
+
+    return "\n\n".join(sections)
+
+
 def generate_rss_feed(
     papers: list,
     output_path: Path,
@@ -76,9 +104,7 @@ def generate_rss_feed(
         ET.SubElement(item, "link").text = paper.get("url", "")
         ET.SubElement(item, "guid", isPermaLink="true").text = paper.get("url", "")
 
-        # Use English summary, fall back to abstract
-        desc = paper.get("summary_en") or paper.get("summary") or paper.get("abstract", "")
-        ET.SubElement(item, "description").text = desc
+        ET.SubElement(item, "description").text = _build_item_description(paper)
 
         pub_date = paper.get("published", "")
         if pub_date:
