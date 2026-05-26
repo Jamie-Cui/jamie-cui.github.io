@@ -18,9 +18,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import xml.etree.ElementTree as ET
+import re
 from datetime import datetime
 from pathlib import Path
 from email.utils import format_datetime
+from html import escape
 
 
 def _date_to_rfc822(date_str: str) -> str:
@@ -37,8 +39,69 @@ def _paper_text(paper: dict, field: str) -> str:
     return value.strip() if isinstance(value, str) else ""
 
 
+def _format_inline_markdown(text: str) -> str:
+    """Escape text and render a small markdown subset useful in feed readers."""
+    html = escape(text)
+    html = re.sub(r"`([^`]+)`", r"<code>\1</code>", html)
+    html = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", html)
+    html = re.sub(r"(?<!\*)\*([^*]+)\*(?!\*)", r"<em>\1</em>", html)
+    return html
+
+
+def _format_html_section(heading: str, body: str) -> str:
+    parts = []
+    paragraph_lines = []
+    list_items = []
+
+    def flush_paragraph():
+        if paragraph_lines:
+            text = "<br />".join(_format_inline_markdown(line) for line in paragraph_lines)
+            parts.append(f"<p>{text}</p>")
+            paragraph_lines.clear()
+
+    def flush_list():
+        if list_items:
+            items = "".join(
+                f"<li>{_format_inline_markdown(item)}</li>" for item in list_items
+            )
+            parts.append(f"<ul>{items}</ul>")
+            list_items.clear()
+
+    for raw_line in body.splitlines():
+        line = raw_line.strip()
+        if not line:
+            flush_paragraph()
+            flush_list()
+            continue
+
+        if line.startswith("### "):
+            flush_paragraph()
+            flush_list()
+            parts.append(f"<h4>{_format_inline_markdown(line[4:].strip())}</h4>")
+        elif line.startswith("## "):
+            flush_paragraph()
+            flush_list()
+            parts.append(f"<h4>{_format_inline_markdown(line[3:].strip())}</h4>")
+        elif line.startswith("- "):
+            flush_paragraph()
+            list_items.append(line[2:].strip())
+        else:
+            flush_list()
+            paragraph_lines.append(line)
+
+    flush_paragraph()
+    flush_list()
+
+    return (
+        f'<section class="paper-feed-section">'
+        f"<h3>{escape(heading)}</h3>"
+        f"{''.join(parts)}"
+        f"</section>"
+    )
+
+
 def _build_item_description(paper: dict) -> str:
-    """Build a readable RSS item body with links and bilingual summaries."""
+    """Build a readable HTML RSS item body with links and bilingual summaries."""
     url = _paper_text(paper, "url")
     summary_zh = _paper_text(paper, "summary_zh") or _paper_text(paper, "summary")
     summary_en = _paper_text(paper, "summary_en")
@@ -46,18 +109,21 @@ def _build_item_description(paper: dict) -> str:
 
     sections = []
     if url:
-        sections.append(f"Paper Link: {url}")
+        safe_url = escape(url, quote=True)
+        sections.append(
+            f'<p><strong>Paper Link:</strong> <a href="{safe_url}">{escape(url)}</a></p>'
+        )
 
     if summary_zh:
-        sections.append(f"AI Summary (中文):\n{summary_zh}")
+        sections.append(_format_html_section("AI Summary (中文)", summary_zh))
 
     if summary_en:
-        sections.append(f"AI Summary (English):\n{summary_en}")
+        sections.append(_format_html_section("AI Summary (English)", summary_en))
 
     if abstract:
-        sections.append(f"Abstract:\n{abstract}")
+        sections.append(_format_html_section("Abstract", abstract))
 
-    return "\n\n".join(sections)
+    return "\n".join(sections)
 
 
 def generate_rss_feed(
