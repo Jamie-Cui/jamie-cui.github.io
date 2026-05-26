@@ -3,6 +3,10 @@ name: Build and Deploy
 on:
   push:
     branches: [master]
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Fetch Paper Feeds"]
+    types: [completed]
 
 permissions:
   contents: read
@@ -15,9 +19,12 @@ concurrency:
 
 jobs:
   build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: master
 
       - name: Install Emacs
         run: sudo apt-get update && sudo apt-get install -y emacs-nox
