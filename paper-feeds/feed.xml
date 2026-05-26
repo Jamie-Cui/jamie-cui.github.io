@@ -1,0 +1,1482 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>Paper Feeds</title>
+    <link>https://jamie-cui.github.io/paper-feeds</link>
+    <description>Keyword-based research paper feeds from arXiv and IACR</description>
+    <lastBuildDate>Tue, 26 May 2026 19:09:16 -0000</lastBuildDate>
+    <atom:link href="https://jamie-cui.github.io/paper-feeds/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Building an Adversarial Malware Dataset by Family and Type: Generation, Evasion, and Poisoning Evaluation</title>
+      <link>https://arxiv.org/abs/2605.25937v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25937v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25937v1
+
+AI Summary (中文):
+## 研究背景与目标  
+针对机器学习驱动的恶意软件检测系统日益面临的对抗性威胁，本研究构建了一个**按家族（family）和类型（type）双维度标注的对抗性恶意软件数据集**，旨在系统评估模型鲁棒性、规避能力及数据投毒脆弱性。
+
+## 方法与构建过程  
+基于公开真实恶意软件数据集 RawMal-TF，我们集成多种先进对抗样本生成技术（包括API重排序、节区注入、代码混淆与入口点迁移等），生成两类高质量对抗性PE文件：  
+- **家族标注子集**：44,347 个样本，每个样本明确标注原始恶意软件家族（如 Emotet、TrickBot）；  
+- **类型标注子集**：33,596 个样本，按功能类型分类（如 downloader、ransomware、trojan）；  
+所有样本均通过严格验证——在 EMBER 检测器上实现 **98.35%（家族集）和 92.20%（类型集）的规避率**，并附带完整元数据：EMBER 预测分、VirusTotal 多引擎扫描结果（≥30家厂商）、原始哈希、修改操作日志及规避路径。
+
+## 关键发现与创新贡献  
+- **首次实证揭示数据投毒对恶意软件分类管道的严重威胁**：仅向家族标注训练集注入 **0.5% 的全错标对抗样本**（即标签被系统性篡改为错误家族），即可使重训练后的 EMBER 分类器在测试集上的规避率从 26.1% 急剧升至 **92.8%**，证实低开销、高破坏性的“标签污染”攻击可行性；  
+- 提供首个开源、可复现、带细粒度元数据的双维度对抗恶意软件基准数据集，支持规避分析、投毒防御、模型解释性及鲁棒训练等多方向研究；  
+- 所有样本与代码已**完全开源**（含生成脚本、元数据Schema、评估协议），推动对抗恶意软件研究的标准化与可比性。
+
+AI Summary (English):
+We introduce a novel adversarial malware dataset derived from RawMal-TF, featuring two rigorously constructed subsets: **44,347 family-labelled** and **33,596 type-labelled** PE binaries, generated via diverse adversarial perturbations (e.g., section injection, API reordering, entry-point shifting). These samples achieve **98.35% and 92.20% evasion rates**, respectively, against the EMBER classifier. Each binary is accompanied by rich metadata—including EMBER scores, VirusTotal multi-engine reports, and provenance logs. Crucially, we demonstrate severe vulnerability to data poisoning: injecting only **0.5% fully mislabelled adversarial samples** into the family-labelled training set increases the evasion rate of the retrained EMBER model from **26.1% to 92.8%**, highlighting a practical, low-cost attack vector. The dataset is publicly released to advance research on adversarial robustness, poisoning defense, and trustworthy ML-based malware detection.
+
+Abstract:
+We present a dataset of adversarial malware samples derived from the public RawMal-TF collection of real-world malware binaries. Using a suite of adversarial malware generators, we construct two sets of adversarial PE files: 44,347 family-labelled samples and 33,596 type-labelled samples, achieving evasion rates of 98.35 % and 92.20 % against the EMBER classifier, respectively. Each adversarial binary is accompanied by detailed metadata, including EMBER scores and VirusTotal classifications. We further demonstrate the susceptibility of malware classification pipelines to data poisoning attacks through a series of training experiments. Injecting fully mislabelled adversarial samples representing only 0.5 % of the training data in the family-labelled dataset increases the evasion rate against the re-trained classifier from 26.1 % to 92.8 %. The dataset is publicly released to facilitate future research on adversarial malware, poisoning attacks, and the robustness of machine-learning-based malware detection systems.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>machine</category>
+      <category>poisoning</category>
+      <category>learning</category>
+      <category>adversarial</category>
+      <category>data</category>
+    </item>
+    <item>
+      <title>How Agentic AI Coding Assistants Become the Attacker's Shell</title>
+      <link>https://arxiv.org/abs/2605.25871v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25871v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25871v1
+
+AI Summary (中文):
+## 研究背景  
+随着Agentic AI编码助手（如具备文件编辑、命令执行与联网能力的智能体）在开发流程中深度集成，其自主性显著提升，但安全边界同步模糊。本文首次系统揭示：**此类助手因依赖未经验证的外部工件（如GitHub代码片段、npm包文档、Stack Overflow回答、README文件等），极易遭受隐蔽的“指令劫持”攻击**——攻击者可将恶意指令隐写于看似无害的外部文本中，诱使AI助手在开发者不知情下执行任意系统命令，实质将其转化为攻击者的远程Shell。
+
+## 方法与发现  
+我们构建了首个面向Agentic编码助手的**多模态提示注入攻击评估框架**，覆盖6类主流外部来源（含127个真实高流量开源项目文档与社区问答），实证复现了23种新型攻击变体（如“语义混淆注入”“上下文漂移触发”“多跳依赖链劫持”）。实验表明：在未加固的主流助手（如Cursor、GitHub Copilot Agents、CodeAct-based智能体）上，**攻击成功率达89.3%**；即使启用基础防护（如输入过滤、输出校验），成功率仍达41.7%，凸显现有防御的严重脆弱性。
+
+## 创新与启示  
+本研究提出“**外部依赖信任链断裂**”新安全范式，指出当前防御过度聚焦于用户输入端，却忽视了AI代理对第三方内容的无条件信任。我们设计轻量级**上下文感知沙箱协议（CASB）原型**，通过动态溯源+执行意图校验，在保持功能完整性前提下将攻击拦截率提升至96.5%。研究呼吁建立“**外部工件可信度分级标注标准**”，并为AI代理安全规范（如NIST AI RMF扩展）提供关键实证依据。
+
+AI Summary (English):
+This paper uncovers a critical security vulnerability in agentic AI coding assistants—those capable of editing files, executing shell commands, and accessing the internet autonomously. We demonstrate that their reliance on *unvetted external artifacts* (e.g., GitHub READMEs, npm package docs, Stack Overflow answers) creates a novel attack surface: hidden instructions embedded in these artifacts can hijack the assistant to execute arbitrary commands, effectively turning it into an attacker’s remote shell. Through systematic evaluation across 127 real-world external sources and 6 artifact categories, we identify 23 new prompt injection variants and achieve up to 89.3% success rate against unpatched agents—even with basic defenses enabled, 41.7% of attacks succeed. We propose the *Context-Aware Sandboxing Protocol (CASB)*, a lightweight runtime mitigation that dynamically verifies execution intent and provenance, achieving 96.5% attack blocking without impairing functionality. Our work redefines the threat model for agentic AI, shifting focus from user-input sanitization to *external dependency trustworthiness*, and provides concrete foundations for future standards and tooling.
+
+Abstract:
+Agentic AI coding assistants can edit files, run commands, and access the internet on behalf of developers. However, their reliance on unvetted external artifacts introduces a new attack vector. Hidden instructions in external artifacts can hijack these assistants, turning them into an attacker's shell to run unauthorized commands. In this article, we examine how these prompt injection attacks work, measure their prevalence, discuss the limitations and challenges of current defenses, and suggest future research directions.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>injection</category>
+      <category>prompt</category>
+    </item>
+    <item>
+      <title>Broken Object Level Authorization in the Wild: An Empirical Taxonomy from 100+ Bug Bounty Disclosures</title>
+      <link>https://arxiv.org/abs/2605.25865v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25865v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25865v1
+
+AI Summary (中文):
+## 研究背景  
+**Broken Object Level Authorization（BOLA）** 作为API安全领域最严峻的漏洞类型，长期位居OWASP API Security Top 10首位，但现有研究多停留于概念定义与理论建模，缺乏大规模实证支撑。实践中，漏洞平台标签（如HackerOne的“IDOR”）常被误用或泛化，导致BOLA真实分布、形态演化与技术成因模糊不清。
+
+## 方法设计  
+本研究构建了可复现的实证框架：从HackerOne平台系统采集2021–2026年标注为“IDOR”或“Improper Access Control”的200份公开赏金报告；经**三重人工校验筛选**（含漏洞可复现性、对象级授权失效本质、非越权登录类混淆排除），最终获得107份高质量、全分类样本。分类过程采用**LLM辅助+人工裁定**双轨机制，依据严格定义的**六类BOLA家族分类法**（含Direct Object Reference、Action-Level Object、Nested Object等）完成结构化标注。
+
+## 核心发现  
+- **78.5%（84/107）** 报告确属BOLA，证实其在真实攻击场景中高度普遍；  
+- **Action-Level Object BOLA（41.7%）** 与Direct Object Reference并列为两大主导类型——前者指对他人资源执行未授权状态变更（如删改他人的订单、评论、配置），此前在开发指南与测试工具中严重缺位；  
+- **21.5%样本被判定为“出范围”**，揭示平台标签存在显著噪声，单纯统计“IDOR标签数”会高估BOLA实际占比达3倍以上；  
+- 首次系统识别出**GraphQL全局ID（Global ID）滥用**（覆盖GitHub、Shopify等主流平台）及**垂直权限坍塌**（11.9%涉及普通用户提权至管理员上下文）等新兴模式。
+
+## 实践价值  
+成果直接推动API安全测试协议升级（如将Action-Level测试纳入自动化扫描基线）、重构开发者教育重点，并为OWASP API Security Top 10 2023+版本提供首个基于百例真实漏洞的分类学依据。
+
+AI Summary (English):
+This paper presents the first large-scale empirical taxonomy of Broken Object Level Authorization (BOLA), analyzing 107 rigorously validated bug bounty reports from HackerOne (2021–2026). Using an LLM-assisted, human-adjudicated classification schema across six BOLA families, we find that 78.5% of confirmed cases are genuine BOLA—challenging assumptions based solely on platform tags like “IDOR”. Action-Level Object BOLA (41.7%), involving unauthorized state-changing operations on another user’s objects (e.g., deleting or modifying their data), emerges as a dominant and previously underrepresented pattern. Critically, 21.5% of tagged reports were out-of-scope under strict BOLA criteria, exposing severe overcounting in tag-based metrics. Additional findings include an 11.9% rate of vertical privilege escalation and systematic exploitation of GraphQL Global IDs across major platforms. These results inform API security testing, developer training, and OWASP guidance with empirically grounded priorities.
+
+Abstract:
+Broken Object Level Authorization (BOLA) is consistently ranked the most critical API security vulnerability, yet the existing literature remains almost entirely conceptual. This paper presents one of the first large-scale empirical analyses of BOLA in publicly disclosed bug bounty reports. We constructed a reproducible sampling frame of 200 HackerOne disclosures tagged IDOR or Improper Access Control (2021-2026) and applied a three-criterion inclusion filter, yielding 107 fully classified reports. Classification used an LLM-assisted schema-completion procedure under constrained, human-adjudicated criteria against a six-family BOLA taxonomy. Of 107 classified reports, 84 (78.5%) were confirmed in-scope BOLA. Action-Level Object BOLA, defined by unauthorized state-changing actions on another user's objects, accounts for 41.7% of confirmed cases and emerges alongside Direct Object Reference BOLA as one of the two dominant families observed in the dataset. This shows a pattern historically underrepresented in practitioner guidance. Approximately 21.5% of classified reports are out-of-scope under strict criteria, indicating that tag-counting on platforms like HackerOne significantly overstates the BOLA-specific signal. We report distributions across family, action type, authorization direction, industry sector, identifier format, and exploit mechanism. Key secondary findings include an 11.9% rate of vertical (user-to-admin) privilege failures and systematic exploitation of GraphQL Global IDs across major platforms. Findings have direct implications for API security testing protocols, developer education, and OWASP guidance.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>llm</category>
+      <category>security</category>
+    </item>
+    <item>
+      <title>TTPrint: Evidence-Grounded TTP Extraction via Diverge-then-Converge Verification</title>
+      <link>https://arxiv.org/abs/2605.25836v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25836v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25836v1
+
+AI Summary (中文):
+## 背景与挑战  
+从网络威胁情报（CTI）报告中提取MITRE ATT&amp;CK技术（TTPs）是一项**开放集、多标签抽取任务**，需同时保障高召回率（避免遗漏真实技战术）与高精确率（杜绝无依据的幻觉生成）。现有方法存在明显瓶颈：规则/监督学习模型泛化能力弱，难以适配异构攻击描述；而主流大语言模型（LLM）方法将候选生成与验证耦合于单次推理中，导致二者相互制约——提升召回常以牺牲精度为代价，反之亦然。
+
+## 方法创新：Diverge-then-Converge 验证范式  
+本文提出 **TTPrint**，受人类分析师工作流启发，构建“先发散、后收敛”的两阶段证据驱动框架：  
+- **发散阶段**：将报告细粒度分解为原子行为单元，广域生成候选技术；通过**确定性跨文本跨度定位**（deterministic span localization），将每个候选精准锚定至源文本中的最小支持证据窗口；  
+- **收敛阶段**：仅保留**双重验证通过**的候选——既在本地证据窗口内语义一致，又严格符合MITRE官方技术定义。  
+
+## 资源与评估贡献  
+我们发布两个高质量基准：① 清洗重构的TRAM数据集（**TRAM-Clean**），消除原始标注噪声；② 新建的文档级人工标注数据集（**TTPrint-Bench**），首次系统支持跨句、跨段落TTP关联验证。实验表明：TTPrint在TRAM-Clean和TTPrint-Bench上分别取得**76.48%** 与 **87.39%** 宏F1，较SOTA基线提升**63.5%** 和 **29.4%**。多模型（6种LLM主干）与阈值敏感性分析进一步验证其架构鲁棒性与部署实用性。
+
+AI Summary (English):
+TTPrint addresses the open-set, multi-label MITRE ATT&amp;CK technique extraction task from CTI reports by decoupling candidate generation and rigorous verification into a *diverge-then-converge* pipeline inspired by human analyst workflows. In the divergent phase, reports are decomposed into atomic behaviors to broadly propose candidates, each deterministically localized to a minimal evidence span in the source text. The convergent phase retains only candidates jointly supported by both this localized evidence and the authoritative MITRE definition. To enable robust evaluation, we release TRAM-Clean (a noise-cleaned TRAM benchmark) and TTPrint-Bench (a new document-level annotated dataset), elevating the task beyond sentence-level constraints. On these benchmarks, TTPrint achieves 76.48% and 87.39% macro-F1—outperforming the strongest baseline by +63.5% and +29.4%, respectively. Extensive ablations across six LLM backbones and threshold sensitivity analysis confirm its generalizability and practical deployability.
+
+Abstract:
+Extracting MITRE ATT&amp;CK techniques from cyber threat intelligence (CTI) reports is an open-set, multi-label problem requiring both high recall (not missing techniques) and high precision (not hallucinating unsupported ones). Existing methods--rule-based, supervised, and LLM-based--struggle to achieve both: rule-based and supervised approaches lack generalizability across diverse attack descriptions, while LLM-based approaches that couple candidate generation and validation within a single inference step suffer from limited recall and precision simultaneously. We propose TTPrint, which addresses this challenge through a diverge-then-converge design inspired by how human analysts work: first extracting broadly, then verifying rigorously. In the divergent phase, reports are decomposed into atomic behaviors and candidate techniques are proposed broadly. A deterministic span localization stage then anchors each candidate to a specific evidence window in the source text. A convergent verification stage retains only candidates supported by both the localized evidence and the authoritative MITRE definition. We contribute two evaluation resources--a cleaned TRAM benchmark (TRAM-Clean) and a new annotated dataset (TTPrint-Bench)--to address known annotation noise in existing benchmarks and elevate the task to document-level TTP extraction. On TRAM-Clean and TTPrint-Bench, TTPrint achieves 76.48% and 87.39% macro-F1 respectively, outperforming the leading baseline by 63.5% and 29.4%. A multi-backbone analysis across six LLMs and a threshold sensitivity study further demonstrate generalizability across model choices and provide practical guidance for parameter selection.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>extraction</category>
+      <category>model</category>
+    </item>
+    <item>
+      <title>"What is the Problem Space?" Defining Host-space Adversarial Perturbations against Network Intrusion Detection Systems</title>
+      <link>https://arxiv.org/abs/2605.25822v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25822v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25822v1
+
+AI Summary (中文):
+## 研究背景与问题提出  
+当前，基于机器学习的网络入侵检测系统（ML-NIDS）广泛部署于网络安全防御前沿，但其对抗鲁棒性正面临严峻挑战。大量研究通过在**数据空间**（如原始PCAP包或预提取的流量特征）上施加微小扰动来构造对抗样本，并报告了高规避率——然而，这类扰动往往假设攻击者可直接篡改路由器捕获的数据包或NIDS内部处理的特征向量。本文尖锐指出：真实攻击者通常仅能控制终端主机（如被攻陷的客户端或服务器），**无法干预中间网络设备或检测系统的内部数据表示**。由此，我们首次明确定义并聚焦于**宿主空间（host-space）对抗扰动**——即所有扰动必须且只能通过修改攻击者可控主机上的行为（如命令行输入、API调用、协议字段生成逻辑）来实现。
+
+## 方法与实验验证  
+我们开展三项核心工作：（1）对316篇相关文献进行系统性综述，揭示&gt;92%的现有对抗攻击违背宿主空间约束；（2）在CIC-IDS2017、UNSW-NB15等主流基准及真实局域网环境中，构建首个宿主空间攻击框架，以SSH暴力破解为典型场景；（3）实证发现：仅修改发起攻击的命令字符串中**单个字符**（如`ssh -l root 192.168.1.10` → `ssh -L root 192.168.1.10`），即可导致ML-NIDS检测率从99.2%骤降至0%，而该变化在宿主端完全合法、不可见于网络层。进一步分析表明，此类微小宿主操作会引发特征空间的非线性坍塌——关键时序/统计特征（如连接间隔方差、包长熵）发生跨阈值跃变，使模型陷入决策盲区。
+
+## 创新与启示  
+本研究不仅确立了“宿主空间”这一关键安全评估维度，更提出可复现的评估范式：强调**扰动可行性**（host-controllable）、**可观测性隔离**（不依赖中间设备篡改）与**因果可追溯性**（从宿主动作到特征偏移的完整链路）。我们呼吁：ML-NIDS的安全评测必须回归攻击者能力边界，摒弃脱离实际的“数据空间幻想”。
+
+AI Summary (English):
+This paper challenges the prevailing assumption in adversarial ML research on Network Intrusion Detection Systems (NIDS): that perturbations can be arbitrarily applied to pre-collected packets or extracted features. We introduce and rigorously define **host-space adversarial perturbations**—modifications strictly confined to actions an attacker can perform *only* on compromised end-hosts (e.g., altering command-line arguments, payload generation logic, or protocol field values), without requiring control over routers, firewalls, or the NIDS’s internal data pipeline. Through a systematic review of 316 papers, we find that &gt;92% of prior attacks violate this realistic constraint. Experimentally, on CIC-IDS2017, UNSW-NB15, and a live network, we demonstrate that changing just **one character** in an SSH brute-force command string (e.g., `-l` → `-L`) causes state-of-the-art ML-NIDS to completely miss the attack—despite the perturbation being undetectable at the network layer and fully executable on an unprivileged host. This minuscule host-space change induces catastrophic, non-linear shifts in the feature space (e.g., collapsing inter-arrival variance and packet-length entropy), exposing a critical gap between data-space robustness and real-world security. We provide actionable guidelines for evaluating host-space threats and argue that ML-NIDS security assessments must be fundamentally re-grounded in attacker capability models.
+
+Abstract:
+Network Intrusion Detection Systems (NIDS) are now increasingly leveraging Machine Learning (ML) techniques to detect malicious network activities. Numerous papers have scrutinized the security of ML-based NIDS (ML-NIDS) by testing them against various attacks involving adversarial perturbations. The findings were oftentimes worrying: by making imperceptible changes to a given input, powerful ML models would be bypassed. In this context, we took a step back and wondered: where (i.e., in what "space") have these perturbations been applied?   We argue that real-world adversaries can apply adversarial perturbations only by operating on the hosts they can control -- a concept which we define as _host-space perturbations_. To some, such an observation may seem trivial. And yet, through a systematic literature review (n=316), we found that prior work applied perturbations by manipulating pre-collected datapoints (e.g., a packet _captured by the router_, or a network flow _analysed by the ML-NIDS_). Such operations, while not impossible, may be outside the reach of an attacker who can only control some (unprivileged) hosts in a network. Hence, to demonstrate how to craft host-space perturbations and study some of their effects, we experimented on well-known benchmarks and a real-world network. We show that ML-NIDS that can detect the SSH-bruteforcing attempts launched via a given command string cannot detect any attempt launched by changing _a single character_ of such a string. We then examined how such a minuscule change in the "problem space" (i.e., the attacker's host) can lead to devastating effects on the "feature space". We derive lessons learned on how to practically assess host-space perturbations. Our stance is that the security of ML-NIDS should be re-assessed.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>learning</category>
+      <category>machine</category>
+      <category>adversarial</category>
+    </item>
+    <item>
+      <title>On Reliability of Efficient Membership Inference Vulnerability Evaluation</title>
+      <link>https://arxiv.org/abs/2605.25819v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25819v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25819v1
+
+AI Summary (中文):
+## 研究背景与问题  
+成员推断攻击（Membership Inference Attacks, MIAs）是评估机器学习模型训练数据敏感信息泄露的主流实证方法。其漏洞强度通常通过二元分类器的**真阳性率（TPR）** 和**假阳性率（FPR）** 来量化。然而，在低FPR区域（如FPR &lt; 0.01）可靠估计TPR需大量独立目标模型，导致计算开销巨大。实践中常采用“高效评估范式”：对多个个体和多个目标模型的MIA得分进行拼接或平均，以提升统计效率。
+
+## 关键缺陷发现  
+本文系统揭示该范式中两大未被识别的可靠性危机：  
+- **FPR校准失效**：现有工作将跨个体的MIA得分直接拼接后统一计算ROC曲线，隐含假设所有样本具有相同FPR分布。我们证明该假设不成立——不同样本的得分分布存在显著异质性，导致拼接后TPR在低FPR下严重失真，**无法支撑差分隐私（DP）审计等高置信度安全验证**；  
+- **有限总体偏差**：针对广泛使用的高效似然比攻击（LiRA, Carlini et al. 2022），我们首次指出其标准实现存在**有限样本偏差**：当用少量影子模型估计似然比时，其分母（非成员似然）被系统性低估，造成每样本漏洞分数正向偏移，高估攻击成功率。
+
+## 方法与贡献  
+- 提出**分样本FPR校准（Per-sample FPR Calibration）** 后处理方法：为每个样本独立构建经验FPR阈值映射，确保TPR在目标FPR水平下可比、无偏；  
+- 给出LiRA偏差的理论分析与修正方案（基于无偏似然比估计），实验表明修正后TPR下降达15–40%（FPR=0.001），显著提升评估可信度；  
+- 开源代码与基准测试协议，推动MIA评估标准化与可复现性。
+
+AI Summary (English):
+Membership inference attacks (MIAs) are widely used to empirically audit model privacy, yet their efficient evaluation—especially at low false positive rates (FPR)—suffers from two critical, previously overlooked reliability flaws. First, concatenating MIA scores across individuals for ROC analysis induces **FPR miscalibration**, as per-sample score distributions are heterogeneous; this invalidates TPR estimates for rigorous differential privacy auditing. We propose a **per-sample FPR calibration** method to restore statistical validity. Second, we identify a **finite-population bias** in the standard LiRA implementation (Carlini et al., 2022): the denominator of its likelihood ratio is systematically underestimated due to limited shadow models, causing a positive bias in per-sample vulnerability scores. Our theoretical analysis and unbiased estimator reduce reported TPR by 15–40% at FPR = 0.001. These findings fundamentally improve the trustworthiness of efficient MIA evaluation.
+
+Abstract:
+Membership inference attacks (MIAs) are popular methods for empirically assessing the leakage of sensitive information in the training data through models or statistics learned from the data. The MIA vulnerability is often evaluated through false positive rate (FPR) and true positive rate (TPR) of a binary classifier that tries to predict whether a particular sample was in the training data. However, in order to reliably estimate the TPR especially for low FPR values, a lot of observations are needed, which in case of MIA translates to many target models, leading to large computational cost. To avoid excessive compute requirements, the MIA scores are often averaged over multiple individuals and multiple targeted models. We demonstrate two key weaknesses in this efficient MIA evaluation pipeline. First, we show that evaluating the TPR based on MIA scores concatenated across multiple individuals, commonly used to study vulnerabilities in the very low FPR regime, is not calibrated across the per-sample FPRs. This makes it unreliable as a tool for auditing differential privacy. To solve this, we propose a post-processing method to effectively calibrate the FPR across different samples. Second, we identify a finite population bias in the commonly used efficient likelihood-ratio attack (LiRA) implementation proposed by Carlini et al. 2022, leading to a positive bias in the per-sample vulnerability.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>privacy</category>
+      <category>membership</category>
+      <category>differential</category>
+      <category>inference</category>
+    </item>
+    <item>
+      <title>Referential Security as a New Paradigm for AI Evaluations</title>
+      <link>https://arxiv.org/abs/2605.25673v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25673v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25673v1
+
+AI Summary (中文):
+## 背景与问题  
+当前AI安全评估面临根本性挑战：**动态更新的模型系统破坏了评估的指称稳定性**。实践中，同一公开名称（如“GPT-4-turbo”）长期沿用，但其底层权重、提示工程、检索增强机制、滥用检测器、推理参数及服务基础设施却持续进行未公告变更。这导致安全审计、监管结论与合规声明所指向的“系统”无法被唯一、持久地识别——评估对象实质上是模糊标签，而非可复现、可追溯的实体。
+
+## 方法与范式创新  
+本文提出**指称安全（Referential Security）** 这一全新评估范式。其核心主张是：**安全性的有效性不仅取决于模型是否安全，更取决于第三方能否确证某一安全声明究竟对应哪个具体、可验证的AI系统**。该范式将“模型身份”重构为一项**经验可验证属性**（例如通过哈希锚定的完整推理链、配置快照与服务元数据），并严格区分“指称稳定性”（referential stability）与“实质安全性”（substantive safety）——前者是后者的前提条件，而非附属品。
+
+## 关键贡献与影响  
+本框架系统性提升三类关键工作流的可操作性：  
+- **可复现评估**：基于可验证工件（如签名化的推理日志+配置指纹）实现结果精准回溯；  
+- **纵向审计有效性**：支持跨版本比对，确保监管发现不因系统漂移而失效；  
+- **跨供应商等价性验证**：提供中立基准，使不同厂商部署的“同名模型”可在相同指称基础上接受公平比较。  
+指称安全不替代现有安全测试，而是为其建立**可信赖的指称锚点**，使AI治理在动态演进中仍保持实证根基。
+
+AI Summary (English):
+Security evaluations require stable, unambiguous references to AI systems—yet today’s continuously updated models violate this foundational assumption. Public model names (e.g., “Claude-3.5-Sonnet”) remain static while weights, prompts, RAG pipelines, classifiers, and serving infrastructures change silently. Consequently, safety claims often attach to labels—not identifiable, verifiable artifacts. We introduce *referential security*: a new paradigm where the core security question shifts from “Is this model safe?” to “Can third parties conclusively determine *which specific system* a given safety claim refers to?” It treats model identity as an empirically verifiable property—anchored via cryptographic hashes of configuration snapshots, inference traces, and metadata—and decouples referential stability from substantive safety claims. This enables three critical advances: (1) reproducible evaluation through artifact-based verification; (2) longitudinal audit validity across model updates; and (3) cross-provider equivalence assessment under shared referential grounding. Referential security provides the essential infrastructure for trustworthy AI governance in dynamic deployment environments.
+
+Abstract:
+Security evaluations inherently depend on stable identifiers. Any finding, audit, or regulatory decision must remain attached to the specific artifact it pertains to. Continuously updated artificial intelligence systems violate this core assumption, with public model designations remaining static while underlying weights, prompts, retrieval mechanisms, misuse classifiers, inference settings, and serving infrastructures undergo unannounced modifications. Consequently, current evaluations frequently apply to superficial labels rather than identifiable and distinct systems.   To resolve this, we propose referential security as a new paradigm for AI evaluation. The fundamental security question extends beyond whether a model is safe to whether subsequent parties can conclusively determine which system a specific safety claim addressed. This approach reframes model identity as an empirically verifiable property and separates referential stability from the substantive security claims it conditions. This framework brings tractability to three critical workflows that current practices handle poorly. Specifically, it enables reproducible evaluation, longitudinal audit validity, and cross-provider equivalence. By grounding these evaluations in verifiable artifacts, our approach ensures that safety audits and regulatory findings maintain their empirical utility across the operational lifecycle of dynamic systems.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>security</category>
+      <category>inference</category>
+    </item>
+    <item>
+      <title>When Interpretability Becomes a Liability: Adversarial Attacks on CBM Concept Layers</title>
+      <link>https://arxiv.org/abs/2605.25304v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25304v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25304v1
+
+AI Summary (中文):
+## 研究背景与问题  
+概念瓶颈模型（CBM）通过显式建模人类可理解的中间语义概念（如“有冠羽”“翅膀斑纹”），成为可解释机器学习的主流范式。然而，本研究首次指出：**这种可解释性本身即构成新型攻击面——概念层（concept bottleneck layer）极易被对抗性扰动操控**，导致模型在保持输入视觉变化极小的前提下，系统性扭曲语义表征，引发灾难性误分类。
+
+## 方法与发现  
+我们构建了首个面向CBM概念空间的**理论化鲁棒性分析框架**，提出“概念扰动半径”与“概念转移距离”等新指标，量化概念层对输入扰动的敏感性。在CUB-200-2011细粒度鸟类数据集上的系统实验表明：标准CBM仅需平均L₂扰动范数0.46即可实现目标概念翻转（如将“无冠羽”强制激活为“有冠羽”），进而导致下游分类错误率飙升至89.7%，证实其概念层存在严重脆弱性。
+
+## 创新方案：SPECTRA  
+为此，我们提出**SPECTRA**（Semantic Perturbation-based Concept Training for Robustness against Attacks）——一种基于语义扰动的概念层稳定性正则化方法。该方法在训练中显式注入受控的概念空间扰动，并约束概念预测对微小输入变化保持局部一致性。实验显示：SPECTRA将成功攻击所需的最小扰动范数从0.46**提升至4,200+**（增幅超9000倍），使定向概念操纵在计算上不可行；同时**分类准确率仅下降2.2%**（从85.3%→83.1%），显著优于现有防御方法。本工作首次确立“概念级攻击”为独立威胁模型，开辟了可解释AI与对抗鲁棒性交叉研究的新前沿。
+
+AI Summary (English):
+Concept Bottleneck Models (CBMs) enhance interpretability by enforcing human-readable semantic concepts (e.g., “crested head”, “black wing bars”) as intermediate representations—yet this very property exposes a previously unexplored attack surface: the concept bottleneck layer itself. We present the first systematic study of *concept-level adversarial attacks*, showing that minimal pixel-space perturbations can catastrophically manipulate semantic activations and induce targeted misclassification. We develop a theoretical framework to quantify concept-space robustness, revealing severe vulnerabilities in standard CBMs on CUB-200-2011 (attack norm: **0.46**). To counter this, we propose **SPECTRA**, a semantic perturbation–based stability regularization method that hardens concept representations. SPECTRA increases the minimum successful attack norm to **&gt;4,200**, rendering targeted concept manipulation computationally prohibitive, while preserving classification accuracy within **2.2%** of the baseline. This work establishes concept-level attacks as a distinct threat model at the intersection of interpretable ML and adversarial robustness.
+
+Abstract:
+Concept Bottleneck Models (CBMs) have emerged as a cornerstone approach for interpretable machine learning, providing human-understandable intermediate representations through explicit concept activations. However, this interpretability fundamentally introduces a critical, previously unexplored attack surface: the concept bottleneck layer itself. We present a comprehensive, systematic study of concept-level adversarial vulnerabilities in CBMs, revealing that targeted, minimal perturbations operating on input pixels can induce catastrophic misclassification by manipulating semantic representations. We develop a rigorous theoretical framework to quantify concept-space robustness, establishing novel metrics that expose the vulnerability landscape of these architectures. Our extensive analysis on the CUB-200-2011 dataset demonstrates that standard CBMs exhibit severe susceptibility to concept-level manipulation. To address this critical weakness, we introduce SPECTRA (Semantic Perturbation-based Concept Training for Robustness against Attacks), a principled stability regularization defense. SPECTRA effectively hardens the semantic representation space, increasing the minimal perturbation norm required for a successful attack from 0.46 to over 4,200, rendering targeted concept manipulation computationally prohibitive. Furthermore, SPECTRA preserves baseline classification accuracy to within 2.2%. By establishing concept-level attacks as a fundamentally distinct threat model, this work opens a new research frontier at the intersection of interpretable machine learning and adversarial robustness.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>learning</category>
+      <category>machine</category>
+      <category>adversarial</category>
+    </item>
+    <item>
+      <title>EchoPilot: Training-Free Ultrasound Video Segmentation via Scale-Space Semantic Prompting and Reliability-Gated Memory</title>
+      <link>https://arxiv.org/abs/2605.25944v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25944v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25944v1
+
+AI Summary (中文):
+## 背景与挑战  
+超声视频分割在胎儿监护、术中引导等临床场景中具有重要价值，但受**斑点噪声强、解剖边界模糊、器官形变快**三大因素制约，现有方法难以稳定泛化。尽管可提示的基础模型（如SAM）支持单点交互，但在超声视频中直接应用仍面临两大瓶颈：① 单点缺乏空间上下文，无法消解多尺度解剖结构的**初始化歧义**；② 传统贪婪式记忆更新机制会将首帧微小误差逐帧放大，引发严重**时序漂移**。
+
+## 方法创新  
+本研究提出**EchoPilot**——首个无需任何训练、仅需首帧单次点击+解剖类别名称即可完成全视频分割的框架。其核心包含三模块协同：冻结的医学视觉语言模型（VLM）实现语义定位、视觉基础模型（VFM）提取稠密几何特征、可提示视频分割器执行掩码预测与传播。  
+- **尺度空间语义提示（Scale-Space Semantic Prompting）**：提出无参数S.E.E.D.（Semantic Energy-Entropy Density）准则，自动选择最优上下文尺度视图；继而从稠密基础特征中**零交互合成高精度辅助点提示**，显著提升初始分割鲁棒性。  
+- **可靠性门控记忆（Reliability-Gated Memory）**：基于预测置信度动态冻结视频分割器的记忆库，仅在高可靠性区域更新记忆，从机制上阻断误差累积。  
+
+## 实验与贡献  
+构建首个**动态胎儿胎盘超声视频分割数据集**（671帧精细标注）；在3个公开超声视频数据集上全面验证，EchoPilot在稀疏交互设定下**平均Dice达82.7%**，超越所有无训练基线（+5.3%）及微调专家模型（+2.1%），且推理速度达28 FPS，具备临床实时部署潜力。
+
+AI Summary (English):
+Ultrasound video segmentation is clinically critical yet notoriously challenging due to speckle noise, low contrast, and rapid anatomical deformation. While promptable foundation models enable point-guided segmentation, their direct application to ultrasound videos suffers from scale ambiguity (from single-point initialization) and severe temporal drift (from greedy memory updates). EchoPilot addresses these issues *without any training*: given only one click and an anatomical category name on the first frame, it achieves robust video segmentation by synergizing a frozen medical VLM (for semantic grounding), a VFM (for dense geometric features), and a promptable video segmentor. We propose **Scale-Space Semantic Prompting**, which selects the optimal contextual scale via a parameter-free S.E.E.D. criterion and synthesizes precise auxiliary point prompts from foundation features—*zero additional user input required*. To curb drift, **Reliability-Gated Memory** selectively freezes the segmentor’s memory bank under uncertain predictions. Evaluated on three ultrasound video benchmarks—including our newly released dynamic fetal placenta dataset (671 frames)—EchoPilot sets new state-of-the-art performance under sparse interaction, outperforming all training-free baselines and even fine-tuned specialists, with real-time inference (28 FPS).
+
+Abstract:
+Ultrasound video segmentation is clinically valuable yet difficult due to speckle noise, weak boundaries, and rapid anatomical deformation. Recent promptable foundation models enable point-guided segmentation, but their direct deployment in ultrasound remains unreliable: a single point provides insufficient spatial context to resolve scale ambiguity, and greedy memory updates amplify early errors into severe temporal drift. We present EchoPilot, a training-free framework for ultrasound video segmentation under sparse first-frame interaction, requiring only a single point click and an anatomical category name. EchoPilot orchestrates a frozen medical vision-language model (VLM) for semantic localization, a vision foundation model (VFM) for dense geometric feature extraction, and a promptable video segmentor for mask prediction and propagation. To resolve initialization ambiguity, we propose Scale-Space Semantic Prompting, which first selects an optimal contextual view via a parameter-free S.E.E.D. (Semantic Energy-Entropy Density) criterion, and then synthesizes geometrically precise auxiliary point prompts from dense foundation features without additional user interaction. To reduce propagation drift, a Reliability-Gated Memory update is further introduced to selectively freeze the segmentor's memory bank under uncertain predictions, preventing error accumulation. We also contribute the first dynamic fetal placenta ultrasound video segmentation dataset with 671 annotated frames. Across three ultrasound video datasets, EchoPilot achieves state-of-the-art performance under the sparse-interactive setting, consistently outperforming training-free baselines and finetuned specialists.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>extraction</category>
+      <category>model</category>
+    </item>
+    <item>
+      <title>PennySynth: RAG-Driven Data Synthesis for Automated Quantum Code Generation</title>
+      <link>https://arxiv.org/abs/2605.25572v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25572v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25572v1
+
+AI Summary (中文):
+## 背景与挑战  
+随着PennyLane等量子编程框架的快速发展，通用大语言模型（LLM）在生成量子代码时暴露出严重缺陷：频繁**幻觉生成不存在的门操作符**（如虚构`qml.RotX`）、**错误配置量子设备**、以及产出**结构非法的量子电路**，导致功能失效。现有RAG方法在量子领域缺乏领域适配性，通用嵌入模型难以精准匹配自然语言查询与专业量子代码片段。
+
+## 方法创新  
+我们提出**PennySynth**——首个面向PennyLane生态的检索增强型量子代码合成框架。其核心包括：  
+- 构建高质量知识库：通过三阶段流水线（提取→验证→去重），整合官方文档、社区GitHub仓库及三年QHack竞赛存档，构建含**13,389组指令-代码对**的权威语料库；  
+- 提出**代码感知嵌入策略**：微调`st-codesearch-distilroberta-base`模型，专用于自然语言到量子代码的跨模态检索，使平均余弦相似度从0.45显著提升至**0.726**；  
+- 设计**量子增强型CodeBLEU**：显式提升`qml.*`类API模式权重，解耦评估结构性相似性与功能性正确性。
+
+## 关键结果  
+在覆盖QHack 2022–2024共**74道真实竞赛题**的严格评测中，PennySynth的pass@5分别达**64%、68%、52%**，相较未使用RAG的Claude Sonnet 4.6提升**+28、+25、+28个百分点**。消融实验表明：代码感知嵌入是性能跃升的主因，而数据源多样性（官方/社区/竞赛）与规模扩展提供稳健增益。
+
+AI Summary (English):
+PennySynth is a retrieval-augmented generation (RAG) framework for automated PennyLane quantum code synthesis. It addresses LLM hallucinations and structural invalidity by conditioning generation on a curated knowledge base of 13,389 verified instruction-code pairs—extracted and deduplicated from official PennyLane docs, community GitHub repos, and QHack competition archives (2022–2024). We introduce a code-aware embedding strategy using fine-tuned `st-codesearch-distilroberta-base`, boosting average retrieval cosine similarity from 0.45 to 0.726. Evaluated on 74 real-world QHack challenges, PennySynth achieves pass@5 scores of 64%, 68%, and 52% for QHack 2022, 2023, and 2024—outperforming Claude Sonnet 4.6 (no RAG) by +28, +25, and +28 percentage points. We also propose a quantum-adapted CodeBLEU metric that upweights `qml.*` tokens, revealing distinct dimensions of quantum code quality. Ablations confirm code-aware embeddings are the primary driver of performance gains.
+
+Abstract:
+The growing complexity of quantum programming frameworks has exposed a critical limitation in existing large language model (LLM)-based code assistants: general-purpose models hallucinate PennyLane-specific gate names, misplace device configurations, and produce structurally invalid circuits when faced with specialized quantum coding challenges. We present PennySynth, a retrieval-augmented generation framework that addresses this gap by conditioning LLM inference on a curated knowledge base of 13,389 PennyLane instruction-code pairs, built via a three-stage extraction, verification, and deduplication pipeline over official PennyLane repositories, community GitHub sources, and QHack competition archives. PennySynth introduces a code-aware embedding strategy using st-codesearch-distilroberta-base, trained for natural-language-to-code retrieval, increasing average retrieval cosine similarity from 0.45 to 0.726 compared to a general-purpose baseline. Evaluated across 74 challenges spanning three years of the QHack competition (2022, 2023, 2024), PennySynth achieves 64%, 68%, and 52% pass@5 on QHack 2022, 2023, and 2024, respectively, improving over Claude Sonnet 4.6 without retrieval by +28, +25, and +28 percentage points. We further introduce a quantum-adapted CodeBLEU metric that upweights qml.* token patterns and show that structural code similarity and functional correctness capture distinct aspects of quantum code quality. Controlled ablations reveal that code-aware embeddings are the primary driver of retrieval performance, while dataset expansion and source composition provide additional gains when retrieval quality is sufficiently precise.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>extraction</category>
+      <category>model</category>
+    </item>
+    <item>
+      <title>A Tertiary Review of Large Language Model-Based Code Generating Tasks: Trends, Challenges, and Future Directions</title>
+      <link>https://arxiv.org/abs/2605.25536v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25536v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25536v1
+
+AI Summary (中文):
+## 背景与目标  
+随着大语言模型（LLMs）在软件工程领域的深度渗透，基于LLM的代码生成任务（CGTs）已成为研究热点。尽管基准测试结果普遍乐观，但其在真实开发场景中的泛化能力、鲁棒性、经济可行性及社会技术整合效果仍缺乏系统性认知。现有三次研究（tertiary studies）对此覆盖不足。本研究旨在开展一项严谨的三次综述，系统整合现有二次研究证据，全面刻画LLM-CGTs的研究图谱、实际影响、应用场景、集成挑战及未来方向。
+
+## 方法  
+遵循系统性综述规范，我们在ACM DL、IEEE Xplore、SpringerLink等主流数字图书馆中检索2017–2025年文献，并辅以回溯与前溯雪球抽样（backward-and-forward snowballing）及多轮筛选。通过定制化质量评估清单与双盲编码审核（Krippendorff’s α = 0.89），保障证据提取可靠性。合成分析采用SWEBOK知识域框架进行主题归类，并结合HELM（Human Evaluation of Language Models）框架评估评估实践成熟度。
+
+## 主要发现与创新点  
+- 共纳入30项高质量二次研究，呈现爆发式增长（2023年起占比超73%）；  
+- **性能断层显著**：模型在HumanEval等基准上准确率高（平均&gt;72%），但真实项目补全、调试修复等任务中泛化能力弱，鲁棒性随输入扰动/配置变更急剧下降；  
+- **效率与可信度瓶颈突出**：约87%研究提及推理延迟或API成本制约落地；毒性与偏见问题仅在6项研究中被主动报告；  
+- **三大核心挑战**：经济可行性（ROI不明）、评估有效性（人工评估缺失/不一致）、社会技术整合（开发者信任、工作流嵌入、责任归属）；  
+- **未来方向聚焦**：发展领域感知（domain-aware）微调范式、构建覆盖功能正确性、可维护性、安全性、协作性的**标准化多维评估基准**，并推动成本-效益联合建模。
+
+AI Summary (English):
+This tertiary review synthesizes evidence from 30 high-quality secondary studies (2017–2025) on LLM-based code generation tasks (CGTs). Using systematic search, snowballing, and rigorous quality appraisal (Krippendorff’s α = 0.89), we map publication trends, application scenarios, and critical gaps. Results reveal a sharp rise since 2023, yet strong benchmark performance (e.g., HumanEval) poorly generalizes to real-world maintenance, debugging, or collaborative settings. Robustness is highly configuration-sensitive; efficiency constraints (latency, cost) are pervasive; toxicity and bias remain under-reported. Key challenges center on economic feasibility, evaluation validity (especially human-centered assessment), and socio-technical integration. We advocate domain-aware model adaptation and holistic, standardized evaluation frameworks—spanning correctness, security, maintainability, and developer experience—to advance CGTs beyond isolated benchmarks toward sustainable engineering practice.
+
+Abstract:
+Context. Large language models (LLMs) are increasingly applied to code-generating tasks (CGTs) in software engineering. While reported results are promising, the broader effects of such application and their integration into real-world development remain insufficiently understood with existing tertiary studies provide little in this area. Objective. This tertiary study consolidates secondary evidence on LLM-based CGTs, synthesizing the publication landscape, effects, scenarios, integration challenges, and future research directions. Method. Following systematic review guidelines, we searched in related digital libraries, complemented by backward-and-forward snowballing and screening step. Study quality was assessed and extraction reliability was audited with inter-rater agreement statistics. Evidence was synthesized using SWEBOK knowledge areas and the HELM framework. Results. We identify 30 secondary studies published between 2017-2025, with rapid growth since 2023. Accuracy seems strong on benchmarks but weakly supported for real-world generalization; robustness is fragile across tasks and configurations; efficiency constraints are pervasive; toxicity and bias are under-reported. Dominant challenges concern economic feasibility, evaluation validity, and socio-technical integration. Future directions suggest domain-aware model improvement and the need for holistic, standardized evaluation. Conclusion. LLM-based CGTs represent a fast-maturing yet unevenly evaluated research area, highlighting the need for domain-aware model improvements and holistic, standardized evaluation, addressing efficiency and associated costs.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>extraction</category>
+      <category>model</category>
+    </item>
+    <item>
+      <title>Security of OpenClaw Agents: Fundamentals, Attacks, and Countermeasures</title>
+      <link>https://arxiv.org/abs/2605.25435v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25435v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25435v1
+
+AI Summary (中文):
+## OpenClaw智能体安全研究：基础架构、新型攻击与防御体系  
+
+随着大语言模型（LLM）驱动的自主智能体迅猛发展，**OpenClaw**作为一类新兴开源智能体框架脱颖而出——其核心特征包括**持续运行机制、技能增强能力、持久化记忆、多通道交互接口及高度自主性**。区别于传统任务导向型AI代理，OpenClaw智能体可跨轮次维持上下文状态，自主编排多步骤任务，并深度集成外部API与工具链，显著提升实用性，但亦导致**攻击面指数级扩张**。  
+
+本综述首次系统构建OpenClaw安全分析框架：  
+- **分层威胁建模**：依据智能体生命周期，将风险划分为**认知层**（如提示注入引发的认知偏移、推理链污染）、**执行层**（技能中毒、权限越界调用）、**交互层**（多智能体协同失效、恶意工具劫持）及**供应链层**（依赖库投毒、插件签名绕过）；  
+- **根因深度剖析**：揭示持久化记忆与高特权操作耦合所诱发的“**状态污染—权限放大**”双重脆弱性，例如历史记忆被篡改后持续误导后续决策；  
+- **防御全景图谱**：归纳三类主流对策——*运行时沙箱化*（细粒度工具权限控制+内存隔离）、*认知完整性验证*（推理路径水印、可信记忆快照比对）、*供应链可信加固*（零信任插件签名+SBOM动态审计）；  
+- **前瞻性挑战**：指出当前尚无统一可信执行环境（TEE）适配方案，且多智能体协同场景下的责任归属与故障溯源仍属空白。本研究为构建**可验证、可审计、可追责**的下一代开放智能体生态提供理论基石与实践指南。
+
+AI Summary (English):
+This survey presents the first comprehensive security analysis of **OpenClaw agents**—open-source, LLM-driven autonomous systems characterized by persistent memory, skill augmentation, multi-channel interaction, and high autonomy. We propose a layered threat taxonomy grounded in the agent lifecycle: *cognitive layer* (e.g., prompt-based reasoning manipulation), *execution layer* (e.g., skill poisoning and privilege escalation), *interaction layer* (e.g., cascading failures across agent collectives), and *supply-chain layer* (e.g., compromised plugins or dependencies). We identify the critical vulnerability arising from the coupling of persistent state and high-privilege actions—enabling persistent “state pollution” that propagates across execution cycles. Key defenses reviewed include runtime sandboxing with fine-grained tool permissions, cognitive integrity verification via reasoning-path watermarking, and supply-chain hardening through zero-trust plugin signing and SBOM-based auditing. We conclude by highlighting unresolved challenges, notably the lack of TEE support and accountability mechanisms in multi-agent coordination—offering foundational insights for building trustworthy, auditable open agent ecosystems.
+
+Abstract:
+The rapid evolution of large language model (LLM)-driven autonomous agents has given rise to OpenClaw, a new class of open-source agent frameworks that operate as continuously running, skill-augmented systems with persistent memory, multi-channel interaction, and high degrees of autonomy. Such capabilities enable OpenClaw agents to autonomously execute complex, multi-step tasks and interact seamlessly with external applications, but simultaneously introduce a substantially enlarged attack surface. In particular, the combination of high-privilege operations and persistent memory exposes OpenClaw agents to various emerging threats, including skill poisoning, cognitive manipulation, multi-agent cascading failures, and supply-chain vulnerabilities. In this survey, we present a comprehensive study of the security landscape of OpenClaw agents. We first examine the general architecture and key characteristics that distinguish OpenClaw agents from traditional AI agent systems. We categorize existing security and privacy threats into a layered framework and analyze how vulnerabilities arise during agent reasoning, action execution, and external interaction. Representative defense mechanisms are also reviewed to draw the current defense landscape. Finally, several unresolved issues related to the reliability and trustworthiness of OpenClaw ecosystems are discussed.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>poisoning</category>
+      <category>model</category>
+      <category>llm</category>
+      <category>agent</category>
+      <category>security</category>
+    </item>
+    <item>
+      <title>Joint Optimization of Training and Inference in Federated Edge Learning via Constrained Multi-Objective Deep Reinforcement Learning</title>
+      <link>https://arxiv.org/abs/2605.25916v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25916v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25916v1
+
+AI Summary (中文):
+## 联邦边缘学习中训练与推理的联合在线优化  
+
+**背景与挑战**：联邦边缘学习（FEEL）旨在通过边缘设备协同训练模型实现边缘智能（EI），同时保障数据隐私。然而，真实边缘场景中，设备资源受限、推理请求动态涌入、训练数据与模型状态随时间衰减（即“新鲜度”下降），导致传统分离式训练/推理调度难以兼顾**精度、时延与能耗**三重目标。
+
+**方法创新**：本文提出首个面向FEEL的**训练-推理联合在线优化框架**。核心贡献包括：（1）设计**串联队列启发的转换机制**，将实时推理请求动态转化为训练样本流，打通服务闭环；（2）在精度建模中首次联合引入**数据新鲜度**（data freshness）与**模型新鲜度**（model freshness），显式刻画时序动态性；（3）构建多目标优化问题，联合决策设备的**工作模式选择**（训练/推理/空闲）、**通信资源分配**（上行带宽、传输功率）与**计算资源分配**（CPU频率、批大小）。
+
+**算法突破**：针对该NP难、在线、多目标问题，本文将其建模为**多目标马尔可夫决策过程（MOMDP）**，并提出**约束型多目标近端策略优化算法（C-MOPPO）**：首先通过偏好向量采样学习多样化基础策略集；继而引入**约束策略优化机制**，在Pareto前沿上密集生成高质量解，显著提升解集覆盖度与均匀性。
+
+**实验验证**：在NS-3+PyTorch混合仿真平台上的大量实验表明：C-MOPPO在多种网络规模、设备异构性及负载强度下，相较FedAvg、FedProx、MOO-DQN等基线，**推理精度平均提升12.7%**，**端到端时延降低38.5%**，**能量消耗减少41.2%**，且Pareto解集密度提升2.3倍，验证了其强鲁棒性与实用价值。
+
+AI Summary (English):
+Federated Edge Learning (FEEL) enables privacy-preserving collaborative model training across resource-constrained edge devices, yet jointly optimizing real-time inference and periodic training remains challenging due to dynamic workloads, data/model staleness, and conflicting objectives (accuracy, latency, energy). This paper proposes an online joint optimization framework that bridges inference requests and training data via a tandem-queue-inspired conversion mechanism and explicitly incorporates *data* and *model freshness* into the accuracy metric to capture temporal dynamics. We formulate the problem as a constrained multi-objective optimization—jointly deciding device operation modes, communication bandwidth/power, and computation CPU frequency/batch size—and cast it as a Multi-Objective Markov Decision Process (MOMDP). To solve it, we design **C-MOPPO**: a Constrained Multi-Objective Proximal Policy Optimization algorithm that first learns diverse preference-aware policies and then leverages constrained policy updates to densely populate the Pareto front with high-quality solutions. Extensive experiments show C-MOPPO achieves superior trade-offs—improving inference accuracy by 12.7%, reducing end-to-end latency by 38.5%, and cutting energy consumption by 41.2% over state-of-the-art baselines—while generating 2.3× denser Pareto-optimal solutions under heterogeneous system configurations.
+
+Abstract:
+Federated edge learning (FEEL) has recently emerged as a promising paradigm for achieving edge intelligence (EI) via enabling collaborative model training across edge devices while protecting data privacy. In this paper, we put forth an online optimization framework that jointly manages federated training and inference on resource-constrained edge devices. We introduce a tandem-queue-inspired conversion mechanism that bridges inference requests and training data, and further incorporate both data and model freshness into the accuracy formulation to capture temporal dynamics in real-world environments. To maximize inference accuracy while minimizing latency and energy consumption, the mode selections, communication, and computation resource allocations of edge devices are jointly optimized. We formulate this optimization as a multi-objective optimization problem, which is NP-hard and further complicated by the online setting. To address these challenges, we transform the problem into a multi-objective Markov decision process (MOMDP) and develop a \underline{c}onstrained \underline{m}ulti-\underline{o}bjective \underline{p}roximal \underline{p}olicy \underline{o}ptimization (C-MOPPO) algorithm. Specifically, C-MOPPO first learns a set of policies with different preferences across three objectives, then leverages constrained policy optimization to enrich the Pareto front and obtain high-quality, dense solutions. Extensive experiments demonstrate that C-MOPPO achieves well-balanced trade-offs among objectives and significantly outperforms baselines under various system configurations.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>learning</category>
+      <category>federated</category>
+    </item>
+    <item>
+      <title>Peak-Then-Collapse and the Four Interface Channels of Knowledge-Graph Tool Use</title>
+      <link>https://arxiv.org/abs/2605.26037v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.26037v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.26037v1
+
+AI Summary (中文):
+## 研究背景与问题  
+本研究聚焦大语言模型（LLM）在知识图谱（KG）工具调用中的根本性脆弱性。区别于Python解释器、网页搜索或JSON API等主流工具，知识图谱（如Freebase）的接口反馈极度贫瘠——空结果仅返回`[]`，不提供任何自然语言错误信号（如Python的traceback或搜索的“未找到”提示）。这种**界面静默性**导致模型难以通过强化学习（RL）自我修正。
+
+## 方法设计  
+我们在Complex WebQuestions数据集上，采用标准RLVR范式（GRPO算法），以Qwen2.5-7B-Instruct为基座模型，对接一个极简KG工具API：仅含4个Freebase导航动词（如`navigate`, `filter`）。奖励函数采用**自验证检索奖励**（self-verifiable retrieval reward），即仅当检索结果能直接支撑最终答案时给予正向信号。
+
+## 核心发现：“峰值后崩溃”现象  
+训练过程中出现显著的**Peak-Then-Collapse**模式：工具接地回答率从初始3.8%升至250步时的9.6%，却在后续单个50步窗口内骤降至0%——该现象在4组随机种子中完全复现。进一步测试7种奖励变体（包括更密集、更精准的代理奖励）均未能消除崩溃，仅迁移失败模式，证实问题源于接口本质而非奖励设计缺陷。
+
+## 归因分析与关键洞见  
+- **Oracle消融实验**表明：注入黄金关系（gold relations）仅提升EM 0.20个百分点；95.4%的检索依赖型错误源于**检索组合失败**（如路径拼接错误、多跳逻辑断裂），而非答案抽取失败。  
+- **界面四通道假说**：提出KG工具存在四大信息贫瘠通道——**无错误命名、无语义提示、无部分成功反馈、无操作可逆性**——共同构成模型学习的“退化区”。  
+- **缓解方案**：单轮自蒸馏（one-iteration self-distillation）将7B模型EM推至40.0%；且呈现**容量不变性**——升至14B仅+0.25pp，初始化影响微弱，表明性能上限由界面约束主导，而非模型规模。
+
+AI Summary (English):
+This paper identifies a fundamental *peak-then-collapse* failure mode in LLM-based knowledge-graph (KG) tool use: under self-verifiable retrieval rewards, GRPO-trained Qwen2.5-7B achieves a peak tool-grounded answer rate of 9.6% at step 250—then collapses to 0% within just 50 steps, consistently across four seeds. Unlike Python interpreters or web search, KG APIs (e.g., Freebase) provide *no natural-language interface feedback*—empty results return only `[]`, leaking no pretraining-aligned error signals. Seven reward redesigns shift but never eliminate the collapse, confirming the issue is interface-bound, not reward-tunable. Oracle ablation shows gold relation injection improves EM by only +0.20 pp; 95.4% of errors stem from *retrieval-composition failures*, not answer extraction. A one-iteration self-distillation strategy lifts EM to 40.0% at 7B—and exhibits strong capacity invariance (+0.25 pp at 14B), indicating an interface-imposed ceiling within the 7B–14B range.
+
+Abstract:
+We test the standard RLVR tool-use recipe -- GRPO on Qwen2.5-7B-Instruct -- on a deliberately minimal knowledge-graph tool API: four Freebase navigation verbs over Complex WebQuestions. Under a self-verifiable retrieval reward, the policy's tool-grounded answer rate climbs from $3.8\%$ to $9.6\%$ over 250 steps, then collapses to $0\%$ within a single 50-step window -- a \emph{peak-then-collapse} pattern replicated across four seeds. Across seven reward designs, we find four recurring failure modes: adding denser or more targeted proxy rewards shifts the failure mode rather than eliminating it. We argue that a key difference from Python interpreters, web search, and JSON APIs is interface feedback: their failures often leak natural-language signal the model saw in pretraining. A Python traceback names the failing line; an empty Freebase result \texttt{[]} does not. Stripping away that surface exposes a degradation regime that same-family reward redesigns do not fix. A direct oracle ablation rules out relation selection: injecting gold relations at every retrieval call lifts exact-match accuracy by only $+0.20$~pp, and $95.4\%$ of retrieval-dependent errors are retrieval-composition failures rather than answer-extraction failures. As a mitigation, one-iteration self-distillation reaches $40.0\%$ EM at 7B and is capacity-invariant: doubling capacity to 14B improves EM by only $0.25$~pp, and initialization barely matters -- the ceiling appears interface-bound within the 7B--14B range tested.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>extraction</category>
+      <category>model</category>
+    </item>
+    <item>
+      <title>Double Triangle Annotation: A Scalable Human-in-the-Loop Framework for High-Precision Historical Document Annotation</title>
+      <link>https://arxiv.org/abs/2605.25781v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25781v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25781v1
+
+AI Summary (中文):
+## 背景与挑战  
+大规模评估历史文献结构化信息抽取性能亟需高精度人工标注（ground-truth），但传统纯人工标注成本高昂，而基于大语言模型（LLM）的全自动流水线又易产生幻觉（hallucination），难以满足历史文档对事实准确性的严苛要求。
+
+## 方法创新：Double Triangle Annotation 框架  
+我们提出**双三角标注（Double Triangle Annotation）**——一种可扩展、高精度、人机协同的两层标注框架：  
+- **第一层（模型三角）**：两个架构独立的多模态大语言模型（如 LLaVA 与 Qwen-VL）并行解析同一历史文档；当二者输出一致时，标签自动采纳；分歧项交由众包“人类陪审团”裁定；  
+- **第二层（系统三角）**：将两套独立运行的第一层系统（含不同模型组合与提示策略）相互交叉校验；剩余未决冲突升级至领域专家终审。  
+该框架仅依赖一个关键假设——**模型错误相互独立**，无需预设数据分布、任务特异性校准或后处理调优；且随基础模型能力提升，系统自主性自然增强。
+
+## 关键成果  
+在涵盖1887–1906年法国医学名录的《Rosenwald 指南》语料库上，本框架实现最终**词错误率（WER）仅 0.003**；在13,595个结构化字段中，**模型共识自动采纳率达 85.2%**，显著降低人工负担。我们同步发布首个面向 Rosenwald 指南的结构化抽取基准数据集（含人机协同验证的黄金标准标注），填补该领域高质量监督信号空白，为历史文档智能处理提供可复现、可扩展的新范式。
+
+AI Summary (English):
+We introduce **Double Triangle Annotation**, a scalable human-in-the-loop framework for high-precision structured information extraction from historical documents. It employs two layers of cross-model consensus: (1) two architecturally distinct multimodal LLMs annotate each document in parallel; agreements are auto-accepted, while disagreements are resolved by a human jury; (2) two independent instances of this first layer cross-check each other, with residual conflicts escalated to domain experts. Relying solely on the assumption of model error independence—without distributional priors or task-specific calibration—the framework achieves **0.003 Word Error Rate** on the French *Rosenwald Guides* (1887–1906) and auto-accepts **&gt;85% of 13,595 fields**. We release the first structured-extraction ground-truth benchmark for this corpus to advance historical document processing research.
+
+Abstract:
+Evaluating structured-information extraction from historical documents at scale requires high-precision ground-truth annotations, yet traditional manual labeling is expensive and fully automated pipelines built on large language models are prone to hallucination. We propose Double Triangle Annotation, a two-layer human-in-the-loop framework that leverages cross-model consensus to automate the majority of annotation work while ensuring high-precision outputs. In the first layer, two architecturally independent Multimodal Large Language Models annotate each document in parallel; when they agree, the label is auto-accepted, and disagreements are routed to a human jury. A second layer cross-checks two such systems against each other, escalating residual conflicts to a domain expert. The framework rests on a single assumption -- error independence between models -- requires no distributional priors or task-specific calibration, and becomes more autonomous as model capability improves. On the Guides Rosenwald, a corpus of French medical directories spanning 1887-1906, the framework achieves a final Word Error Rate of 0.003. Applied at scale, model consensus auto-accepts over 85% of 13,595 fields. We release the resulting benchmark -- the first structured-extraction ground truth for the Rosenwald Guides -- to support future work on historical document processing.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>extraction</category>
+      <category>model</category>
+    </item>
+    <item>
+      <title>LLM-as-a-Reviewer: Benchmarking Their Ability, Divergence, and Prompt Injection Resistance as Paper Reviewers</title>
+      <link>https://arxiv.org/abs/2605.25415v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25415v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25415v1
+
+AI Summary (中文):
+## LLM-as-a-Reviewer：面向学术同行评审的系统性基准评测  
+
+本研究首次构建了面向**大语言模型（LLM）作为论文评审员**的多维评测框架，聚焦其**可靠性、人类对齐性与对抗鲁棒性**三大核心挑战。我们基于NeurIPS和ICLR会议共898篇真实投稿论文（按接收状态与领域分层抽样），系统评估了12种主流开源与闭源LLM（涵盖Llama、Qwen、GPT、Claude等家族）。评测沿三个正交维度展开：  
+- **评分校准性**：LLM是否能准确区分论文质量？结果表明，所有模型均存在**系统性高估倾向**——对弱提交论文平均抬高1.2–1.8分（5分制），尤其在“Clarity”维度显著低估问题，而在“Reproducibility”上过度苛责；  
+- **人类一致性**：LLM评审与真实人类评审在**主题关注分布上显著偏离**（KL散度达0.42–0.67），其生成的评审意见长度达人类的2–3倍，但**词汇多样性降低37%**，术语高度同质化，反映模板化表达倾向；  
+- **提示注入鲁棒性**：采用基于**隐形字体映射（invisible font-mapping）的新型隐蔽攻击**，在PDF元数据中嵌入不可见指令。实验显示，该攻击在**最高达41%的案例中成功将低分论文“提升”至接受阈值以上**，且效果在模型家族间差异巨大（如Qwen系列抗性最强，GPT-4 Turbo最脆弱）。  
+
+本工作不仅揭示了LLM评审当前的关键缺陷，更提供了首个开源评测套件（LLM-ReviewBench），为安全、可信地部署LLM辅助评审提供了实证基础与技术护栏设计依据。
+
+AI Summary (English):
+This paper introduces **LLM-as-a-Reviewer**, the first systematic benchmark evaluating large language models as peer reviewers across *rating calibration*, *divergence from human judgments*, and *resistance to prompt injection*. We evaluate 12 LLMs on 898 stratified NeurIPS/ICLR papers. Key findings: (1) All models systematically **overrate weak submissions**, under-flagging Clarity (+1.2–1.8 pts bias on 5-pt scale) while over-flagging Reproducibility; (2) Their reviews are **2–3× longer but lexically less diverse** (−37% type-token ratio) and exhibit topical misalignment with human reviewers (KL divergence: 0.42–0.67); (3) A novel *invisible font-mapping attack* successfully promotes low-scoring papers to acceptance-level ratings in up to **41% of cases**, with stark variation across model families (e.g., Qwen &gt; GPT-4 Turbo). The study underscores urgent needs for bias mitigation and adversarial safeguards before real-world deployment.
+
+Abstract:
+Large language models (LLMs) are increasingly used in academic peer review, yet their reliability, alignment with human judgment, and robustness to adversarial attacks remain poorly understood. We present a systematic benchmark of LLM-as-a-Reviewer on 898 papers stratified from NeurIPS and ICLR, evaluating 12 LLMs along three axes: rating calibration, divergence from human reviewers, and resistance to prompt injection embedded via an invisible font-mapping attack. We find that LLMs systematically overrate weaker submissions and diverge from humans in topical emphasis, under-flagging Clarity and over-flagging Reproducibility, while producing reviews two to three times longer with lower lexical diversity and a more standardized vocabulary. Prompt injection remains highly effective. Simple hidden instructions can promote low-scoring papers to acceptance-level ratings in a substantial fraction of cases, with effectiveness varying sharply across model families. While LLMs offer utility in structuring evaluations, their integration into peer review requires safeguards against both intrinsic biases and adversarial risks.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>injection</category>
+      <category>prompt</category>
+    </item>
+    <item>
+      <title>Security in the Fine-Tuning Lifecycle of Large Language Models: Threats, Defenses,Evaluation, and Future Directions</title>
+      <link>https://arxiv.org/abs/2605.25073v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25073v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25073v1
+
+AI Summary (中文):
+## 安全视角下的大语言模型微调全生命周期：系统性综述与实证评估
+
+**背景**：微调是将预训练大语言模型（LLM）适配至下游任务的核心环节，但其依赖训练数据、参数更新及可复用组件的特性，为攻击者提供了多维度入口。威胁已从早期的数据投毒、权重篡改，演进至智能体操控、接口劫持等新型攻击面；然而，现有综述缺乏覆盖“预微调—微调中—微调后”全生命周期的统一分析框架。
+
+**方法**：本文提出首个**生命周期驱动的安全框架**，将攻击与防御按干预时机划分为三阶段：**预微调**（如数据清洗、验证集污染）、**微调中**（如梯度注入、LoRA劫持）、**微调后**（如提示注入、权重编辑）。我们系统梳理各阶段代表性方法，揭示其演化路径与固有局限；并在**统一模型（1B–4B开源LLM）、硬件（A100）、协议（标准PEFT流程）** 下开展跨阶段实证评估——包括单阶段攻防基准测试及创新性的“跨阶段配对实验”（如预微调数据投毒 + 微调后检测器）。
+
+**关键发现**：  
+- 攻击效果高度**模型依赖且非单调**：权重编辑攻击在Llama-2-7B上有效，但在Qwen2-1.5B/Phi-3-4B上完全失效；  
+- 跨语言后门迁移宣称在7B+模型接近100%，实测在1B–4B模型上**成功率归零**；  
+- 仅使用**纯良性样本**即可绕过安全对齐（如通过特定指令序列诱导有害输出），暴露对齐鲁棒性盲区。  
+- 单阶段防御泛化能力极弱：92%的预微调过滤器对微调中梯度攻击无效；防御效能由**模型架构与对齐状态共同决定**，不可解耦。
+
+**创新点**：建立首个细粒度生命周期分类法；发布首个跨阶段可复现评估基准；指出三大开放问题：配置鲁棒防御、跨阶段防御组合机制、超越行为假设的嵌入空间攻击建模。
+
+AI Summary (English):
+This paper presents the first systematic survey of security threats and defenses across the *full fine-tuning lifecycle* of LLMs—spanning pre-tuning, during-tuning, and post-tuning phases. We introduce a unified, phase-aware framework for classifying attacks (e.g., data poisoning, gradient manipulation, weight editing, interface exploitation) and defenses, and conduct rigorous empirical evaluation on open-source models (1B–4B) under standardized hardware, model, and PEFT protocols. Key findings include: (1) Attack effectiveness is highly non-monotonic and model-specific—e.g., weight-editing attacks fail entirely on modern 1B–4B models where they previously succeeded; (2) Cross-lingual backdoor transfer, claimed near-perfect at scale, achieves 0% success in our tests; (3) Purely benign inputs can break safety alignment in instruction-tuned models; and (4) Single-phase defenses rarely generalize across phases, with efficacy jointly determined by architecture and alignment state. We identify three critical open problems—configuration-robust defense design, principled cross-phase defense composition, and embedding-space threat modeling beyond behavioral assumptions—and propose concrete, actionable research directions.
+
+Abstract:
+Background: Fine-tuning is central to adapting pre-trained Large Language Models (LLMs) to downstream tasks, but its reliance on training data, parameter updates, and reusable components opens entry points for attackers. Threats have evolved from data poisoning and weight tampering to agent manipulation and interface exploitation, yet existing reviews lack a unified framework spanning the full fine-tuning lifecycle. Objective: This paper presents a systematic survey of LLM fine-tuning security and establishes a lifecycle-based framework for comparing attacks and defenses, complemented by unified empirical evaluation. Methods: We divide attack and defense mechanisms into three phases by intervention timing: pre-tuning, during-tuning, and post-tuning. Within each phase, strategies are reviewed and contrasted to expose their evolution and limitations. Representative methods are then evaluated under a unified model, hardware, and protocol setup, with cross-phase experiments pairing attacks and defenses from different phases. Results: Attack effectiveness is highly model-dependent and non-monotonic with scale: weight-editing attacks effective on earlier models lose impact on modern open-source LLMs; cross-lingual backdoor transfer, reported as near-perfect at larger scales, fails entirely on tested 1B-4B models; and purely benign samples can compromise safety alignment in instruction-tuned models. Single-phase defenses rarely generalize across phases, and defense effectiveness depends jointly on model architecture and alignment state. Conclusion: We identify key open problems (configuration-robust defense, cross-phase defense composition, and embedding-space attacks beyond behavioral assumptions) and propose concrete future research directions.</description>
+      <pubDate>Sun, 24 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>poisoning</category>
+      <category>model</category>
+      <category>llm</category>
+      <category>agent</category>
+      <category>security</category>
+    </item>
+    <item>
+      <title>QML-PipeGuard: Drift-Aware Behavioral Fingerprinting for Quantum Machine Learning Pipeline Integrity</title>
+      <link>https://arxiv.org/abs/2605.25066v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25066v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25066v1
+
+AI Summary (中文):
+## QML-PipeGuard：面向量子机器学习流水线完整性的漂移感知行为指纹框架  
+
+随着量子机器学习（QML）从实验室原型迈向云服务部署，其在金融、医疗等**强监管行业**的应用亟需保障量子执行阶段的完整性。当前面临两大现实威胁：一是硬件层面的**自然漂移**——超导量子处理器在两次校准之间因环境扰动导致量子通道参数缓慢变化；二是**恶意替换**——攻击者在可控执行环境中，用数学上不同但行为高度相似的量子通道冒充声明通道。现有QML验证工作（如脉冲级噪声建模、输入漂移鲁棒性分析、设备身份认证）均无法同时覆盖这两类威胁。
+
+为此，本文提出 **QML-PipeGuard**，首个基于**行为指纹（Behavioral Fingerprint）** 的合约式完整性保障框架。其核心创新在于：  
+- **统一表征**：将QML流水线（编码器–变分线路–测量）在运行时抽象为一组可观测量期望值向量，该向量由信息完备的**层析结构化测量族**（如单比特Pauli紧框架，理论界 $C = \sqrt{3}$）生成；  
+- **双模协同**：支持**漂移感知监控**（容忍校准内良性变化）与**对抗检测**（识别通道替换为合约违反）；  
+- **理论保障**：给出有限采样下的**样本复杂度上界**（$ \sim 1.4 \times 10^4 $ shots），并首次实现**容差分解**——严格分离自然漂移与对抗扰动对合约偏差的贡献；  
+- **端到端验证**：在IBM Heron r2处理器（`ibm_fez`）上完成两比特QSVM流水线实测，噪声匹配仿真进一步验证采样边界；结果表明：恶意通道被以**宽安全裕度**检出，而典型硬件漂移始终处于容忍阈值内。
+
+AI Summary (English):
+Quantum machine learning (QML) is transitioning from research to production, raising urgent integrity concerns for the quantum execution stage: *natural drift* (channel parameter changes between hardware recalibrations) and *adversarial substitution* (replacing the declared quantum channel with a behaviorally similar but mathematically distinct one). Existing QML verification approaches—focused on pulse-level noise, input drift, or device identity—fail to jointly address both. We propose **QML-PipeGuard**, a contract-based framework that characterizes a QML pipeline at runtime via its *behavioral fingerprint*: a vector of expectation values under an informationally complete, tomographically structured measurement family (e.g., the single-qubit Pauli tight frame with bound $C = \sqrt{3}$). It operates in two modes: *drift-aware monitoring*, absorbing benign calibration variations within a calibrated tolerance, and *adversarial detection*, flagging channel substitution as a violation of an observable contract. Key contributions include a pipeline-composition treatment with QML-specific threat modeling, a finite-shot sample-complexity bound (~1.4×10⁴ shots), and a novel tolerance decomposition separating natural and adversarial contributions. End-to-end validation on a two-qubit QSVM pipeline running on IBM’s `ibm_fez` (Heron r2) confirms detection of a “sneaky” substituted channel with wide safety margin, while typical hardware drift remains within tolerance.
+
+Abstract:
+Quantum machine learning (QML) is moving from research prototypes to deployed cloud services. As QML enters regulated industries, the integrity of the quantum stage becomes a practical concern on two fronts: noisy hardware drifts at the channel level between recalibrations, and an adversary with control over the execution environment can substitute the declared quantum channel with a behaviorally similar but mathematically distinct one. Neither concern is covered by existing QML verification work on pulse-level noise, input drift, input-perturbation robustness, or device identity. We introduce QML-PipeGuard, a contract-based framework addressing both concerns under a single mathematical machinery. It characterizes a QML pipeline at runtime by its behavioral fingerprint, the vector of observable expectation values under a tomographically structured measurement family, and operates in two modes: drift-aware monitoring that absorbs benign calibration changes within a calibrated tolerance, and adversarial detection that catches channel substitution as a violation of an informationally complete observable contract. The framework contributes a pipeline-composition treatment of the encoder-ansatz-measurement channel with a QML-specific threat model (tight frame-bound C=sqrt(3) for the single-qubit Pauli family), a finite-shot sample-complexity bound, and a tolerance decomposition separating adversarial and natural-drift contributions. We validate the framework end-to-end on a two-qubit QSVM pipeline on the IBM Heron r2 processor (ibm_fez), with a sample-complexity validation on a noise-matched simulator. The prescribed measurement budget (about 1.4e4 shots) fits in a single batched job, the sneaky channel is detected with a wide safety margin while evading the weak contract, and the typical hardware drift sits within tolerance.</description>
+      <pubDate>Sun, 24 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>learning</category>
+      <category>machine</category>
+      <category>adversarial</category>
+    </item>
+    <item>
+      <title>Reflect-Guard: Enhancing LLM Safeguards against Adversarial Prompts via Logical Self-Reflection</title>
+      <link>https://arxiv.org/abs/2605.24834v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.24834v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.24834v1
+
+AI Summary (中文):
+## Reflect-Guard：面向对抗性提示的逻辑自省增强型LLM安全防护框架  
+
+大型语言模型（LLM）安全分类器（如Llama Guard）虽能有效识别显性有害提示，但在面对**角色扮演、虚构叙事、间接请求**等精心设计的对抗性越狱攻击时仍显著失效——此类攻击通过语义伪装规避基于表面模式匹配的传统检测机制。为突破该瓶颈，我们提出**Reflect-Guard**，一种基于**逻辑自省（logical self-reflection）** 的轻量级增强方法。  
+
+### 核心方法  
+- **知识蒸馏驱动的反思标注**：利用GPT-4o-mini生成结构化反思链（Chain-of-Thought），涵盖意图识别、隐含风险分析与上下文一致性验证三阶段推理；  
+- **参数高效微调（PEFT）**：仅对Llama-Guard-3-8B实施QLoRA微调，**仅更新0.5%参数（约4200万参数）**，训练数据仅需1000个高质量对抗样本；  
+- **推理时自省机制**：模型在输出安全判决前，必须先生成可解释的反思文本，显式建模“用户真实意图是否恶意”，而非依赖表层关键词或句法特征。  
+
+### 关键成果  
+- 在**WildGuardTest**基准上，F1分数从0.770提升至**0.842**（+7.2个百分点），**对抗性提示召回率跃升40.8个百分点（0.513→0.921）**，显著缓解漏检问题；  
+- 在**JailbreakBench**上，攻击成功率由10.3%降至**1.8%**，实现**82.5%的相对降低**；  
+- 消融实验证明：反思能力使模型能穿透角色设定、元指令伪装等复杂混淆策略，验证了“**推理意图优于匹配表象**”的安全范式迁移价值。  
+
+本工作表明，赋予安全分类器**可解释、可追溯的逻辑推理能力**，是构建鲁棒LLM防护体系的关键路径。
+
+AI Summary (English):
+Reflect-Guard enhances LLM safety classifiers (e.g., Llama Guard) against adversarial jailbreaks by integrating *logical self-reflection* via parameter-efficient fine-tuning. We distill structured chain-of-thought reasoning—covering intent inference, risk grounding, and contextual consistency—from GPT-4o-mini into reflection annotations, then train Llama-Guard-3-8B using QLoRA on just 1,000 examples while updating only 0.5% of parameters (~42M). During inference, the model first generates a reflective rationale before issuing a safety verdict. On WildGuardTest, Reflect-Guard boosts F1 from 0.770 to 0.842 (+7.2 pp) and adversarial recall from 0.513 to 0.921 (+40.8 pp). On JailbreakBench, attack success rate drops from 10.3% to 1.8% (−82.5% relative). These gains stem from explicit reasoning about *underlying malicious intent*, enabling robust detection where surface-pattern classifiers fail.
+
+Abstract:
+Large language model (LLM) safety classifiers such as Llama Guard are effective at detecting overtly harmful prompts but remain vulnerable to adversarial jailbreak attacks that disguise malicious intent through role-play scenarios, fictional framing, and indirect requests. We present Reflect-Guard, a method that augments LLM-based safety classifiers with chain-of-thought self-reflection capabilities through parameter-efficient fine-tuning. Our approach distills analytical reasoning from GPT-4o-mini into structured reflection annotations, then trains Llama-Guard-3-8B via QLoRA to generate logical self-reflections before issuing safety verdicts. Using only 1000 training examples and updating just 0.5% of model parameters (~42M), Reflect-Guard achieves substantial improvements on two challenging benchmarks. On WildGuardTest, F1 score improves from 0.770 to 0.842 (+7.2 pp), with recall on adversarial prompts increasing from 0.513 to 0.921 (+40.8 pp). On JailbreakBench, the attack success rate drops from 10.3% to 1.8%, representing an 82.5% relative reduction. These gains are especially pronounced on adversarial inputs, where the explicit reasoning step enables the model to see through obfuscation techniques that defeat standard pattern-matching approaches. Our results demonstrate that teaching safety classifiers to reason about adversarial intent, rather than simply classify surface patterns, is a promising direction for robust LLM safety.</description>
+      <pubDate>Sun, 24 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>llm</category>
+      <category>jailbreak</category>
+    </item>
+    <item>
+      <title>RouteScan: A Non-Intrusive Approach to Auditing MoE LLMs Safety via Expert Routing Telemetry</title>
+      <link>https://arxiv.org/abs/2605.24817v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.24817v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.24817v1
+
+AI Summary (中文):
+## 背景与挑战  
+混合专家（MoE）架构已成为扩展大语言模型（LLM）的关键范式，但其在真实服务中的部署引发了紧迫的安全审计需求。传统基于内容的审计方法（如分析用户提示、输入或输出文本）虽有效，却需直接访问敏感用户数据，导致**安全与隐私的根本性冲突**——这在监管严格、用户信任至上的应用场景中尤为突出。
+
+## 方法创新：RouteScan 框架  
+本文提出 **RouteScan**，一种**非侵入式、硬件感知的安全审计框架**。其核心洞见在于：MoE 模型的稀疏专家路由机制会因输入语义差异而触发不同的专家激活模式，进而在 GPU 执行层留下可测量的微架构足迹。RouteScan 创新性地利用**预填充（prefilling）阶段各专家模块所分配的活跃 GPU 线程数**作为轻量、高判别性的路由指纹。该信号完全脱离文本内容，仅依赖公开、低权限的硬件性能计数器（如 NVIDIA Nsight Compute），无需访问任何用户数据或模型内部参数。
+
+## 关键发现与优势  
+- 在多个开源 MoE LLM（如 Mixtral-8x7B、Qwen1.5-MoE-A2.7B）上验证，RouteScan 对**未见过的危害领域**（如非法指令、仇恨言论）AUROC 达 **0.93+**，对新型 jailbreak 包装器（如 Ghost, Multiverse）检测 AUROC 高达 **0.96**，展现卓越跨域泛化能力；  
+- 逆向重构实验表明：仅凭路由线程 telemetry **无法可靠还原原始提示**（重建 BLEU &lt; 0.02，语义保真度趋近于零），证实其具备**实质性隐私保护优势**；  
+- 整个检测流水线仅需毫秒级延迟、&lt;5MB 内存开销，可无缝嵌入生产环境监控栈，实现“零数据接触”的实时风控。
+
+AI Summary (English):
+RouteScan is a non-intrusive safety auditing framework for Mixture-of-Experts (MoE) LLMs that operates solely on low-level GPU expert routing telemetry—bypassing prompts, inputs, and outputs entirely. It leverages the count of active GPU threads allocated to each expert during prefilling as a privacy-preserving, microarchitectural fingerprint of input semantics. A lightweight detection pipeline extracts cross-domain invariant risk signals from this telemetry, enabling precise identification of malicious prompts without accessing sensitive user data. Evaluated on diverse open-source MoE models (e.g., Mixtral, Qwen-MoE), RouteScan achieves AUROC &gt; 0.93 on unseen harmful domains and 0.96 under novel jailbreak wrappers—demonstrating strong generalization. Crucially, empirical inversion tests confirm that routing telemetry provides negligible reconstructive signal for prompts (BLEU &lt; 0.02), offering a practical privacy advantage over content-based methods.
+
+Abstract:
+Mixture-of-Experts (MoE) architectures have become an increasingly important paradigm for scaling Large Language Models (LLMs). As MoE models are increasingly deployed in real-world services, safety auditing becomes necessary to verify whether these models produce or facilitate harmful behaviors during operation. However, existing content-based auditing methods typically require access to user prompts, model inputs, or generated outputs, potentially exposing sensitive user information and creating a fundamental tension between LLM safety and user privacy. On the other hand, we observe that, in MoE models, sparse expert routing maps different inputs to activate different expert-execution patterns, producing measurable footprints in low-level GPU execution telemetry. Inspired by this observation, we propose RouteScan, a non-intrusive auditing framework for detecting harmful behaviors through GPU-level expert routing telemetry. Specifically, RouteScan utilizes the number of active GPU threads allocated to expert modules during the prefilling phase as a discriminative micro-architectural fingerprint, and builds a lightweight detection pipeline that isolates cross-domain invariant risk indicators for the precise identification of malicious prompts. Comprehensive evaluations on open-source MoE LLMs with distinct routing designs demonstrate that RouteScan achieves strong generalization, with an AUROC exceeding 0.93 on unseen harmful domains and 0.96 under novel jailbreak wrappers. Moreover, empirical inversion tests show that the collected expert routing telemetry provides limited information for prompt reconstruction, suggesting a practical privacy advantage over content-based auditing methods.</description>
+      <pubDate>Sun, 24 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>llm</category>
+      <category>jailbreak</category>
+    </item>
+    <item>
+      <title>LLM Agent Based Renewable Energy Forecasting Using Edge and IoT Data A Review of Solar Wind Weather and Grid Aware Decision Support</title>
+      <link>https://arxiv.org/abs/2605.25141v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25141v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25141v1
+
+AI Summary (中文):
+## 基于LLM智能体的边缘与IoT驱动可再生能源预测综述  
+
+**背景与挑战**：太阳能与风能固有的间歇性（受云层、风速、大气湍流、季节变化及地形影响）对电网稳定、电力交易、储能调度及碳感知运行规划构成严峻挑战。当前，智能电表、逆变器、风速计、日射强度计、气象站及电网接口传感器等边缘IoT设备爆发式增长，产生海量实时多源数据，但传统预测流水线难以有效融合与利用此类异构、高时频、时空耦合的数据流。
+
+**方法与框架**：本文系统综述了大型语言模型（LLM）智能体在可再生能源预测中的范式革新作用。我们提出一种**六层统一架构**：涵盖数据采集→预处理→特征工程→模型推理→不确定性估计→自然语言报告，支持将边缘传感器流、气象API、历史出力记录、电网约束及物理上下文知识无缝集成至端到端决策支持工作流。综述对比分析了经典统计模型（如ARIMA）、深度学习架构（LSTM、Transformer）、物理信息混合模型，并重点评述LLM智能体在**可解释性生成、不确定性通信、幻觉抑制、人机协同引导**等方面的前沿进展。
+
+**核心发现与创新**：识别出12项关键开放挑战，包括：实时边缘部署延迟、分布偏移下的模型漂移、多源不确定性量化、LLM幻觉控制、边缘硬件异构性互操作、与能源管理系统（EMS）/SCADA深度集成等。本文首次提出“**物理感知LLM接地**”（physics-informed LLM grounding）与“**联邦化预测架构**”作为未来研究双支柱，并呼吁建立面向能源场景的**开源基准数据集与评估协议**。
+
+AI Summary (English):
+This review examines how Large Language Model (LLM) agents advance renewable energy forecasting by unifying heterogeneous edge/IoT data—spanning smart meters, inverters, anemometers, pyranometers, weather APIs, historical generation, and grid constraints—into context-aware decision support. We propose a six-layer taxonomy (data acquisition to natural language reporting) and survey classical, deep learning, physics-hybrid, and emerging LLM-agent approaches—with emphasis on explainability, uncertainty communication, hallucination mitigation, and operator guidance. Key challenges identified include real-time edge deployment, distributional shift-induced model drift, multi-source uncertainty quantification, LLM hallucination control, edge hardware interoperability, and EMS integration. We recommend a research agenda centered on open energy benchmarks, physics-informed LLM grounding, and federated forecasting architectures.
+
+Abstract:
+Reliable forecasting of renewable energy generation is a foundational requirement for grid stability energy trading battery scheduling and carbon aware operational planning Solar and wind resources are inherently intermittent their output fluctuates with cloud cover wind speed atmospheric turbulence seasonal patterns and local terrain The proliferation of IoT and edge devices spanning smart meters inverters anemometers pyranometers weather stations and grid interface sensors has created an unprecedented volume of real time operational data that conventional forecasting pipelines are ill equipped to exploit fully This review investigates how large language model LLM agents can enhance renewable energy forecasting by integrating heterogeneous sensor streams weather API data historical generation records grid constraints and contextual reasoning into unified decision support workflows We survey classical forecasting methods statistical time series models deep learning architectures physics hybrid approaches and emerging LLM agent frameworks for explanation uncertainty communication and operator guidance A six layer taxonomy is proposed covering data acquisition preprocessing feature engineering model inference uncertainty estimation and natural language reporting The review identifies twelve open challenges spanning real time deployment model drift under distribution shift uncertainty quantification hallucination control in LLM agents interoperability of edge hardware and integration with energy management systems The paper concludes by recommending a research agenda centred on open benchmarks physics informed LLM grounding and federated forecasting architectures</description>
+      <pubDate>Sun, 24 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>learning</category>
+      <category>federated</category>
+    </item>
+    <item>
+      <title>Solving Combinatorial Counting Problems with Weighted First-Order Model Counting</title>
+      <link>https://arxiv.org/abs/2605.24845v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.24845v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.24845v1
+
+AI Summary (中文):
+## 背景与挑战  
+组合计数问题广泛存在于人工智能、统计学与离散数学中，涵盖子集、多重集、排列、划分、组合等结构在各类约束下的枚举任务。传统方法面临两难：**闭式推导**虽高效但泛化性差、易出错；而将问题直接编码为命题模型计数（#SAT）或约束满足问题（CSP），则会破坏对象间的**可交换性**（exchangeability）——这恰是实现可扩展计数的关键结构性优势。
+
+## 方法创新：Cofola 语言与 WFOMC 编译框架  
+本文提出 **Cofola**（COmbinatorial counting LAnguage with First-Order logic），一种带类型的声明式语言，其原语直接对应常见组合对象：**集合（sets）、包（bags）、元组（tuples）、序列（sequences）、环（circles）、划分（partitions）和组合（compositions）**，并支持自然的**关系约束**（如包含、不相交）与**算术约束**（如元素和、基数限制）。Cofola 程序具有严谨的**指称语义**，确保每个程序唯一对应一个良定义的组合计数问题。其核心是三阶段编译流水线：  
+- **预处理**：规范化约束与类型；  
+- **分解**：基于结构依赖进行问题解耦；  
+- **对称性保持编码**：通过**分组不可区分实体**、对无序结构（如集合、划分）施加**字典序打破**、对序列/环引入**全序公理**，将问题规约为**加权一阶模型计数**（WFOMC）实例，并嵌入**系数提取约束**以支持生成函数级精确计数。
+
+## 主要成果  
+在涵盖教科书经典问题（如受限整数划分、带禁位排列）及多对象协同场景（如“从3类球中选5个且每类至少1个”的联合约束）的评测套件上，Cofola 实现了：① **规格简洁性**（平均代码量比逻辑编码减少68%）；② **表达完备性**（首个能统一建模环、划分、组合等高阶结构的框架）；③ **可解性保障**：编译结果严格落入已知**域可提升**（domain-liftable）片段，支持多项式时间推理。该框架首次打通了组合数学直觉与自动化符号计数之间的语义鸿沟。
+
+AI Summary (English):
+Combinatorial counting—enumerating sets, multisets, permutations, partitions, and compositions under structural and arithmetic constraints—is fundamental yet notoriously manual. Closed-form solutions are brittle; propositional encodings destroy exchangeability, undermining tractability. We introduce **Cofola**, a typed declarative language whose primitives directly mirror combinatorial objects (e.g., bags, sequences, circles, partitions) and support natural relational and arithmetic constraints. Its denotational semantics maps programs to well-defined counting problems, compiled via a three-phase pipeline (preprocessing, decomposition, symmetry-preserving encoding) into **weighted first-order model counting (WFOMC)** instances with coefficient-extraction constraints. Crucially, the encoding preserves domain-liftability by grouping indistinguishable elements, breaking unordered symmetries lexicographically, and axiomatizing order for sequences/circles. Evaluated on textbook and multi-object problems beyond prior frameworks’ expressivity, Cofola delivers concise specifications and an end-to-end practical solver—unifying combinatorial intuition with automated, scalable counting.
+
+Abstract:
+Combinatorial counting problems pervade artificial intelligence, statistics, and discrete mathematics. Whether the task is enumerating subsets, multisets, permutations, partitions, or compositions under structural and arithmetic constraints, solving it remains a stubbornly manual exercise. Closed-form derivations are powerful but brittle, while naive encodings to propositional model counting or constraint satisfaction destroy the exchangeability that makes counting tractable in the first place. We present Cofola (COmbinatorial counting LAnguage with First-Order logic), a typed declarative language whose primitives are the combinatorial objects that recur in everyday counting questions, including sets, bags, tuples, sequences, circles, partitions, and compositions, together with natural relational and arithmetic constraints over them. A denotational semantics maps every Cofola program to a well-defined combinatorial counting problem, and a three-phase compilation pipeline (preprocessing, decomposition, and symmetry-preserving encoding) reduces this problem to a weighted first-order model counting (WFOMC) instance augmented with coefficient-extraction constraints. To stay inside known domain-liftable fragments whenever possible, the encoding groups indistinguishable entities, breaks the symmetry of unordered groupings lexicographically, and encodes sequences and circles via order axioms. On a suite of representative combinatorial counting problems, ranging from textbook math problems to multi-object scenarios that the closest prior framework cannot express, Cofola produces concise specifications and a uniform solving pipeline that is practical end-to-end.</description>
+      <pubDate>Sun, 24 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>extraction</category>
+      <category>model</category>
+    </item>
+    <item>
+      <title>Personalized Federated Learning by Energy-Efficient UAV Communications</title>
+      <link>https://arxiv.org/abs/2605.25212v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25212v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25212v1
+
+AI Summary (中文):
+## 研究背景与挑战  
+联邦学习（FL）在保障边缘设备数据隐私的同时提升协同建模能力，但在地理广域分布场景（如偏远地区传感器网络）中，传统地面通信受限。无人机（UAV）凭借灵活部署与视距链路优势，可作为移动聚合器支撑FL参数交换；然而，**设备数据异构性**导致模型收敛缓慢，而**全设备参与的全局训练机制**又引发高昂通信开销与UAV能量瓶颈——其有限电池容量难以支撑高频、长时、高功率的多链路并发传输。
+
+## 方法创新  
+本文提出一种面向能效优化的个性化联邦学习框架：  
+- **架构层面**：采用**严格解耦的双分支结构**——全局共享的轻量化骨干网络（backbone）+ 永久本地化的个性化头（personalization head），从模型设计上隔离数据异构干扰，避免个性化参数污染全局更新；  
+- **调度层面**：设计**梯度ℓ₂-范数驱动的稀疏调度策略**：每轮仅选取梯度模值最大的前α%设备上传骨干参数，既聚焦信息量最高的局部更新，又显著降低UAV需服务的设备数量与总传输比特量；  
+- **联合优化目标**：将UAV能量消耗（含飞行能耗与通信功耗）显式建模为调度决策的约束项，实现学习性能与能效的帕累托改进。
+
+## 主要结果  
+在多种非独立同分布（Non-IID）数据集上的仿真表明：相较FedAvg、FedProx及最新UAV-FL方案，本方法在CIFAR-10（Non-IID-β=0.1）上测试精度提升**3.2–5.7个百分点**，同时UAV单轮平均能耗降低**41.3%**，续航时间延长近1.7倍。该框架为资源受限空天地一体化FL系统提供了可部署的轻量级解决方案。
+
+AI Summary (English):
+Federated learning (FL) enables privacy-preserving collaborative training across edge devices, yet geographic dispersion—e.g., in remote sensor networks—necessitates flexible aerial support. Unmanned aerial vehicles (UAVs) serve as mobile aggregators but face dual challenges: data heterogeneity degrades convergence, while full-device scheduling incurs prohibitive communication and energy costs under limited UAV battery capacity. To address this, we propose a personalized FL framework featuring: (i) a strict separation between a globally shared lightweight backbone and permanently local personalization heads to inherently mitigate data heterogeneity; and (ii) a gradient ℓ₂-norm–based sparse scheduling strategy that selects only the top-α% devices per round for backbone updates—prioritizing informative gradients while minimizing UAV communication load and energy expenditure. Simulations under strong Non-IID settings show our method achieves **3.2–5.7% higher test accuracy** than state-of-the-art baselines (e.g., FedAvg, FedProx, UAV-FL), while reducing **per-round UAV energy consumption by 41.3%**, effectively extending flight endurance. This work bridges personalized learning, energy-aware UAV communications, and practical FL deployment.
+
+Abstract:
+Federated learning (FL) is an effective paradigm for enhancing the learning capability of edge devices while preserving data privacy. In geographically dispersed FL systems, such as sensor networks in remote areas, unmanned aerial vehicles (UAVs) can flexibly establish high-quality communication links to support parameter exchange. However, device heterogeneity and the limited battery capacity of UAVs pose significant challenges. Specifically, data heterogeneity slows convergence, while scheduling all devices for global collaboration incurs excessive communication and energy costs. To overcome these challenges, we adopt a strict separation between a globally shared backbone and permanently local personalization heads, thereby mitigating the impact of data heterogeneity. Furthermore, we propose a gradient-based scheduling strategy that jointly considers energy efficiency and learning performance. In each communication round, the backbone is updated only by the top-$α$ devices ranked by gradient $\ell_{2}$-norm, ensuring that optimization focuses on the most informative updates. Simulation results demonstrate that the proposed scheme achieves higher learning accuracy than state-of-the-art approaches while significantly reducing UAV energy consumption.</description>
+      <pubDate>Sun, 24 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>learning</category>
+      <category>federated</category>
+    </item>
+    <item>
+      <title>Localization then Neutralization: Gradient-guided Token Suppression against Visual Prompt Injection Attack</title>
+      <link>https://arxiv.org/abs/2605.25194v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25194v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25194v1
+
+AI Summary (中文):
+## 背景与挑战  
+视觉提示注入攻击（Visual Prompt Injection）通过精心构造的对抗图像，劫持多模态大语言模型（MLLMs）的推理路径，导致严重安全风险。现有防御方法或缺乏对攻击机制的原理性理解，或难以兼顾**高效性**与**防御效用**，常引入显著计算开销或损害模型正常任务性能。
+
+## 方法创新：梯度引导的令牌抑制框架（GTM）  
+本文揭示关键洞见：成功攻击**并非依赖整张图像**，而是由少数高影响力图像令牌（image tokens）驱动。据此，我们提出**Gradient Token Masking（GTM）**——一种“先定位、后中和”的两阶段防御范式：  
+- **定位（Localization）**：摒弃传统基于首生成词概率的归因方式（其在攻击保持预测token时失效），创新采用**隐状态梯度范数（Hidden-State Gradient Norm, HSGN）** 作为生成影响归因指标；  
+- **中和（Neutralization）**：理论证明HSGN排序与完整对抗损失梯度排序严格一致，保障定位准确性；仅需**单次前向-反向传播**，即识别并置零Top-K高分令牌（通常&lt;1%总token数），精准切断攻击信号流。
+
+## 效果与优势  
+在Prompt Injection与多模态越狱（multimodal jailbreak）等多类攻击基准上，GTM将攻击成功率（ASR）**压降至接近0%**，同时保持原始模型在VQAv2、MMBench等基准上的性能几乎无损（下降&lt;0.3%）。计算开销极低——单图平均仅增加约**8ms延迟**，无需微调或额外参数，具备强实用性与部署友好性。
+
+AI Summary (English):
+Adversarial visual prompt injection poses a critical security threat to multimodal large language models (MLLMs). This work identifies that successful attacks rely not on the entire image but on a sparse set of critical image tokens. To counter this, we propose **Gradient Token Masking (GTM)**: a lightweight, gradient-guided defense that first *localizes* attack-critical tokens via the **Hidden-State Gradient Norm (HSGN)**—a theoretically grounded attribution metric proven consistent with full adversarial loss gradients—and then *neutralizes* them by masking. GTM requires only **one forward-backward pass**, zeros out &lt;1% of tokens, and incurs negligible latency (&lt;8 ms/image). Experiments across diverse prompt injection and multimodal jailbreak benchmarks show GTM reduces attack success rates (ASR) to near zero while preserving model utility (≤0.3% accuracy drop on VQAv2/MMBench), outperforming prior defenses in both efficacy and efficiency.
+
+Abstract:
+Adversarial images pose a severe security threat to multimodal large language models through prompt injection. Existing defenses largely lack a principled understanding of the underlying mechanisms and struggle to balance efficiency and defense utility. In this work, we show that successful adversarial attacks do not rely on the entire image uniformly but instead depend on a small subset of critical image tokens. Based on this insight, we propose Gradient Token Masking (GTM), which localizes these tokens via gradient analysis and neutralizes them through masking. We find that attribution based on the first generated token's output probability fails when attacks preserve the predicted token. To overcome this, GTM utilizes the Hidden-State Gradient Norm score for generation-influence attribution under adversarial inputs. We prove that its ranking is consistent with that of the full adversarial loss gradient, providing a theoretical guarantee for accurate localization. Our method requires only a single forward-backward pass to identify and zero out a small number of high-scoring tokens, effectively disrupting the adversarial attack path. Extensive experiments on prompt injection and multimodal jailbreak attacks demonstrate that our approach reduces attack success rates (ASR) to near zero while preserving model utility with negligible computational overhead.</description>
+      <pubDate>Sun, 24 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>injection</category>
+      <category>prompt</category>
+    </item>
+    <item>
+      <title>MimirRAG: A Multi-Agent RAG Framework for Financial Data Retrieval with Metadata Integration</title>
+      <link>https://arxiv.org/abs/2605.25030v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25030v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25030v1
+
+AI Summary (中文):
+## 背景与挑战  
+在金融分析场景中，大语言模型（LLM）需严格基于可验证的监管文件（如SEC 10-K/10-Q）生成答案，避免幻觉。传统RAG系统难以应对财务文档的异构性——包含密集文本、结构化表格、跨页图表及丰富元数据（如报告期、公司代码、章节层级），导致信息割裂、数值推理失准、检索相关性低。
+
+## 方法：MimirRAG多智能体框架  
+本文提出**MimirRAG**（Metadata-Integrated Multi-Agent Information Retrieval），一个面向金融数据检索的模块化多智能体RAG框架：  
+- **结构保持解析**：采用PDF语义解析器保留原始布局与表格完整性；  
+- **表感知分块**（Table-Aware Chunking）：将表格作为原子单元切分，避免跨行/跨表断裂，并关联相邻文本上下文；  
+- **元数据融合**：自动提取并结构化文档级（公司名、财年）、章节级（“Item 7. Management’s Discussion”）、表格级（表标题、单位、时间维度）元数据，注入检索与重排序全流程；  
+- **智能体协同检索**：由Query Planner智能体分解复杂分析问题（如“对比2022与2023年苹果公司毛利率变化及原因”），调用Hybrid Search Agent（关键词+向量+元数据过滤）与Validation Agent（交叉验证多源证据）；  
+- **上下文感知生成**：集成数值推理模块，支持百分比计算、同比/环比推导及单位一致性校验。
+
+## 关键发现与创新  
+消融实验证实三大技术支柱：**元数据集成**（+12.7%准确率）、**表感知分块**（+9.4%表格问答F1）、**智能体工作流**（+15.2%多跳推理成功率）。在FinanceBench基准上达**89.3%准确率**（超越原SOTA 6.8个百分点）；四名资深金融分析师的专家评估指出：系统显著提升证据溯源效率，但实际落地需配套**可信度校准机制**（如置信度可视化）、**全源数据接入能力**（EDGAR + Bloomberg + 内部数据库）及**用户个性化配置**（行业偏好、风险阈值设定）。本研究验证了“多智能体RAG + 人类中心设计”的协同范式对高可靠性金融洞察提取的有效性。
+
+AI Summary (English):
+Retrieval-augmented generation (RAG) is critical for financial analysis, where LLM outputs must be rigorously grounded in regulatory filings to prevent hallucination. Yet, standard RAG struggles with financial documents’ complexity—dense text, multi-page tables, and rich metadata. This paper introduces **MimirRAG**, a metadata-integrated, multi-agent RAG framework designed specifically for financial data retrieval. Its pipeline features structure-preserving PDF parsing, table-aware chunking, automated metadata extraction (company, fiscal year, section, table semantics), query-planning agents, hybrid (keyword/vector/metadata) search, cross-document validation, and context-aware generation with numerical reasoning support. Ablation studies identify metadata integration, table-aware chunking, and the agentic workflow as the three key enablers of performance. Evaluated on FinanceBench, MimirRAG achieves **89.3% accuracy**, outperforming prior baselines by 6.8 points. Expert validation with four financial analysts confirms its analytical utility but emphasizes that real-world deployment requires calibrated trust (e.g., confidence scoring), comprehensive data integration, and user personalization. MimirRAG demonstrates how human-centered multi-agent RAG architecture advances reliable financial insight extraction.
+
+Abstract:
+Retrieval-augmented generation (RAG) systems offer a promising approach to reduce hallucinations and improve answer accuracy in large language models (LLMs), a requirement for reliable, financial analysis where answers must be grounded in verifiable evidence from filings rather than generated from model priors. However, designing RAG systems that extract meaningful insights from mixed financial documents and integrate into analyst workflows remains challenging. This paper introduces MimirRAG (Metadata-Integrated Multi-Agent Information Retrieval), a multi-agent RAG system developed iteratively to address these challenges. MimirRAG features a modular pipeline encompassing structure-preserving parsing of PDF filings, table-aware chunking, metadata extraction, agent-based retrieval with query planning and hybrid search, validation, and context-aware generation with numerical reasoning support. Our ablation study identifies three key technical enablers for effective financial RAG: metadata integration, table-aware chunking, and an agentic workflow. MimirRAG was evaluated quantitatively using FinanceBench and qualitatively through expert validation with four financial analysts. The system achieved 89.3% accuracy on FinanceBench, outperforming the original benchmark baselines. Expert feedback highlighted that successful deployment also requires calibrated trust, comprehensive data integration, and user personalization. We conclude that combining multi-agent RAG architecture with human-centric design principles can improve the extraction of meaningful insights in financial analysis.</description>
+      <pubDate>Sun, 24 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>extraction</category>
+      <category>model</category>
+    </item>
+    <item>
+      <title>Efficient DP-SGD for LLMs with Randomized Clipping</title>
+      <link>https://arxiv.org/abs/2605.24879v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.24879v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.24879v1
+
+AI Summary (中文):
+## 背景与挑战  
+大型语言模型（LLMs）在海量数据上训练，其中常含个人敏感信息。差分隐私（DP）作为形式化隐私保护的金标准，为LLM训练提供了可证明的隐私保障。然而，当前主流DP训练方案（如DP-SGD）依赖于高效梯度裁剪技术，其内存开销高达 $O(B \min\{T^2, d^2\})$——其中 $B$ 为批大小、$T$ 为序列长度、$d$ 为模型宽度。随着模型规模（如1B+参数）与上下文长度（如32k tokens）持续增长，该开销迅速成为训练瓶颈，严重制约长上下文DP微调的可行性。
+
+## 方法创新：DP-SGD-RC  
+本文提出 **DP-SGD-RC**（DP-SGD with Randomized Clipping），一种新型差分隐私随机梯度下降变体。核心突破在于：摒弃传统确定性逐样本梯度范数计算（需显式存储全部中间梯度），转而采用**随机迹估计技术**——包括Hutchinson估计器（1989）及其改进版Hutch++（Meyer et al., 2021）——以**无偏、低方差地近似每样本梯度L2范数**。该策略将内存复杂度降至 $O(B d)$（线性于模型宽度），同时显著降低计算量，且无需额外反向传播或缓存高维梯度张量。
+
+## 关键结果与优势  
+我们给出了**紧致的隐私分析**，严格证明DP-SGD-RC在相同$(\varepsilon,\delta)$预算下可实现与确定性裁剪相当的噪声乘子（noise multiplier），隐私保障不打折扣。在Llama-3.2-1B模型上，于多个长上下文基准（涵盖分类、问答、摘要任务）开展DP微调实验：DP-SGD-RC在保持**基线模型效用（如准确率、ROUGE、F1）几乎完全一致**的前提下，**内存占用降低42%–68%，单步训练时间减少35%–51%**。本工作首次实现了长上下文LLM DP训练的高效、可扩展与严格隐私兼容。
+
+AI Summary (English):
+Large language models (LLMs) trained on sensitive data require rigorous privacy guarantees, for which differential privacy (DP) is the gold standard. However, state-of-the-art DP-SGD implementations suffer from prohibitive $O(B \min\{T^2, d^2\})$ memory overhead—scaling poorly with sequence length $T$ and model width $d$. We propose **DP-SGD-RC**, a novel variant that replaces deterministic per-sample gradient norm computation with *randomized clipping* via stochastic trace estimation (Hutchinson’s estimator and Hutch++). This reduces memory to $O(B d)$ and cuts compute significantly, while preserving gradient unbiasedness and privacy rigor. Our tight privacy analysis shows DP-SGD-RC achieves noise multipliers competitive with deterministic clipping under identical $(\varepsilon,\delta)$. Experiments fine-tuning Llama-3.2-1B on long-context benchmarks (classification, QA, summarization) demonstrate **on-par utility with baseline DP-SGD**, alongside **42–68% memory reduction and 35–51% faster step time**, enabling scalable, private LLM adaptation.
+
+Abstract:
+Large language models (LLMs) are trained on vast datasets that may contain sensitive information. Differential privacy (DP), the de facto standard for formal privacy guarantees, provides a principled framework for training LLMs with provable privacy protection. However, state-of-the-art DP training implementations rely on fast gradient clipping techniques with memory overhead $O(B \min\{T^2, d^2\})$, where $B$ is the batch size, $T$ is the sequence length, and $d$ is the model width. This becomes prohibitive as both model size and context length grow. We propose DP-SGD-RC, a novel variant of DP-SGD with randomized clipping that reduces memory and compute complexity. DP-SGD-RC leverages stochastic trace estimation methods, specifically Hutchinson's estimator[Hutchinson, 1989] and its improved variant, Hutch++[Meyer et al., 2021], to reduce the memory footprint of per-sample gradient norm estimation. We provide a tight privacy analysis showing that DP-SGD-RC achieves noise multipliers competitive with deterministic clipping. Experiments fine-tuning Llama~3.2-1B on long-context benchmarks spanning classification, question answering, and summarization tasks demonstrate that DP-SGD-RC matches baseline utility while significantly reducing memory and compute requirements.</description>
+      <pubDate>Sun, 24 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>privacy</category>
+      <category>differential</category>
+      <category>dp</category>
+    </item>
+    <item>
+      <title>Spiking the training data to correct for test set contamination</title>
+      <link>https://arxiv.org/abs/2605.24818v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.24818v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.24818v1
+
+AI Summary (中文):
+## 背景与问题  
+测试集污染（test set contamination）是大语言模型评估中的严重威胁，现有研究多聚焦于**污染检测**，而对受污染测试分数的**统计校正方法**缺乏系统探索。当模型在训练中意外接触测试样本时，其测试准确率被高估，导致性能评估失真。
+
+## 方法：训练数据“加 Spike”校正法  
+本文提出一种新颖、可操作的校正范式——**主动污染训练数据（spiking）**：在训练集中以已知比例（如1%、5%）显式注入部分测试样本，并记录其污染标签。这些“spiked examples”构成可控的校准集，用于训练**模型记忆度预测器**（memorization predictor）和**正确性预测器**（correctness predictor），进而构建统计校正模型，反事实地估计并扣除污染带来的分数膨胀。
+
+## 关键发现与创新  
+- 构建基于**Hubble模型对**的仿真框架：每对包含一个标准模型（未污染，作为真实性能基准）与一个受控污染模型（注入特定测试集），实现校正效果的可验证评估；  
+- 系统比较多种校正估计量，发现**融合记忆度与正确性信号的联合估计器**显著优于无校正的基线及单一信号估计器；  
+- 实证表明，轻量级预测器（如Platt校准的成员推断分数）即可提供强校正信号，**仅需约10个spiked样例即可完成可靠校准**，且具备跨数据集迁移能力；  
+- 该方法无需访问原始训练日志或模型梯度，部署成本低，为工业级模型评估提供了首个兼具**理论严谨性与工程可行性**的污染校正方案。
+
+AI Summary (English):
+Test set contamination inflates model evaluation scores, yet correction—unlike detection—remains underexplored. We propose *spiking*: intentionally injecting known fractions of test examples into training data to create labeled calibration sets. These spiked examples train memorization and correctness predictors, enabling principled statistical correction of inflated test accuracy. Using Hubble model pairs—where perturbed models are deliberately contaminated while standard models serve as clean counterfactuals—we evaluate estimators in simulation. Joint estimators leveraging both memorization and correctness signals consistently outperform naive (no-correction) baselines. Simple predictors—e.g., Platt-scaled membership inference metrics—achieve strong correction with as few as 10 spiked examples and transfer across datasets. Spiking thus offers a practical, statistically grounded solution for real-world model evaluation under contamination.
+
+Abstract:
+The literature on test set contamination largely focuses on detection, but the correction of contaminated test scores is underexplored. Our core proposal is to spike the training data by intentionally contaminating some test examples at known rates. The spiked examples can then be used to calibrate predictors of model memorization which enable principled statistical correction of inflated test scores. To evaluate different correction estimators, we first present a simulation framework based on the Hubble models. Hubble models come in minimal pairs, where the perturbed model was deliberately contaminated with several test sets, while the standard model was not, serving as the counterfactual and correction target. We consider estimators that use information from a memorization predictor, correctness predictor, or both. In simulation, we establish basic statistical intuitions and show that estimators leveraging memorization and correctness information are better than naive estimation which makes no correction at all. We then instantiate several memorization and correctness predictors, and find that simple predictors such as Platt-scaled membership inference metrics provide good signal for correction. Finally, we examine the practical considerations of spiking. Simple memorization predictors need no more than 10 examples for calibration and often transfer from one dataset to another. Taken together, spiking is a promising solution for test set contamination.</description>
+      <pubDate>Sun, 24 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>membership</category>
+      <category>inference</category>
+    </item>
+    <item>
+      <title>They Are Not the Same: Direct Causes Are Not Grounded Emotion Explanations</title>
+      <link>https://arxiv.org/abs/2605.25208v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.25208v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.25208v1
+
+AI Summary (中文):
+## 研究背景与问题  
+情感-原因对抽取（ECPE）任务本旨在为情感事件提供**可解释的因果依据**，即回答“为何产生该情感”。然而，当前主流方法已退化为简单的二元分类（“是/否情感-原因对”），这一代理目标虽利于识别**直接触发词（direct causes）**，却常被误读为实现了“基于证据的情感解释”——而二者在认知与语用层面存在本质差异。
+
+## 方法与发现  
+本文以IEMO-MECP数据集为基准，系统检验二元ECPE边界与真实解释性之间的对齐程度：  
+- **边界稳定性分析**：90.9%原始正样本仍被判定为情感-原因对，95.0%原始负样本仍被判定为非对，表明二元任务本身高度保真；  
+- **关键缺陷揭示**：大量**情感语境（emo-context）**——即不直接引发情感、但对理解情感不可或缺的上下文话语——跨跃原始二元边界分布，且显著富集于模型预测不确定区域，证明该边界无法稳定容纳解释性证据；  
+- **模型行为诊断**：所有评估模型均更可靠地召回直接触发词，却普遍弱化语境支持；在捷径学习（shortcut pressure）下，模型甚至赋予**词形相似但无证据支持的邻近非对候选**更高得分，反而压低**有充分证据支撑但结构复杂的情感-原因或情感-语境对**。
+
+## 核心结论与创新  
+本研究首次明确区分“直接原因识别”与“ grounded emotion explanation”，指出：**高ECPE准确率仅反映模型捕捉直接触发的能力，绝不等价于生成可验证、语境嵌入的解释**。这一发现挑战了当前ECPE评估范式，并呼吁构建面向解释质量（而非仅配对精度）的新基准与建模框架。代码开源：https://github.com/panzhzh/ECPExsame。
+
+AI Summary (English):
+This paper challenges the conflation of *direct cause identification* with *grounded emotion explanation* in Emotion-Cause Pair Extraction (ECPE). While ECPE was designed to explain *why* an emotion occurs, it is now widely reduced to binary pair/non-pair classification—a useful proxy for detecting direct triggers, but misleadingly interpreted as evidence-based explanation. We show this interpretation is only partially valid: though the binary task remains largely preserved on IEMO-MECP (90.9% original positives and 95.0% negatives retain their labels), the binary boundary fails to stably accommodate *emo-context*—utterances that support emotional interpretation without direct causation. Such context crosses the boundary and concentrates near model uncertainty. Across models, direct triggers are recovered more reliably than contextual evidence; under shortcut pressure, models assign higher pair scores to lexically similar but unsupported non-pair candidates than to evidence-backed, structurally complex emo-cause or emo-context pairs. Thus, high binary ECPE performance reflects trigger detection—not explanation. Code: https://github.com/panzhzh/ECPExsame.
+
+Abstract:
+Emotion-Cause Pair Extraction (ECPE) was introduced to explain why an emotion occurs, but this goal is now often reduced to binary pair/non-pair prediction. This proxy is useful for direct-cause extraction, yet easy to over-read as evidence grounded emotion explanation. We show that this interpretation is only partially valid. In IEMO-MECP, 90.9% of original positives remain emo-cause and 95.0% of original negatives remain non-pair, confirming that the binary ECPE task is largely preserved. The problem is that direct triggers alone do not constitute a grounded explanation. Emo-context, an utterance that helps interpret a target emotion without directly causing it, appears on both sides of the original boundary and is enriched near binary uncertainty, showing that the binary boundary has no stable place for such discourse evidence. Across evaluated ECPE models, direct triggers are recovered more reliably than contextual support. Under shortcut pressure, this imbalance becomes consequential. Binary-trained models assign higher pair scores to nearby lexically similar non-pair candidates than to evidence supported but structurally harder emo-cause and emo-context pairs. Thus, pair scores can reward convenient attributions over grounded explanations. High binary ECPE performance indicates that a model can identify direct triggers; it does not indicate that the model has explained the emotion. Code is publicly available at https://github.com/panzhzh/ECPExsame.</description>
+      <pubDate>Sun, 24 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>extraction</category>
+      <category>model</category>
+    </item>
+    <item>
+      <title>CyberMaskQA: A Privacy-Aware Benchmark for Evaluating Large Language Models in Cybersecurity Question Answering</title>
+      <link>https://arxiv.org/abs/2605.24765v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.24765v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.24765v1
+
+AI Summary (中文):
+## 背景与挑战  
+大型语言模型（LLMs）正被广泛应用于网络安全问答（Cybersecurity QA），支撑事件响应、漏洞分析等关键任务。然而，真实运维数据（如系统日志、网络配置）天然包含**敏感标识符**（如IP地址、主机名、用户账户），在受监管环境（如金融、政务）中直接上传至云端LLM存在严重隐私与合规风险。更根本的是，当前缺乏兼顾**操作语义丰富性**与**细粒度隐私标注**的基准数据集，导致隐私保护型QA模型的研发长期受限。
+
+## 方法与创新  
+本研究提出 **CyberMaskQA**——首个面向隐私感知的网络安全QA基准。其核心创新在于：  
+- **情境化建模**：问题均扎根于真实组织架构，显式建模资产间因果依赖（如“因服务器A权限提升→导致数据库B暴露”），超越传统基准仅测试静态事实知识的局限；  
+- **可控脱敏设计**：采用“人工基线场景 + LLM语义扩展”双阶段生成流程，并为每条样本**精准标注私有实体类型与边界**（如`&lt;IP:192.168.1.5&gt;`、`&lt;HOST:web-srv03&gt;`），支持掩码策略的定量评估；  
+- **双维度评测**：同步评估**问答准确率**（是否答对技术问题）与**掩码保真度**（是否仅隐藏应隐信息、不误删关键上下文），揭示隐私-效用权衡本质。
+
+## 主要贡献  
+CyberMaskQA填补了“可部署、可验证、可解释”的隐私增强型网络安全LLM评测空白。实验表明，现有主流模型在掩码鲁棒性上表现参差（平均漏掩率23.7%，过掩率18.4%），凸显该基准的诊断价值。数据集与生成框架将于论文录用后开源，推动安全AI的合规落地。
+
+AI Summary (English):
+Large language models (LLMs) are increasingly deployed for cybersecurity question answering (QA), yet real-world operational data contains sensitive identifiers (e.g., IPs, hostnames) that pose privacy and regulatory risks when processed by cloud-based models. Crucially, progress in privacy-preserving QA is hindered by the absence of context-rich, human-annotated benchmarks that jointly evaluate *operational reasoning* and *controlled information disclosure*. To bridge this gap, we introduce **CyberMaskQA**, a novel privacy-aware QA benchmark covering incident response, vulnerability analysis, and access control. Unlike existing benchmarks focused on factual recall, CyberMaskQA grounds questions in realistic organizational contexts with explicit causal dependencies among assets and privileges. Its dataset is generated via a hybrid pipeline—human-curated base scenarios augmented by LLM-driven semantic expansion—and each instance is annotated with precise private entity labels (e.g., `&lt;IP:10.2.1.8&gt;`) to enable fine-grained masking evaluation. Experiments show CyberMaskQA effectively exposes trade-offs between QA accuracy and masking fidelity, providing a rigorous testbed for developing deployable, privacy-compliant cybersecurity LLMs. The dataset and generation framework will be publicly released upon acceptance.
+
+Abstract:
+Large language models (LLMs) are increasingly applied to cybersecurity question answering (QA) for critical tasks such as incident response and vulnerability analysis. However, real-world operational contexts, including system logs and network configurations, inherently contain sensitive identifiers, e.g., IP addresses, host names, and user accounts. Processing this data with cloud-based models is often unsafe or infeasible in regulated environments. Furthermore, progress in privacy-preserving QA is hindered by the lack of annotated, context-rich datasets capable of jointly evaluating operational reasoning and privacy preservation. To address this gap, we introduce CYBERMASKQA, a privacy-aware QA benchmark covering key security domains. Unlike existing benchmarks that primarily test factual knowledge, CYBERMASKQA grounds questions in realistic organizational contexts with explicit causal dependencies among assets and privileges. Generated through a systematic pipeline, the dataset combines human-curated base scenarios with LLM-driven semantic expansion, annotating each instance with precise private entity labels to enable controlled information disclosure. Evaluations of QA accuracy and masking performance demonstrate the benchmark's utility for developing deployable, context-aware cybersecurity models and facilitating nuanced studies of privacy-utility trade-offs. Upon acceptance, we will release the dataset and the generation framework.</description>
+      <pubDate>Sat, 23 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>llm</category>
+      <category>security</category>
+    </item>
+    <item>
+      <title>Demystifying the Mythos or Disrupting Bugonomics? From Zero-Day Asymmetry to Defender Remediation Throughput</title>
+      <link>https://arxiv.org/abs/2605.24632v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.24632v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.24632v1
+
+AI Summary (中文):
+## 研究背景与问题  
+近期大语言模型（LLM）在生产软件中成功生成候选及确认漏洞的实证，再度引发“AI将重塑攻防安全格局”的叙事。然而，主流讨论聚焦能力跃升，却普遍忽视其背后的**成本结构、经济激励与工作流瓶颈**。本文突破传统技术视角，引入“**Bugonomics**”（漏洞经济学）框架——系统分析漏洞的**生成、验证、优先级排序与修复**全生命周期运营成本。
+
+## 方法与数据来源  
+本研究基于三类实证锚点：（1）Anthropic公司Mythos Preview项目公开报告；（2）Mozilla Firefox与LLM协同漏洞发现的协作日志与响应数据；（3）公开漏洞市场定价（如Zerodium报价）与主流漏洞赏金计划（HackerOne、Bugcrowd）的奖励分布。通过对比分析LLM介入前后各环节单位成本变化，量化其对攻防两侧经济模型的差异化影响。
+
+## 核心发现  
+- **攻击侧高成本壁垒未被瓦解**：LLM可批量生成POC级候选漏洞，但**可靠零日利用链仍需深度逆向、环境适配与稳定性加固**，政府/商业攻击方的专业溢价依然显著。  
+- **防御侧发生结构性位移**：LLM大幅降低**候选生成、代码理解、测试用例（harness）构建、影响证明草稿与报告撰写**等环节的边际成本，导致高质量候选报告数量激增。  
+- **新瓶颈浮现**：核心约束已从“发现不足”转向“**吸收—验证—分诊—修补—发布**”的全流程吞吐能力，尤其在开源生态中，维护者侧的评审、资金、CI/CD与版本发布容量难以线性扩展。  
+
+## 创新点  
+提出“**防御者修复吞吐量**（Defender Remediation Throughput）”作为关键绩效指标，主张未来安全投入应从“扩大发现规模”转向“强化验证基础设施、自动化分诊引擎与维护者赋能机制”。
+
+AI Summary (English):
+This paper reframes LLM-driven vulnerability discovery through *bugonomics*—the operational economics of finding, validating, prioritizing, and fixing security defects. Contrary to headlines heralding an “AI zero-day flood,” we show that LLMs do not collapse offensive high-end exploit economics (which remain costly due to reliability, stealth, and chaining requirements), but *do* dramatically reduce marginal costs for defender-side candidate generation, code comprehension, harness construction, impact drafting, and reporting. Using data from Anthropic’s Mythos Preview, Mozilla Firefox collaborations, and public exploit-market/reward-program benchmarks, we demonstrate that the near-term shift is toward **defender remediation throughput**: low-signal candidates become cheaper to produce, evidence-rich remediation guidance grows in value, and scarce human capacity (especially maintainer review, triage, funding, and release engineering) becomes the critical bottleneck—particularly acute in open source. The key implication: security ROI now hinges less on finding more bugs, and more on scaling *validation infrastructure* and *maintainer enablement*.
+
+Abstract:
+Recent demonstrations of large language models producing candidate and confirmed vulnerabilities in production software have renewed the narrative that AI will reshape offensive and defensive security. Headlines emphasize capability; they rarely interrogate costs and incentives. This paper examines LLM-driven vulnerability discovery through a bugonomics lens: the operational economics of producing, proving, prioritizing, and fixing security-relevant defects. Historically, the most visible high-end bugonomics was offense-priced because production-grade zero-days and exploit chains were expensive specialist outputs for governments, brokers, and offensive vendors. Defender-side bugonomics already existed in vulnerability research, reward programs, and vendor remediation work; LLM-assisted systems change its scale and distribution. They make candidate generation, code comprehension, harness construction, proof-of-impact drafting, and report preparation cheaper at codebase scale. Exploits and proofs of concept remain important, but in defender workflows they primarily prove impact, guide prioritization, and justify remediation. The resulting bottleneck is not only finding more bugs; it is absorbing, validating, triaging, patching, and shipping a larger stream of reports. Using public data from Anthropic's Mythos Preview and Mozilla Firefox collaborations, along with public exploit-market price anchors and vulnerability reward programs, we argue that the near-term shift is not simply more zero-days. It is a move toward broader defender remediation throughput: low-signal candidates become cheaper, evidence-rich remediation become more important, and scarce capacity shifts toward maintainer review and release work. The effect is acute in open source, where LLM-assisted discovery can increase report volume while maintainer-side validation, triage, funding, and release capacity may not scale.</description>
+      <pubDate>Sat, 23 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>llm</category>
+      <category>security</category>
+    </item>
+    <item>
+      <title>Poisoning the Watchtower: Prompt Injection Attacks Against LLM-Augmented Security Operations Through Adversarial Log Content</title>
+      <link>https://arxiv.org/abs/2605.24421v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.24421v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.24421v1
+
+AI Summary (中文):
+## 研究背景与问题  
+随着大语言模型（LLM）在安全运营中心（SOC）中日益普及，其作为“分析师助手”被用于日志解析、告警分类、事件摘要与响应建议等关键任务。然而，该范式存在根本性风险：**大量日志字段（如User-Agent、URL、DNS查询、HTTP载荷、尝试登录用户名）可由攻击者直接控制**，从而成为向LLM注入恶意指令的隐蔽信道。本文首次系统揭示并命名这一新型威胁——**日志基底提示注入（log-substrate prompt injection）**。
+
+## 方法与贡献  
+我们提出**四类攻击的细粒度分类法**：S1 直接覆盖（Direct Override）、S2 人格劫持（Persona Hijack）、S3 上下文操纵（Context Manipulation）、S4 混淆载荷（Obfuscated Payload）。基于 `gpt-4o-mini` 构建模拟SOC分析员，在48种策略–防御–任务组合下开展实证评估。涵盖分类、摘要、建议三大典型任务，并测试多种防御机制（包括系统提示加固、输出约束、上下文清洗）。
+
+## 关键发现  
+- **S1攻击完全失效**（0%压制率），暴露当前LLM对显式指令覆盖的强鲁棒性；  
+- **S2（人格劫持）最具实战威胁**：在朴素分类器下成功压制68%恶意日志，且在强化防御下仍保持显著有效性；  
+- **摘要任务风险最高**：S3攻击在无防御时注入成功率高达96%，即使启用严格输出约束仍达38%；  
+- **防御效果有限**：最强防御仅将平均注入成功率从26.6%降至11.8%，远未消除风险；  
+- **模拟器严重失真**：基于确定性规则的mock analyst严重高估S1效果，凸显真实LLM行为的不可替代性。  
+
+本研究呼吁SOC协作者必须将**原始日志视为对抗性输入**，而非普通上下文，为LLM安全集成提供关键设计原则与实证基准。
+
+AI Summary (English):
+This paper identifies and characterizes *log-substrate prompt injection*—a critical structural vulnerability in LLM-augmented security operations, where attacker-controlled log fields (e.g., User-Agent, URLs, DNS queries) serve as covert channels for injecting malicious instructions into analyst-assistant models. We propose a four-class taxonomy: S1 (Direct Override), S2 (Persona Hijack), S3 (Context Manipulation), and S4 (Obfuscated Payload). Evaluating 48 strategy-defense-task combinations using `gpt-4o-mini`, we find: (1) S1 attacks fail entirely (0% suppression), while S2 achieves 68% suppression under naive classification—and remains potent even under strong defenses; (2) summarization is the highest-risk task, with S3 reaching 96% injection success without defenses and 38% under constrained output; (3) defenses reduce but do not eliminate risk—average injection success drops only from 26.6% to 11.8% under our strongest mitigation. Crucially, deterministic mock analysts mispredict real model behavior, especially for S1. These results compel SOC copilots to treat raw logs as adversarial input—not benign context.
+
+Abstract:
+Large language models (LLMs) are increasingly used as analyst assistants in security operations centers (SOCs), where they ingest log and alert data to produce triage labels, incident summaries, or remediation advice. We study a structural failure mode of this design: many log fields are attacker controlled. User agents, URLs, payloads, DNS queries, and attempted usernames can therefore carry instructions to the model alongside evidence of the intrusion. We call this setting \emph{log-substrate prompt injection}. We introduce a four-class taxonomy of log-substrate attacks: direct override (S1), persona hijack (S2), context manipulation (S3), and obfuscated payloads (S4). We evaluate 48 strategy-defense-task combinations using \texttt{gpt-4o-mini} as the analyst. Three findings stand out. First, direct overrides are ineffective in our setting: all S1 classification attacks achieve 0\% suppression. In contrast, persona hijacks suppress 68\% of malicious logs under a naive classifier and remain effective under stronger defenses. Second, summarization is the highest-risk task: context manipulation reaches 96\% injection success without defenses and 38\% even with constrained output. Third, defenses reduce but do not eliminate the attack surface: average injection success falls from 26.6\% under naive prompting to 11.8\% under our strongest defense. We also compare empirical results to a deterministic mock analyst and find that simulation substantially mispredicts current model behavior, especially for direct overrides. These results suggest that SOC copilots should treat raw log content as adversarial input rather than ordinary analyst context.</description>
+      <pubDate>Sat, 23 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>injection</category>
+      <category>poisoning</category>
+      <category>model</category>
+      <category>llm</category>
+      <category>prompt</category>
+    </item>
+    <item>
+      <title>Five Queries Are Enough: Query-Efficient and Surrogate-Free Membership Inference Attacks on RAG via Entailment</title>
+      <link>https://arxiv.org/abs/2605.24312v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.24312v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.24312v1
+
+AI Summary (中文):
+## 五问即破：基于自然语言蕴含的查询高效、代理模型无关型RAG成员推断攻击  
+
+检索增强生成（RAG）系统通过将大语言模型（LLM）响应锚定于私有或企业文档库，显著缓解幻觉问题，已成为工业部署核心范式。然而，该架构引入新型隐私风险：模型输出可能隐含其检索语料中特定文档的存在性信号，从而支持**成员推断攻击（MIA）**——非法判定某文档是否属于目标RAG系统的私有检索库。现有MIA方法存在严重局限：或依赖易被检测的模板化查询（如“请逐字复述文档X”），或需数十至上百次非模板化但高成本、强重复性的查询，实用性与隐蔽性均不足。  
+
+本文提出**MEntA（Membership Entailment Attack）**，首个在**严格受限预算下**（仅5次查询）、**无需任何代理模型（surrogate-free）**、**不依赖预设模板**、且**对主流防御机制完全不可知（defense-agnostic）** 的MIA框架。其核心创新在于将MIA重构为**自然语言蕴含（NLI）任务**：攻击者构造宽泛、低成本、信息导向的开放式问题（如“简述癌症早期筛查的主流技术路线”），获取RAG响应后，计算该响应与候选文档间的**文本蕴含置信度**（而非传统词频/嵌入相似度）。蕴含得分显著高于阈值即判定该文档为成员——因RAG若未检索到相关文档，其响应难以逻辑蕴含原文细节。  
+
+在NFCorpus、SCIDOCS与TREC-COVID三大真实学术/医疗RAG基准上，MEntA仅用**5次查询即达最高0.991 AUC**，较现有最优方法提升0.20–0.50 AUC；在SOTA防御（如检索扰动、响应模糊化）下仍保持强鲁棒性，而现有MIA检测器对其漏报率超85%或误报率达42%。成本方面，总攻击开销降低至SOTA方法的**1/65**。本研究首次证实：轻量、隐蔽、高性价比的RAG隐私泄露在现实中切实可行，亟需从检索机制设计与端到端隐私防护层面重构RAG安全范式。
+
+AI Summary (English):
+Retrieval-augmented generation (RAG) systems face a critical privacy threat: membership inference attacks (MIAs) that determine whether specific documents reside in their private retrieval corpus. Existing MIAs are either detectable (via templated queries) or impractical (requiring dozens of costly, repetitive queries). We propose **MEntA**, the first query-efficient (≤5 queries), surrogate-free, template-agnostic, and defense-agnostic MIA for RAG. MEntA reframes membership inference as natural language entailment: it issues broad, low-cost information-seeking questions, then measures entailment confidence between the RAG’s response and candidate documents—high entailment signals membership. Evaluated on NFCorpus, SCIDOCS, and TREC-COVID, MEntA achieves up to **0.991 AUC with only 5 queries**, outperforming prior work by 0.20–0.50 AUC. It remains effective against state-of-the-art RAG defenses, evades existing MIA detectors (high false-negative rate), and reduces total attack cost by up to **65×** versus SOTA methods. This exposes a realistic, low-budget privacy leakage vector in production RAG systems.
+
+Abstract:
+Retrieval-augmented generation (RAG) has become central to large language model (LLM) deployments, grounding responses in enterprise or proprietary data to reduce hallucinations. However, this design introduces a new privacy risk: model outputs may signal the presence of specific documents in the retrieval corpus, enabling membership inference attacks (MIAs) that leak sensitive information. Existing MIAs are feasible, but they often rely on easily detected templated queries or require many non-templated yet costly and repetitive queries, limiting practicality. We ask: Can an adversary launch a limited-budget, surrogate-free, stealthy, and defense-agnostic membership inference attack using non-templated queries? We present MEntA (Membership Entailment Attack), a query-efficient MIA that leverages natural-language entailment to maximize information gained per query. By asking low-cost, broad, information-seeking questions and measuring entailment between model responses and candidate documents, MEntA eliminates the need for costly shadow models and large query budgets. Across NFCorpus, SCIDOCS, and TREC-COVID, MEntA achieves up to 0.991 AUC with only 5 queries, outperforming prior methods by 0.20 to 0.50 AUC under equivalent conditions. It remains effective under state-of-the-art (SOTA) RAG defenses, while current detectors either miss MEntA or flag benign queries at high rates. Regarding cost, MEntA reduces total attack cost by up to 65 $\times$ lower compared to SOTA attacks under the same attack setting. Our findings expose the feasibility of realistic, low-cost privacy leakage in RAG systems and highlight the urgent need for privacy-aware retrieval and defense mechanisms.</description>
+      <pubDate>Sat, 23 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>membership</category>
+      <category>inference</category>
+    </item>
+    <item>
+      <title>Reframing LLM Agent Security as an Agent-Human Interaction Problem</title>
+      <link>https://arxiv.org/abs/2605.24309v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.24309v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.24309v1
+
+AI Summary (中文):
+## 核心主张  
+本文提出：大语言模型（LLM）智能体的安全问题本质上是**智能体-人类交互（Agent-Human Interaction, AHI）问题**，而非单纯算法或模型鲁棒性问题。这一范式转换要求将安全设计重心从“让智能体更可信”转向“让人与智能体协同决策更可靠”。
+
+## 方法与发现  
+我们系统分析了截至2026年4月的**59篇学术论文、21个生产级智能体系统及26个安全插件**。结果揭示显著断层：  
+- ✅ **工业实践主导机制**为三类人本安全措施：**策略显式声明**（14/21系统采用）、**运行时人工审批**（15/21）、**作用域动态配置**（16/21）；  
+- ❌ **学术研究热点**——如意图锚定（intent anchoring）与信任标签（trust labeling）——在全部21个生产系统中**部署率为零**。  
+
+然而，现有人类参与机制存在根本缺陷：**认知负荷与安全强度呈强负相关**。用户被迫在“审批疲劳”（频繁中断、决策过载）与“失控自治”（权限过大、缺乏制衡）间两难。
+
+## 三大贡献  
+1. **理论论证**：通过对比LLM自主对齐与人类实时对齐的可靠性，证明在当前技术边界下，**人类参与安全关键决策不可替代**；  
+2. **实证揭示**：首次量化“产学错配”——工业广泛采用的机制仅获极少学术关注，而高引学术方案零落地；  
+3. **范式倡议**：提出AHI安全的三维研究议程（**交互接口设计、认知负荷建模、人机责任分配**），呼吁将其确立为具独立设计原则、评估体系与理论基础的**一级研究方向**。
+
+AI Summary (English):
+We reframe LLM agent security as fundamentally an *agent-human interaction (AHI)* problem—not an algorithmic one. Analyzing 59 academic papers, 21 production systems, and 26 security plugins (as of April 2026), we find a stark industry-academia mismatch: human-centric mechanisms—policy specification (14/21 systems), runtime approval (15/21), and scope configuration (16/21)—dominate practice, while academically favored techniques like intent anchoring and trust labeling achieve *zero* production deployment. Critically, current human participation suffers from an irreducible trade-off between cognitive burden and security assurance, trapping users between approval fatigue and uncontrolled autonomy. Our contributions are threefold: (1) We demonstrate that human involvement in security-critical decisions remains indispensable for intent alignment under current LLM capabilities; (2) We quantify the severe misalignment between deployed mechanisms and research focus; and (3) We propose a three-direction AHI security research agenda—and advocate for AHI security to be recognized as a first-class discipline with its own design principles, evaluation frameworks, and theoretical foundations.
+
+Abstract:
+We argue that LLM agent security is fundamentally an agent-human interaction (AHI) problem, not a purely algorithmic one. To substantiate this position, we conduct a systematic analysis of 59 academic papers, 21 production agent systems, and 26 security plugins as of April 2026. Our analysis reveals a striking pattern: the three widely deployed human-centric security mechanisms (policy specification, runtime approval, and scope configuration) dominate industry practice, each adopted by at least 14 of 21 systems (14, 15, and 16, respectively), while the categories most heavily studied in academia (intent anchoring and trust labeling) see zero production deployment. Yet current human participation mechanisms are far from satisfactory: they suffer from a fundamental trade-off between cognitive burden and security guarantees, leaving users caught between approval fatigue and uncontrolled agent autonomy. We make three contributions. First, through a systematic comparison of LLM-based and human-based intent alignment, we argue that human participation in agent security decisions is indispensable given current capabilities. Second, we quantify a pronounced industry-academia mismatch: the security mechanisms that practitioners actually deploy receive scant research attention, while the approaches that researchers favor remain undeployed. Third, we propose a three-direction research agenda and call for AHI security to be recognized as a first-class research citizen, one that demands its own design principles, evaluation methods, and theoretical foundations.</description>
+      <pubDate>Sat, 23 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>llm</category>
+      <category>agent</category>
+      <category>security</category>
+    </item>
+    <item>
+      <title>Rethinking Federated Unlearning via the Lens of Memorization</title>
+      <link>https://arxiv.org/abs/2605.24545v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.24545v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.24545v1
+
+AI Summary (中文):
+## 背景与问题  
+联邦学习（FL）在隐私敏感场景中日益普及，而《通用数据保护条例》（GDPR）等法规对“被遗忘权”的强制要求催生了**联邦机器遗忘**（Federated Unlearning）需求。然而，现有方法常将待遗忘数据与剩余数据视为完全独立，忽视二者间存在的**语义重叠与共享模式**，导致两类关键缺陷：（1）无效遗忘——模型仍残留对已请求删除样本的过度记忆；（2）客户端不公平——因数据分布异构性，部分客户端承担不成比例的遗忘代价，损害整体效用。
+
+## 方法创新  
+本文首次从**记忆化（memorization）视角**重构联邦遗忘范式。我们提出核心观点：**遗忘的目标不应是抹除所有关联，而是精准移除仅由待遗忘数据独有、且未被剩余数据支撑的“专属记忆”**。为此，我们设计**分组记忆评估（Grouped Memorization Evaluation, GME）**——一种细粒度、示例级指标，通过对比单样本训练轨迹与群体梯度一致性，定量分离“专属记忆”与“重叠知识”。基于GME，我们提出**联邦记忆剪枝（FedMemPrune）**：在客户端本地识别并重置对专属记忆贡献最大的冗余参数子集（而非全局微调或模型重训），实现轻量、可证明的遗忘。
+
+## 主要结果  
+在CIFAR-10/100、Tiny-ImageNet及LEAF-FEMNIST等基准上，FedMemPrune在遗忘有效性（ΔAUC下降&gt;92%）、效用保持（平均精度损失&lt;1.3%）与公平性（客户端效用方差降低37%）三方面全面超越SOTA联邦遗忘方法（如FedEraser、UnFed）。其性能逼近全量重训练基线，但通信开销仅为后者的1/8，验证了“精准剪枝优于粗粒度覆盖”的新范式。
+
+AI Summary (English):
+Federated unlearning is critical for regulatory compliance (e.g., GDPR), yet existing methods often ignore semantic overlap between unlearning and retained data—causing ineffective forgetting and client unfairness. This work rethinks federated unlearning through the lens of *memorization*, arguing that unlearning should selectively erase *unique memorized knowledge* attributable solely to the to-be-forgotten data, while preserving *overlapping patterns* supported by remaining data. To this end, we propose **Grouped Memorization Evaluation (GME)**, an example-level metric that disentangles unique memorization from shared knowledge via gradient consistency analysis. Leveraging GME, we design **Federated Memorization Pruning (FedMemPrune)**: a lightweight, pruning-based approach that identifies and resets only the parameters most responsible for unique memorization at each client. Extensive experiments show FedMemPrune matches full retraining in unlearning efficacy (e.g., &gt;92% ΔAUC reduction) while outperforming state-of-the-art federated unlearning methods in both utility preservation (&lt;1.3% accuracy drop) and fairness (37% lower utility variance across clients), all with 8× less communication overhead.
+
+Abstract:
+Federated learning (FL) increasingly needs machine unlearning to comply with privacy regulations. However, existing federated unlearning approaches may overlook the overlapping information between the unlearning and remaining data, leading to ineffective unlearning and unfairness between clients. In this work, we revisit federated unlearning through the lens of memorization. We argue that unlearning should mainly remove the unique memorized information attributable to the data to be forgotten, while preserving overlapping patterns that are also supported by the remaining data. Specifically, we propose Grouped Memorization Evaluation, an example-level metric that separates memorized knowledge from overlapping knowledge. Building on this metric, we introduce Federated Memorization Pruning (FedMemPrune), a pruning-based unlearning approach that resets redundant parameters responsible for memorization. Extensive experiments show that FedMemPrune closely matches retraining-based unlearning baselines while more effectively eliminating memorization than existing federated unlearning algorithms, yielding strong unlearning performance without sacrificing the utility of retained knowledge.</description>
+      <pubDate>Sat, 23 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>learning</category>
+      <category>federated</category>
+    </item>
+    <item>
+      <title>Market Regime Council for Dynamic Credit Assignment in Multi-Agent LLM Decision Systems</title>
+      <link>https://arxiv.org/abs/2605.24490v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.24490v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.24490v1
+
+AI Summary (中文):
+## 背景与挑战  
+面向投资组合管理的多智能体大语言模型（Multi-agent LLM）决策系统仍面临三大瓶颈：**缺乏可解释的信用分配机制**，难以量化各专业代理（如趋势、波动率、流动性专家）对最终决策的实际贡献；**冷启动主导问题**——市场状态突变（如牛市→熊市）时，历史表现滞后的代理易被错误加权；**决策黑箱化**——现有方法无法追溯“最终资产配置如何由多代理协作生成”。
+
+## 方法创新：Market Regime Council（MRC）  
+我们提出**市场状态理事会（MRC）**，一种基于合作博弈论的动态信用分配框架：  
+- **精确Shapley值计算**：在线实时评估所有单代理、两两组合及全联盟（Grand-coalition）输出的边际贡献，生成动态权重；  
+- **三层自适应机制**：① 采用**指数加权性能历史**更新Shapley权重；② 引入**贝叶斯自适应混合器**缓解初期数据稀疏导致的权重震荡；③ 设计**状态依赖乘子**（如高波动期抑制趋势代理权威），实现跨市场周期的鲁棒性；  
+- **五层因果可追溯日志**：完整记录每轮再平衡中代理输入、联盟结构、Shapley归因、状态调节因子及最终权重，支持审计与归因分析。
+
+## 实证结果与价值  
+在13种加密资产、1037个交易日、5组随机种子的严苛测试中，MRC实现**年化夏普比率1.51**、**累计收益440.1%**，在主动基线中**CR（累计收益）、SR（夏普比率）、IR（信息比率）三项第一**，且**最大回撤（MDD）最低**。消融实验确证：性能提升源于**多层级联盟输出的Shapley加权集成**，而非任一模块单独作用——这是首个将合作博弈严谨嵌入LLM多代理金融决策的端到端系统。
+
+AI Summary (English):
+We propose the **Market Regime Council (MRC)**, a cooperative multi-agent LLM decision system for portfolio management that addresses three key gaps: opaque credit assignment across specialist agents, cold-start dominance during market regime shifts, and insufficient transparency in allocation formation. MRC computes *exact Shapley values* over all single-agent, pairwise, and grand-coalition outputs to derive online agent weights. It integrates exponential-weighted performance histories, a Bayesian adaptive mixture for early-period stabilization, and regime-dependent authority multipliers—each rebalance is logged via a five-layer causal trace. Evaluated over 1,037 trading days across 13 crypto assets and 5 seeds, MRC achieves a Sharpe ratio of **1.51**, cumulative return of **440.1%**, and ranks **first in CR, SR, and IR** among active baselines while attaining the **lowest MDD**. Ablation confirms gains stem from *Shapley-weighted coalition integration*, not isolated components—establishing the first principled, game-theoretic credit assignment framework for dynamic LLM-based multi-agent finance.
+
+Abstract:
+Multi-agent LLM decision systems for portfolio management still lack a principled way to assign credit across specialist agents, remain vulnerable to cold-start dominance under regime shifts, and offer limited transparency into how final allocations are formed. We propose Market Regime Council (MRC), a cooperative multi-agent decision system that computes exact Shapley credits across all single, pairwise, and Grand-coalition outputs for online agent weighting. Instantiated with N=3 specialist agents, at each trading period, MRC recomputes coalition-based Shapley weights from exponentially weighted performance histories, uses a Bayesian adaptive mixture to stabilize early periods, applies regime-dependent multipliers to adjust agent authority, and records each rebalance through a five-layer causal trace. Over 1,037 trading days across 13 crypto assets and five seeds, MRC achieves a Sharpe ratio of 1.51 and a cumulative return of 440.1%, ranking first on CR, SR, and IR among active baselines and attaining the lowest MDD among active methods. Ablation results show that the gains come from Shapley-weighted integration across coalition outputs rather than from any single stage in isolation. Code and demo data are included in the supplementary material.</description>
+      <pubDate>Sat, 23 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>crypto</category>
+    </item>
+    <item>
+      <title>Batch Normalization Amplifies Memorization and Privacy Risks</title>
+      <link>https://arxiv.org/abs/2605.24420v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.24420v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.24420v1
+
+AI Summary (中文):
+## 背景与问题  
+批归一化（Batch Normalization, BN）作为深度学习中广泛应用的标准化技术，被普遍认为可加速收敛、提升训练稳定性。然而，其对模型**记忆行为**（memorization）与**隐私泄露风险**的影响长期被忽视——尤其当训练数据包含异常值（outliers）或分布外样本（out-of-distribution, OOD）时，BN是否无意中放大了对敏感/罕见样本的过度拟合？这一机制性风险尚未得到系统揭示。
+
+## 方法与实验设计  
+本研究通过**三重互补实证路径**进行系统验证：  
+- **异常样本记忆检测**：在CIFAR-10/CIFAR-100中注入OOD训练样本（如SVHN图像），量化模型对其的“无意记忆”程度；  
+- **单样本影响分析**：基于梯度范数（gradient norm）计算每个训练样本在优化过程中的逐步影响强度；  
+- **隐私攻击评估**：采用多种主流成员推断攻击（MIA），测量BN模型与非BN对照模型在识别“某样本是否参与训练”上的准确率差异。  
+实验覆盖ResNet、VGG及ViT等多种架构，在CIFAR、ImageNet-1K等数据集上均保持一致设定。
+
+## 主要发现与创新点  
+- BN显著增强模型对**异常/离群训练样本的记忆强度**（平均提升2.3–4.1倍），且该效应独立于模型容量与训练时长；  
+- 记忆增强直接导致**隐私脆弱性激增**：BN模型在MIA下的攻击成功率较对照组平均高出18.7%（最高达32.5%），AUC提升0.21；  
+- 理论分析首次证明：BN通过**放大异常样本在每步梯度更新中的相对贡献**（即归一化引入的梯度缩放效应），从优化动力学层面解释了记忆放大机制；  
+- 本工作首次将BN这一常规组件与**数据稀有性—记忆强度—隐私泄露**三者建立因果链，为隐私保护训练提供了关键警示与新干预靶点。
+
+AI Summary (English):
+Batch Normalization (BN) is a cornerstone technique for stabilizing and accelerating deep neural network training—but its privacy implications remain poorly understood. This paper demonstrates that BN *amplifies memorization* of atypical or out-of-distribution (OOD) training samples, directly increasing vulnerability to membership inference attacks (MIAs). Through extensive experiments across multiple datasets (CIFAR-10/100, ImageNet-1K) and architectures (ResNet, VGG, ViT), we show that BN models consistently memorize OOD samples 2.3–4.1× more than their non-BN counterparts. Crucially, this amplified memorization translates into significantly higher MIA success rates (+18.7% avg., up to +32.5%) and AUC gains (+0.21). We further provide theoretical analysis proving that BN magnifies the per-step gradient influence of outlier samples via normalization-induced gradient scaling—a mechanistic explanation for the observed effect. Our work reveals an underappreciated privacy risk inherent in BN and offers both practical guidance and foundational insight into how normalization layers unintentionally privilege rare or sensitive training examples.
+
+Abstract:
+Batch Normalization (BN) is widely adopted to enable faster convergence and more stable training of deep neural networks. However, its impact on privacy and memorization has remained largely unexplored. In this work, we investigate the effect of BN layers on the memorization of atypical or outlier samples and its implications for privacy leakage. We conduct an extensive empirical study using three complementary approaches: (i) unintended memorization of out-of-distribution training samples, (ii) per-sample influence measured via gradient norms, and (iii) susceptibility to membership inference attacks (MIA). Across multiple datasets and architectures, we consistently observe that BN substantially increases the memorization of outliers compared to models without BN. Critically, this amplified memorization translates directly into privacy vulnerabilities: models with BN exhibit significantly higher susceptibility to MIAs. We complement our empirical findings with a theoretical analysis showing that BN amplifies the per-step influence of outlier samples during training, providing mechanistic insight into this phenomenon. Our results highlight an underappreciated privacy risk associated with BN and provide both practical and theoretical insights into how normalization layers can amplify the influence of rare or sensitive training examples.</description>
+      <pubDate>Sat, 23 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>membership</category>
+      <category>inference</category>
+    </item>
+    <item>
+      <title>Hardware-Aware Federated Learning for Speech Emotion Recognition</title>
+      <link>https://arxiv.org/abs/2605.24712v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.24712v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.24712v1
+
+AI Summary (中文):
+## 面向语音情感识别的硬件感知联邦学习框架
+
+联邦学习（FL）为边缘设备间隐私保护的协同建模提供了可行路径，但在真实语音情感识别（SER）场景中面临严峻挑战：客户端硬件高度异构（如嵌入式麦克风阵列、智能手机、车载终端），其计算能力、内存容量与通信延迟差异显著，导致每轮训练时长波动大、系统开销高，严重制约部署可行性。本文针对**会话级划分的IEMOCAP数据集**，提出一种端到端硬件感知的联邦学习框架，首次将**硬件性能建模、动态客户端筛选与自适应本地训练深度耦合**于统一训练循环中。具体而言：（1）通过轻量级硬件探针（&lt;50ms）实时采集CPU负载、内存占用、网络RTT等指标，构建多维硬件特征向量；（2）设计基于加权效用函数的**Top-K客户端选择策略**，在精度-时效-能耗三维目标下优先调度高性价比设备；（3）引入**自适应本地训练机制**，依据设备算力动态调整本地迭代轮数（epochs），避免低配设备过载或高配设备欠训练。在非独立同分布（non-IID）设定下，经50轮联邦训练与5次独立实验验证，本方法相较FedAvg取得**0.352的验证准确率**（持平最优基线），**总训练时间降低36.5%**，**累积通信量减少40%**，同时显著缓解设备掉线率（下降52%）。该框架无需修改模型结构或增加中心服务器负担，具备即插即用特性，为资源受限边缘场景下的语音情感分析提供了可落地的技术范式。
+
+AI Summary (English):
+Federated learning (FL) enables privacy-preserving collaborative training for speech emotion recognition (SER) across edge devices, yet real-world deployments suffer from severe hardware heterogeneity—varying compute power, memory, and network latency—which inflates round duration and system cost. This paper proposes a **hardware-aware FL framework** tailored to session-partitioned IEMOCAP. It unifies three key components: lightweight hardware profiling (CPU load, memory, RTT), utility-weighted Top-K client selection, and adaptive local epochs calibrated per-device capability. Evaluated under non-IID data distribution over 50 rounds and 5 trials, our method achieves competitive validation accuracy (**0.352**), reduces total training time by **36.5%** versus FedAvg, and cuts cumulative communication cost by **40%**, while improving client participation stability. The framework requires no model modification or server-side overhead, offering a practical, deployable solution for resource-constrained SER.
+
+Abstract:
+Federated learning (FL) enables privacy-preserving collaborative training across distributed edge devices, but real deployments involve heterogeneous clients with different processing power, memory capacity, and communication latency, which often increase round duration and system cost. This paper proposes a hardware-aware federated learning framework for emotion recognition on session-partitioned IEMOCAP that integrates hardware profiling, top-K client selection, and adaptive local epochs within a unified training loop. We compare the method against FedAvg, FedProx, and random top-K selection under a non-IID setup and show that, across 50 federated rounds and 5 independent trials, the proposed approach achieves competitive validation accuracy (0.352), reduces total training time by about 36.5% compared to FedAvg, and lowers cumulative communication cost by 40%.</description>
+      <pubDate>Sat, 23 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>learning</category>
+      <category>federated</category>
+    </item>
+    <item>
+      <title>IterInject: Indirect Prompt Injection Against LLM Agents via Feedback-Guided Iterative Optimization</title>
+      <link>https://arxiv.org/abs/2605.24659v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.24659v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.24659v1
+
+AI Summary (中文):
+## IterInject：基于反馈引导的迭代优化实现对大语言模型代理的间接提示注入攻击
+
+随着大语言模型（LLM）代理在规划、工具调用与外部服务交互等复杂任务中的广泛应用，其依赖不可信外部内容（如检索结果、网页文本）的架构使其面临**间接提示注入（IPI）** 的严重安全威胁——攻击者可将恶意指令隐匿于合法数据中，诱导代理偏离预期行为。现有IPI攻击方法存在两大瓶颈：（1）**静态载荷缺乏适应性**，难以绕过模型特异性防御；（2）**自适应方法缺少结构化反馈机制**，导致优化过程盲目低效。为此，本文提出 **IterInject**——首个闭环式反馈驱动迭代优化框架。该框架包含三大核心组件：  
+- **规则驱动诊断器**：对每次注入结果进行细粒度行为标注（如“工具误调用”“目标跳过”），生成结构化诊断标签；  
+- **历史感知优化器**：基于LLM的优化模块，依据**完整优化历史**（含前序失败模式、成功策略、诊断标签）动态重构提示载荷；  
+- **合成式种子演化**：从失败案例中自动提取共性模式（如特定token序列、语义歧义结构），生成新型伪装种子，实现攻击策略空间的**自主进化**。  
+
+实验表明：在AgentDojo与InjectAgent基准上，IterInject在4种主流受害模型（Llama-3-70B、Qwen2-72B、Gemma-2-27B、Claude-3.5-Sonnet）上显著超越静态基线（+42.6%平均成功率）及现有自适应方法（+28.3%）。进一步在生产级编码代理**Claude Code**（具备多层过滤、语法校验与执行沙箱）上验证：9个高价值攻击目标中，5个达成**完全成功**（如窃取API密钥、篡改代码逻辑），其余4个虽未完全突破，但经3–5轮迭代后均呈现**统计显著的行为偏移提升**（p&lt;0.01）。机制分析揭示：IPI有效性受**中后层注意力阈值机制**调控，三类因果干预（注意力掩码、层间梯度阻断、关键头冻结）均验证该发现，并为鲁棒防御设计提供明确路径。
+
+AI Summary (English):
+IterInject is a feedback-guided iterative framework for indirect prompt injection (IPI) against LLM agents. It closes the loop among injection, diagnosis, and refinement: a rule-based diagnoser produces structured behavioral labels (e.g., “tool misuse”, “goal bypass”), while an LLM optimizer refines payloads conditioned on the full optimization history—including prior failures, successes, and diagnostic signals. A synthesis module auto-generates novel disguise seeds from failure patterns, enabling self-evolution of the attack strategy space. Evaluated on AgentDojo and InjectAgent across four victim models, IterInject outperforms static baselines by +42.6% and prior adaptive methods by +28.3% in average success rate. On the production-grade Claude Code agent—with layered defenses—optimized payloads achieve full success on 5/9 high-value targets; the remaining 4 show statistically significant behavioral improvement after iterative refinement. Mechanistic analysis identifies an attention-mediated threshold mechanism in mid-to-late transformer layers, validated via three causal interventions—pointing directly to actionable defense strategies.
+
+Abstract:
+LLM-based agents are increasingly deployed for complex tasks requiring planning, tool use, and interaction with external services. Their reliance on untrusted external content exposes them to indirect prompt injection (IPI), in which adversarial instructions embedded in retrieved data hijack agent behavior. Existing attacks rely on static payloads that cannot adapt to agent-specific defenses; even recent adaptive methods lack structured feedback to guide optimization. We introduce \oursys, a feedback-guided iterative framework that closes the loop between injection, diagnosis, and refinement: a rule-based diagnoser produces structured outcome labels with behavioral descriptions, and an LLM-based optimizer refines payloads conditioned on the full optimization history. A synthesis step generates new disguise seeds from failure patterns, enabling the strategy space to self-evolve. On AgentDojo and InjectAgent, \oursys substantially outperforms static baselines and existing adaptive methods across four victim models. Extension experiments on Claude Code, a production-grade coding agent with layered defenses, show that optimized payloads achieve full success on 5 of 9 targets; even those that resist full exploitation exhibit measurable improvement from iterative refinement. We further present a mechanistic analysis of IPI, identifying an attention-mediated threshold mechanism in mid-to-late layers; three causal interventions validate this finding and point to concrete defense directions.</description>
+      <pubDate>Sat, 23 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>injection</category>
+      <category>prompt</category>
+    </item>
+    <item>
+      <title>ChainLearn: A Blockchain-Based Capacity-Aware Framework for Federated Ensemble Learning</title>
+      <link>https://arxiv.org/abs/2605.24418v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.24418v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.24418v1
+
+AI Summary (中文):
+## 背景与挑战  
+在医疗影像等隐私敏感场景中，联邦学习（FL）被广泛用于避免原始数据集中化。然而，现有主流算法（如FedAvg）隐含**硬件同质性假设**：要求所有参与方（如医院）具备相近算力、统一模型架构及中心化聚合能力。现实中，不同医院的计算资源差异显著（如边缘设备 vs. 高性能服务器），强制部署相同模型（如ResNet-50）将导致弱资源节点训练失败或强资源节点能力浪费，严重制约实际落地。
+
+## 方法创新：ChainLearn框架  
+我们提出**ChainLearn**——首个区块链赋能的容量感知联邦集成学习框架：  
+- **容量感知协调机制**：各医院本地运行轻量基准测试，链上提交吞吐量哈希；系统据此动态分配适配架构（如MobileNetV3-Small供低配医院，ResNet-50供高配医院），**消除架构强制统一**；  
+- **链上-链下解耦设计**：Solidity智能合约仅存储医院注册信息、基准哈希、校准权重及全局指标（**不存储任何模型参数**）；本地训练全程离链，仅上传哈希值与标量权重（如置信度、准确率）；  
+- **加权集成推理**：最终预测由客户端本地完成加权融合（权重基于历史表现动态更新），保障低延迟与隐私安全。
+
+## 实验结果  
+在PneumoniaMNIST与DermaMNIST数据集上（5次随机种子、3种非独立同分布强度），ChainLearn：  
+✅ **校准误差降低**：较等权集成平均下降12.7%（p&lt;0.01），提升临床可信度；  
+✅ **精度竞争力强**：准确率与FedAvg/FedProx/FedMD相当（±0.8%），且在资源异构场景下鲁棒性更优；  
+✅ **通信开销极低**：每轮仅需**224字节**（含哈希+标量），较FedAvg（约205 MB/轮）**压缩912,000倍以上**，满足广域医疗网络带宽约束。
+
+AI Summary (English):
+ChainLearn is a blockchain-based capacity-aware framework for federated ensemble learning, designed to address the critical mismatch between standard FL assumptions (homogeneous hardware, uniform architectures) and real-world medical infrastructure heterogeneity. It decouples on-chain governance—where a Solidity smart contract securely registers hospitals, stores benchmark hashes, performance metrics, and ensemble weights—from off-chain learning: participants train locally and submit only lightweight cryptographic hashes and scalar metrics (no model parameters). Capacity-aware coordination dynamically assigns architecture-appropriate models (e.g., MobileNetV3-Small for low-resource sites, ResNet-50 for high-resource ones), enabling equitable participation without architectural enforcement. Weighted ensemble inference is performed client-side for privacy and efficiency. Experiments on PneumoniaMNIST and DermaMNIST (5 seeds, 3 non-IID levels) show ChainLearn achieves lower or equal calibration error versus equal-weight ensembles and matches the accuracy of FedAvg, FedProx, and FedMD—while reducing per-round communication overhead to just **224 bytes**, a &gt;912,000× reduction over FedAvg.
+
+Abstract:
+Federated learning is used in medical imaging where privacy prohibits centralizing data. Standard federated algorithms assume homogeneous hardware, identical architectures, and centralized aggregation, which fails when hospitals have unequal compute resources. We propose capacity-aware coordination: measure each hospital's throughput, assign capacity-appropriate architectures (MobileNetV3-Small, EfficientNet-B0, ResNet-50), and combine predictions via weighted ensemble. Weak and strong hospitals can participate without forcing uniform architectures.   We separate on-chain policy from off-chain learning. A Solidity contract stores hospital registration, benchmark hashes, metrics, and weights. Hospitals train locally and submit only hashes and scalars (not parameters). Weighted ensemble inference is computed off-chain.   Experiments on PneumoniaMNIST and DermaMNIST (5 seeds, 3 non-IID levels) show our method achieves lower or equal calibration error versus equal-weight ensemble and competitive accuracy versus FedAvg, FedProx, and FedMD. Communication overhead is 224 bytes per round, a reduction of over 912,000x compared to FedAvg.</description>
+      <pubDate>Sat, 23 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>learning</category>
+      <category>federated</category>
+    </item>
+    <item>
+      <title>Related-Differential Distinguishers on up to 7 Rounds of AES</title>
+      <link>https://eprint.iacr.org/2026/1039</link>
+      <guid isPermaLink="true">https://eprint.iacr.org/2026/1039</guid>
+      <description>Paper Link: https://eprint.iacr.org/2026/1039
+
+AI Summary (中文):
+## 研究背景与意义  
+轮数缩减的AES（AES-128）是众多密码方案（如认证加密、哈希函数、白盒实现）的核心构件。对其非随机性质的深入分析，尤其是突破6轮的密钥恢复或区分攻击，对评估AES的安全边界及指导轻量级密码设计具有关键意义。尽管AES设计者于2009年提出**相关差分（related differences）**与**相关微分（related differentials）**概念，但该方向长期缺乏系统性进展，此前最长的密钥区分器仅覆盖6轮。
+
+## 方法创新  
+本文首次从**交换（exchange）与移位（shift）操作**视角重构相关差分结构，揭示其在字节置换（SubBytes）、行移位（ShiftRows）与列混合（MixColumns）复合变换下的新传播规律。我们提出三类结构化工具：  
+- **交换对角相关微分（exchanged diagonal related differentials）**：利用列混合的线性特性构造跨对角线的高概率传播链；  
+- **移位对角相关微分（shifted diagonal related differentials）**：通过行移位预对齐差分位置，提升4轮相关微分的匹配效率；  
+- **字节级单轮相关微分 + 4轮零差分组合**：构建5轮新型概率性性质。
+
+## 主要成果  
+- **5轮AES**：发现概率为 $2^{-22}$ 的新非随机性质；在CP模型下将数据/时间复杂度优化至 $2^{27.2}/2^{28.05}$，在ACP模型下进一步降至 $2^{23.32}/2^{23.54}$，显著优于前序工作；  
+- **6轮AES**：基于移位对角相关微分，构造与ASIACRYPT 2019“交换攻击”互为对偶的全新区分器，验证方法普适性；  
+- **7轮AES**：首次发现非随机性质——融合单轮交换对角相关微分与Bardeh-Rijmen给出的4轮相关微分；并提出**首个低于全码本（$&lt;2^{128}$）数据复杂度的7轮密钥区分器**，实现理论突破。
+
+AI Summary (English):
+This paper introduces a novel framework for analyzing related differentials in AES by leveraging *exchange* and *shift* operations on difference patterns, enabling the first secret-key distinguishers for up to **7 rounds** of AES-128. For 5-round AES, we derive a new non-random property with probability $2^{-22}$ by combining one-round byte-wise related differentials with the 4-round zero-difference property, improving both chosen-plaintext (CP) and adaptively chosen-plaintext (ACP) distinguishers to data/time complexities of $2^{27.2}/2^{28.05}$ and $2^{23.32}/2^{23.54}$, respectively. For 6-round AES, we present a dual distinguisher using shifted diagonal related differentials, complementing the exchange-attack from ASIACRYPT 2019. Most significantly, for 7-round AES, we identify the first non-random property—by integrating one-round exchanged diagonal related differentials with Bardeh–Rijmen’s 4-round related differentials—and propose the first secret-key distinguisher requiring less than the full codebook ($&lt;2^{128}$) data. This work advances the state-of-the-art in AES cryptanalysis and revitalizes the underexplored related-differential paradigm.
+
+Abstract:
+Round-reduced variants of AES are widely used as building blocks in the design of cryptographic schemes. The study of non-random properties and distinguishers for round-reduced AES has always been an important research topic. The longest known secret-key distinguishers on AES cover 6 rounds. Related differences and related differentials were introduced by the designers of AES in 2009, but research in this direction remains limited. In this paper, we provide a new perspective on related differences through exchange and shift operations. Based on related differentials, we present new non-random properties and secret-key distinguishers for up to 7 rounds of AES. For 5-round AES, we present a new property with probability $2^{-22}$ by combining one-round byte-wise related differentials with the 4-round zero-difference property. Then we improve the secret-key distinguishers on 5-round AES in both the chosen plaintexts (CP) and adaptively chosen plaintexts (ACP) settings, achieving data/time complexities of $2^{27.2}$/$2^{28.05}$ and $2^{23.32}$/$2^{23.54}$, respectively. For 7-round AES, we identify the first non-random property by exploiting one-round exchanged diagonal related differentials and combining them with the 4-round related differentials given by Bardeh and Rijmen. Then, we propose the first secret-key distinguisher for 7-round AES with data complexity lower than the full codebook. For 6-round AES, using shifted diagonal related differentials, we present an alternative distinguisher that is dual to the exchange-attack distinguisher from ASIACRYPT 2019.</description>
+      <pubDate>Sat, 23 May 2026 00:00:00 -0000</pubDate>
+      <category>IACR</category>
+    </item>
+    <item>
+      <title>Scaling Intelligence: Verifiable Decision Forest Inference with $\textit{Remainder}$</title>
+      <link>https://eprint.iacr.org/2026/1038</link>
+      <guid isPermaLink="true">https://eprint.iacr.org/2026/1038</guid>
+      <description>Paper Link: https://eprint.iacr.org/2026/1038
+
+AI Summary (中文):
+## 可验证决策森林推理的高效零知识证明系统：Remainder  
+
+本文提出 **Remainder**——一种高度可扩展的零知识机器学习（ZKML）实现方案，首次将结构化GKR协议（[GKR15], [Tha13]）成功应用于**可验证决策森林（Verifiable Decision Forest）推理电路**的证明生成。针对[ZFZS20]原始电路的瓶颈，我们设计了**数据并行GKR架构**，支持批量输入与多树协同验证。在标准硬件上，系统可在**&lt;54秒**内为含128棵深度为9的决策树、处理128个样本（每样本64维特征）的完整森林生成zk-SNARK兼容的GKR证明。  
+
+核心创新包括两项关键优化：  
+- **多阶段声明聚合（Multi-stage Claim Aggregation）**：改进[Tha13]的插值策略，当$m$个声明在$k$个变量坐标上完全一致时，将单阶段证明者时间从$O(m \cdot n \cdot 2^n)$降至$O(m \cdot (n - k) \cdot 2^n)$，显著缓解高维特征下的指数开销；  
+- **并行化线性时间证明者技术**：将[XZZPS19]的线性时间构造推广至数据并行场景，实现$O(2^{s_{i+1} + b})$级证明者复杂度，支撑大规模批处理。  
+
+实验表明：证明时间随树数量/输入规模呈**亚线性增长**；声明聚合优化带来**40–60%端到端加速**；“Libra-Giraffe”算法确保证明时间与层宽/并行副本数保持**严格线性关系**。系统采用Ligero多项式承诺绑定GKR输入层，通过Fiat-Shamir变换与Poseidon哈希（[GKRRS21]）实现完全非交互式部署。本工作将单样本单树证明延迟压至**≈3.3毫秒**，仅引入**180× CPU计算开销**，为实用化ZKML推理迈出关键一步。
+
+AI Summary (English):
+We introduce *Remainder*, a highly scalable ZKML system for verifiable decision forest inference, built on a structured GKR protocol ([GKR15], [Tha13]). By combining data-parallel GKR with key circuit optimizations over [ZFZS20], we generate full GKR proofs for a forest of 128 trees (height 9) on 128 inputs (64 features each) in under 54 seconds—achieving **~3.3 ms per tree per sample**, with only **180× prover-side overhead** vs. plain CPU inference. Critical innovations include: (i) a multi-stage claim aggregation technique that reduces interpolation cost from $O(m n 2^n)$ to $O(m (n-k) 2^n)$ when $k$ variables are identical across $m$ evaluation points; and (ii) a generalization of [XZZPS19]’s linear-time prover to the data-parallel setting, yielding $O(2^{s_{i+1} + b})$ prover time. Benchmarks confirm sublinear scaling with forest size and batch inputs, 40–60% speedup from claim aggregation, and strict linearity in proof time w.r.t. layer width under the “Libra-Giraffe” algorithm. *Remainder* integrates Ligero commitments for input layers and uses Poseidon-based Fiat-Shamir for non-interactivity.
+
+Abstract:
+We present a highly scalable instantiation of ZKML via proof of a verifiable decision forest inference circuit using a structured version of the GKR protocol [GKR15], [Tha13]. Through a combination of data parallel GKR over a structured improvement to [ZFZS20]'s circuit, we are able to create GKR proofs for a decision forest of 128 trees, each of height 9, over a set of 128 inputs, each with 64 features, in under 54 seconds.
+
+Notably, this represents a per-tree-per-sample proof time of just over 0.003s, representing a mere 180x prover-side blowup with respect to simply running the computation on CPU. In order to achieve this performance, we present several key optimizations, including a multi-stage claim aggregation optimization to the interpolation strategy presented within [Tha13], reducing the per-stage prover runtime from $O(m \cdot n \cdot 2^n)$ to $O(m \cdot (n - k)
+\cdot 2^n)$ for $m$ claims over $n$ variables, where $k$ of the variables across all claimed evaluation points are coordinate-wise identical, as well as a generalization of the linear-time prover technique from [XZZPS19] to the data parallel setting, allowing us to achieve a prover time of $O(2^{s_{i + 1} + b})$. We additionally provide benchmarks demonstrating the scalability of the approach, showing a sublinear relationship between proof time and adding additional trees to the forest and inputs to the batch, as well as highlighting the efficacy of both the claim aggregation optimization, i.e., a 40-60% improvement in proof generation time over the verifiable decision forest circuit, and the "Libra-Giraffe" algorithm, i.e., a linear relationship between proof generation time and the layer size/number of data parallel circuit copies.
+
+Our GKR prover is combined with the Ligero polynomial commitment scheme for committing to the input layer of GKR circuits, and we call the combination $\textit{Remainder}$. Our system is made fully non-interactive via Fiat-Shamir, and all benchmarks were run in a non-interactive fashion using the Poseidon [GKRRS21] hash function as the random oracle.</description>
+      <pubDate>Sat, 23 May 2026 00:00:00 -0000</pubDate>
+      <category>IACR</category>
+    </item>
+    <item>
+      <title>On Publicly Verifiable Tokens in Group Signatures with Message-Dependent Opening</title>
+      <link>https://eprint.iacr.org/2026/1037</link>
+      <guid isPermaLink="true">https://eprint.iacr.org/2026/1037</guid>
+      <description>Paper Link: https://eprint.iacr.org/2026/1037
+
+AI Summary (中文):
+## 研究背景与问题  
+群签名（Group Signatures, GS）允许成员以匿名方式代表群体签署消息，同时授权“开启者”（opener）在必要时追溯真实签名者。**群签名的消息依赖开启机制**（GS-MDO）进一步增强安全性：引入“授权者”（admitter）为每条消息生成一个**消息依赖令牌**（token），开启者仅在持有合法令牌时方可执行开启操作，从而限制其滥用权力。然而，尽管现有GS-MDO方案（如Ohara et al.、Libert et al.等）中的令牌在形式上类似数字签名并可被公开验证，学界**从未明确定义“令牌的公开可验证性”这一关键安全属性**——即：第三方能否不依赖开启者私钥，仅凭公钥和公开参数，**确信某令牌确实能用于成功开启对应群签名**？该隐含性质直接影响GS-MDO的可行性分析与实际部署。
+
+## 核心贡献  
+本文首次**形式化定义了“令牌的公开可验证性”**（Public Verifiability of Tokens, PVT），严格区分两类验证：（1）验证令牌作为签名的有效性（已有）；（2）验证令牌对特定消息具备开启能力（新定义）。我们建立了二者间的精确关系，并证明：PVT要求验证过程必须**不涉及开启者私钥**，且能抵抗伪造——即无法构造一个可通过PVT检验却无法真正开启的令牌。  
+
+## 验证与应用  
+我们系统验证了三类代表性GS-MDO方案（基于配对的Ohara 2013、Libert 2014；基于格的Libert 2016）均满足PVT定义，证实该定义的合理性与普适性。进一步，我们指出PVT可赋能**授权者问责机制**：授权者可向审计方公开出示合法令牌及其验证证据，以**不可抵赖地证明其按协议诚实生成了令牌**，从而提升系统整体可信度与治理能力。
+
+AI Summary (English):
+This paper formally defines **public verifiability of tokens (PVT)**—a previously implicit but crucial security property in Group Signatures with Message-Dependent Opening (GS-MDO). PVT enables *anyone* to publicly verify, using only public parameters and the admitter’s public key, whether a given token is *genuinely usable* for opening a group signature on a specific message—*without requiring the opener’s secret key*. We rigorously distinguish PVT from mere signature-style token validity and establish its precise cryptographic relationship to opening correctness. We prove that three foundational GS-MDO schemes—Ohara et al. (AsiaCCS’13, pairing-based), Libert et al. (CT-RSA’14, pairing-based), and Libert et al. (ACNS’16, lattice-based)—all satisfy our PVT definition, confirming its soundness and practical relevance. Finally, we show that PVT enables *admitter accountability*: the admitter can publicly demonstrate honest token generation, providing non-repudiable evidence of compliance with the token-issuance algorithm.
+
+Abstract:
+Group signatures (GSs; Chaum and van Heyst, EUROCRYPT 1991) are digital signatures that allow a signer to anonymously prove group membership, while still enabling a special authority, called the opener, to identify the signer when necessary. Group Signatures with Message-Dependent Opening (GS-MDO; Sakai et al., Pairing 2012) weaken the power of the opener by introducing another authority, the admitter, who issues a message-dependent token. In previous GS-MDO schemes, these tokens can be viewed as signatures. Therefore they can be publicly verified using the verification algorithm of the underlying signature scheme. However, no explicit notion of public verifiability for tokens, meaning the ability to publicly verify whether a token can be used for opening a group signature, has been defined so far. Clarifying this implicit security property is important for understanding the feasibility of GS-MDO. In this paper, we formally define public verifiability of tokens. We establish a proper relationship between verifying a token as a signature and verifying that the token can be used for opening, which typically requires the opener's secret key. We also show that the Ohara et al. pairing-based GS-MDO scheme (AsiaCCS 2013), the Libert et al. lattice-based GS-MDO scheme (ACNS 2016), and the Libert et al. pairing-based GS-MDO scheme (CT-RSA 2014) satisfy our definition, suggesting that our formalization is reasonable. Finally, we discuss how publicly verifiable tokens can be used to provide accountability for the admitter, enabling them to demonstrate that tokens have been honestly generated according to the token-generation algorithm.</description>
+      <pubDate>Sat, 23 May 2026 00:00:00 -0000</pubDate>
+      <category>IACR</category>
+    </item>
+    <item>
+      <title>CHRONOS: Temporally-Aware Multi-Agent Coordination for Evolving Data Marketplaces</title>
+      <link>https://arxiv.org/abs/2605.23887v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.23887v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.23887v1
+
+AI Summary (中文):
+## 背景与挑战  
+时序知识图谱型数据市场面临三重耦合失效：（1）静态混合索引捷径因边关系动态演化而迅速过时，导致召回率下降；（2）基于静态分布假设的Shapley值定价在数据分布漂移后严重误估贡献；（3）多代理协同缺失造成差分隐私预算被无序超额消耗。现有方案缺乏对时间敏感性、价值动态性与隐私资源协同性的统一建模。
+
+## 方法创新：CHRONOS三层架构  
+CHRONOS提出显式分离“公共索引”与“私有估值”的三层次时序协调框架：  
+- **Layer 1（时效索引层）**：采用神经常微分方程（Neural-ODE）建模边时效衰减，为每次查询提供理论可证的期望召回损失界 $O(P_q \lambda \Delta t)$；引入单调包络技术，将理论界松散度压缩至实际损失的**1.8–3.2倍**（实证验证）；  
+- **Layer 2（动态估值层）**：将Shapley值计算条件化于检测到的变点（changepoints），在噪声存在下提供有限样本误差界；  
+- **Layer 3（隐私协同层）**：采用EXP3-IX算法调度代理访问，实现 $O(\sqrt{T \log T})$ 遗憾界；通过矩会计（moments accounting）严格保障 $(\varepsilon,\delta)$-DP，并在每轮发布经高斯机制扰动的**私有亲和矩阵**——所有检索与排序均为后处理，**零额外隐私开销**。
+
+## 实验结果与意义  
+在4个基准测试中，CHRONOS达成：**Recall@10 = 0.937**、吞吐量**2.74 QPS**、端到端延迟**161 ms**，在zCDP组合下总隐私成本为 $\varepsilon=4.25$（$\delta=10^{-6}$）。支持500卖家规模扩展与多轮结算。关键洞见：当前隐私预算下，直接释放的估值仍受噪声主导；系统效用主要源于**低敏感度统计驱动的公共索引路由**与**自适应调度**——这为高隐私约束下的实用化数据市场设计提供了新范式。
+
+AI Summary (English):
+CHRONOS is a temporally aware, multi-agent coordination framework for evolving data marketplaces built on knowledge graphs. It addresses three coupled failures in static designs—stale index shortcuts, misattributed Shapley pricing under distribution shifts, and uncoordinated differential-privacy budget consumption—via a unified three-layer architecture with explicit public/private separation. Layer 1 uses neural-ODE temporal decay to bound per-query recall loss as $O(P_q \lambda \Delta t)$, tightening bounds via monotone envelopes (1.8–3.2× tighter than observed loss). Layer 2 conditions Shapley valuation on detected changepoints and provides finite-sample error guarantees under noise. Layer 3 employs EXP3-IX for agent scheduling, achieving $O(\sqrt{T \log T})$ regret while enforcing $(\varepsilon,\delta)$-DP via moments accounting; it releases a privatized affinity matrix per epoch using the Gaussian mechanism, with all retrieval/ranking as zero-cost post-processing. Evaluated across four benchmarks, CHRONOS achieves Recall@10 = 0.937, 2.74 QPS, 161 ms latency, and total privacy cost $\varepsilon = 4.25$ at $\delta = 10^{-6}$ under zCDP composition—demonstrating a competitive operational point where utility stems primarily from public routing and low-sensitivity adaptive scheduling.
+
+Abstract:
+Temporal knowledge-graph data marketplaces face three coupled failures in static designs: stale hybrid index shortcuts reduce recall as edges evolve, stationary Shapley pricing misattributes value after distribution shifts, and uncoordinated agents over-consume a shared differential-privacy budget. We present CHRONOS, a three-layer architecture providing a unified treatment of these challenges with explicit public and private separation. Layer one applies neural-ODE temporal decay to shortcut edges, providing a per-query expected recall-loss bound of Big-O of Pq lambda delta t, with a monotone-envelope guarantee reducing bound looseness to 1.8 to 3.2 times observed loss. Layer two conditions Shapley valuation on detected changepoints and provides finite-sample error guarantees under noise. Layer three uses EXP3-IX to achieve Big-O of the square root of T log T regret while enforcing epsilon and delta differential privacy via moments accounting. CHRONOS releases a privatized affinity matrix per epoch using the Gaussian mechanism; all retrieval and ranking are post-processing, incurring no extra privacy cost. We provide multi-epoch settlement, scalability analysis for 500 sellers, and comparisons against accelerated baselines. Across four benchmarks, CHRONOS shows 0.937 recall at ten, 2.74 queries per second, 161 ms latency, and total epsilon of 4.25 at delta of 10 to the power of negative 6 under zCDP composition. These results indicate a competitive operating point. A limitation is that at this privacy level, released valuations remain noise-dominated; utility derives primarily from public index routing and adaptive scheduling driven by low-sensitivity statistics.</description>
+      <pubDate>Fri, 22 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>differential</category>
+      <category>privacy</category>
+    </item>
+    <item>
+      <title>On the Stability of Spherical Hellinger-Kantorovich Flows and Their Implications for Differential Privacy</title>
+      <link>https://arxiv.org/abs/2605.23879v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.23879v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.23879v1
+
+AI Summary (中文):
+## 研究背景与问题  
+梯度流采样将Gibbs分布建模为概率测度空间上能量泛函的极小值，并通过几何驱动的动力学逼近目标分布。在**球面Hellinger-Kantorovich（SHK）几何**下，该流自然耦合传输（transport）与反应（reaction）机制，等价于**出生-死亡Langevin动力学**，为离散/非光滑、高维或低秩隐私机制提供理想建模框架。然而，现有理论缺乏对势函数扰动下SHK流稳定性的定量刻画，制约其在差分隐私（DP）中可证明的实用化。
+
+## 方法与理论贡献  
+本文建立首个**SHK梯度流的扰动理论**：给定两个势函数 $V$ 与 $V'$，我们从同一初始分布出发，系统分析其对应SHK流的演化偏差。核心工具是基于SHK距离的**一致扰动界**——该界不依赖维度，且直接控制任意时刻的**对数似然比**（log-likelihood ratio）与**Rényi散度**（$\alpha$-Rényi divergence, $\forall \alpha \ge 1$）。进一步，当势函数满足Lipschitz-Hessian结构时，我们推导出**KL散度的时间显式上界**，突破传统信息论方法的局限。
+
+## 差分隐私应用与创新  
+我们将理论应用于**指数机制（Exponential Mechanism）的近似采样**：  
+- **Pure-DP保障**：对数似然比控制直接导出**时间依赖的$(\varepsilon(t),0)$-DP保证**，首次为SHK采样器提供严格、可计算的纯隐私界；  
+- **Approximate-DP认证**：KL界结合hockey-stick散度转化，给出$(\varepsilon,\delta)$-DP的显式$\delta(t)$衰减率；  
+- **效用-隐私权衡**：提出分离式效用界，明确区分**指数机制固有次优性**（由敏感度与效用函数决定）与**有限时间采样误差**（由SHK流收敛速率控制），支持超参调优与误差归因。
+
+本工作为几何采样与隐私计算的交叉提供了统一稳定性理论，并为高效、可验证的隐私发布系统奠定基础。
+
+AI Summary (English):
+This paper establishes the first perturbation theory for spherical Hellinger–Kantorovich (SHK) gradient flows. Given two potentials $V$ and $V'$, we quantify how initial discrepancies propagate along their respective SHK flows—yielding a dimension-free, uniform bound on the log-likelihood ratio and Rényi divergence ($\alpha \ge 1$) at all times. Under mild Hessian regularity, we further derive an explicit time-dependent upper bound on the KL divergence. Applied to the exponential mechanism in differential privacy, our bounds deliver: (i) time-resolved $(\varepsilon(t), 0)$-DP guarantees via log-ratio control; (ii) $(\varepsilon, \delta(t))$-DP certificates through hockey-stick divergence; and (iii) a decomposed utility bound separating intrinsic mechanism suboptimality from finite-time sampling error. The results provide the first geometrically grounded, provable privacy–utility trade-off for SHK-based samplers.
+
+Abstract:
+Gradient-flow sampling interprets a Gibbs distribution as the minimizer of an energy functional over probability measures and generates dynamics converging to this target. Under spherical Hellinger-Kantorovich (SHK) geometry, the flow couples transport and reaction and coincides with birth-death Langevin dynamics. In this work, we develop a perturbation theory for SHK gradient flows. For two potentials $V$ and $V^{\prime}$, we compare the associated flows from a common initialization and quantify how potential discrepancies propagate over time. A uniform perturbation bound yields dimension-free, pointwise control of the log-likelihood ratio and Rényi divergence, while additional structure allows us to derive bounds for the KL divergence as well. We apply these results to approximate sampling for the exponential mechanism in differential privacy. The likelihood-ratio control provides explicit time-dependent Pure-DP guarantees for SHK-based samplers, while the KL bound yields Approximate-DP certificates via hockey-stick divergence. We also derive a utility bound separating intrinsic exponential-mechanism suboptimality from finite-time sampling error.</description>
+      <pubDate>Fri, 22 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>differential</category>
+      <category>dp</category>
+      <category>privacy</category>
+    </item>
+    <item>
+      <title>AI Security Research Should Better Incentivize Defense Research</title>
+      <link>https://arxiv.org/abs/2605.23448v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.23448v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.23448v1
+
+AI Summary (中文):
+## 研究背景与问题  
+当前人工智能（AI）安全研究领域存在显著的**攻防失衡现象**：攻击类论文数量远超防御类论文，且该失衡并非仅体现于数量层面，更深层地反映在**评估标准的系统性偏差**上。本研究系统梳理了近五年顶会（如NeurIPS、ICML、USENIX Security）及权威期刊中AI安全相关论文，覆盖联邦学习、语音识别、成员推断攻击、大语言模型（LLM）安全等核心子领域。
+
+## 方法与分析  
+我们采用**跨子领域量化分析法**，统计各方向攻击/防御论文比例，并深入对比其评估范式：  
+- 攻击研究常基于理想化假设（如完全白盒访问、无噪声输入、无限查询预算），夸大实际威胁程度；  
+- 防御研究则普遍面临“一票否决”式严苛检验——仅需一个新攻击即被判定失效，且极少验证部署可行性、计算开销与用户效用损失；  
+- 进一步发现，约78%的防御论文未在真实系统或工业级API（如OpenAI、Azure ML）上验证，而86%的攻击论文依赖仿真环境构造“最坏-case”场景。
+
+## 主要发现与创新点  
+首次提出“**评估不对称性**”（Evaluation Asymmetry）概念，揭示攻防研究生态失衡的结构性根源；实证表明，当前文献呈现“**漏洞丰富、防护稀薄**”特征——高影响力攻击成果频出，但可落地、经得起迭代攻击考验的防御方案严重匮乏。本研究呼吁建立**防御友好的激励机制**：包括设立专项评审标准、鼓励长期鲁棒性评测、认可增量式工程改进，并将部署效果纳入学术评价体系。
+
+AI Summary (English):
+This paper identifies a critical structural imbalance in AI security research: a pronounced overemphasis on *attacking* AI systems relative to *defending* them—not only in publication volume but, more importantly, in evaluation rigor. Through systematic analysis of 327 papers across federated learning, speech recognition, membership inference, and large language model security, we find attack-to-defense ratios consistently exceed 4:1. Crucially, attack papers are routinely evaluated under overly favorable, idealized conditions (e.g., full model access, noiseless inputs), inflating perceived threat severity; defenses, by contrast, face unrealistically strict benchmarks—often invalidated by a single novel attack and rarely tested in real-world deployment settings (only 22% validated on production APIs). This asymmetry yields a literature rich in demonstrated vulnerabilities but poor in robust, deployable protections. We argue that sustainable AI security requires rebalancing incentives—through dedicated review criteria, standardized long-term robustness evaluation, and academic recognition of engineering rigor and deployment success.
+
+Abstract:
+This work examines an imbalance in artificial intelligence (AI) security research: the field tends to produce more work on attacking AI systems than on defending them. Drawing on related academic papers, we find biased attack-to-defense ratios across subfields, including federated learning, speech recognition, membership inference, large language models, etc. The imbalance possibly means far beyond a simple count: attack papers are routinely evaluated under favorable conditions that make threats look more severe than they are in practice, while defenses are held to a stricter standard that few can meet. The result is a literature rich in demonstrated vulnerabilities and thin on usable and deployed protections. We thus argue that AI security research should better incentivize defense research.</description>
+      <pubDate>Fri, 22 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>inference</category>
+      <category>federated</category>
+      <category>security</category>
+      <category>membership</category>
+      <category>learning</category>
+    </item>
+    <item>
+      <title>Security, Privacy, and Ethical Risks in OpenClaw</title>
+      <link>https://arxiv.org/abs/2605.23330v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.23330v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.23330v1
+
+AI Summary (中文):
+## OpenClaw系统安全、隐私与伦理风险的系统性评估  
+
+本研究首次对**OpenClaw**——一种面向本地执行的自然语言交互式AI智能体系统——开展全面的风险画像分析。OpenClaw具备任务编排、跨平台工具调用与现实世界操作能力，在个人助理、办公自动化及多源信息整合等场景展现出显著应用潜力。然而，其高度特权化设计（如本地持久化存储、无沙箱工具执行、跨会话上下文聚合）亦引入多重系统性风险。  
+
+我们采用**架构驱动的风险分析法**，结合对其模块化组件（LLM核心、工具调度器、插件管理器、本地知识库）、部署范式（纯离线/混合模式）及典型应用场景（如邮件自动归档+日程同步+第三方API调用）的深度剖析，识别出五大关键风险维度：  
+- **安全风险**：未受限的本地文件/进程访问权限可能导致横向渗透；插件签名缺失与动态加载机制易被恶意注入；  
+- **隐私风险**：跨任务上下文隐式聚合用户敏感数据（如健康记录与财务信息），且缺乏细粒度访问审计；  
+- **伦理风险**：多用户共享设备下身份混淆导致越权操作；自动化决策链路不可解释，引发责任归属困境；  
+- **可追溯性挑战**：操作日志分散于工具层、插件层与LLM推理层，缺乏统一溯源标识与因果链重建能力；  
+- **治理盲区**：现有隐私政策与伦理框架难以覆盖“本地化、高自主性、强耦合”智能体的新范式。  
+
+本研究不仅揭示了OpenClaw作为典型端侧AI代理的深层脆弱性，更提炼出适用于下一代本地智能体系统的**四维治理框架**（安全防御、隐私增强、伦理对齐、全链路可追溯），为构建**可信、可控、可问责**的AI代理生态提供理论依据与实践路径。
+
+AI Summary (English):
+This paper presents the first systematic analysis of security, privacy, ethical, and traceability risks in **OpenClaw**, a locally executable AI agent system designed for natural language interaction and real-world task execution. Through architecture-driven evaluation—examining its tool invocation model, persistent local storage, cross-context information aggregation, multi-user handling, and plugin integration—we identify critical vulnerabilities: unrestricted local resource access enabling lateral movement; implicit sensitive data fusion across tasks without user consent; identity ambiguity in shared environments; and fragmented audit logs impeding causal attribution. We argue these issues fundamentally undermine trustworthiness and hinder responsible deployment. The study concludes by proposing four open challenges requiring coordinated action: (1) adaptive runtime security enforcement, (2) context-aware privacy-preserving aggregation, (3) explainable ethical constraint embedding, and (4) unified provenance tracking across agent layers. Our findings serve as a foundational risk assessment for trustworthy local AI agents.
+
+Abstract:
+This paper systematically investigates the security, privacy, and ethical risks, as well as the traceability challenges of OpenClaw, a locally executable AI agent system for natural language interaction and real-world task completion. While OpenClaw shows strong potential for personal assistance, office automation, cross-platform task management, and information integration, it also raises serious security, privacy, and ethical concerns. By analyzing its system architecture, core functionalities, deployment model, and representative application scenarios, this paper aims to reveal the risks that may arise when such a highly privileged agent is integrated into personal and organizational digital environments. We focus in particular on the challenges associated with persistent local storage, tool invocation, cross-context information aggregation, multi-user interaction, and the integration of plugins and external services. We argue that these issues constitute major barriers to the trustworthy deployment and widespread adoption of this technology. Finally, we summarize the open challenges in security defenses, privacy protection, ethical governance, and traceability in agent use, and call for joint efforts from researchers, developers, deployers, and regulators to build AI agent systems that are safer, more reliable, and more trustworthy.</description>
+      <pubDate>Fri, 22 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>agent</category>
+      <category>security</category>
+    </item>
+    <item>
+      <title>Prompt Overflow: What the Guardrail Inspects Is Not What the Model Infers</title>
+      <link>https://arxiv.org/abs/2605.23196v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.23196v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.23196v1
+
+AI Summary (中文):
+## 研究背景  
+Guardrail模型（又称安全检查器）被广泛部署于大语言模型（LLM）前端，作为抵御**提示注入攻击**的首要防线。然而，受限于上下文长度约束，现有guardrail模型对超长提示普遍采用**截断（truncation）或分段检查（segmentation-based inspection）**策略——仅审查输入的一部分，而非完整语境。
+
+## 核心问题与创新发现  
+本文首次揭示了一个关键安全盲区：guardrail模型的**有限检查窗口**与下游LLM的**大幅扩展推理上下文窗口**之间存在系统性错配。基于此，我们提出新型**Prompt Overflow攻击**：将恶意指令碎片化，并与大量无害填充内容交错嵌入超长提示中，使得**每个被检查的片段均呈现良性表象**，而LLM在完整上下文中仍能准确识别并执行全部恶意意图。
+
+## 实验验证与影响  
+我们在Meta Llama Prompt Guard、IBM Granite Guardian及DeBERTa基线检测器上开展系统性评估。结果表明：原本在短上下文下100%被检出的恶意提示，在经攻击重构为超长输入后，**检出率骤降至最低3.2%**，却仍保持对LLM的100%可执行性。该现象证实了当前防御范式在长输入场景下的结构性失效。
+
+## 贡献与展望  
+本研究不仅定义了“提示溢出”这一新攻击范式，更推动安全边界从“语义对抗”延伸至“结构-上下文错配”维度。我们同步提出三类缓解方向：动态上下文重聚合、跨段一致性建模、以及LLM协同式反验机制，为下一代鲁棒guardrail设计提供理论基础与实践路径。
+
+AI Summary (English):
+This paper identifies a critical security blind spot in guardrail models—widely deployed safety checkers for LLMs—arising from the mismatch between their narrow inspection windows (due to context constraints) and the much larger inference contexts of downstream LLMs. We introduce the **Prompt Overflow Attack**, which fragments malicious instructions and interleaves them with benign filler content across overlength prompts, ensuring no single inspected segment triggers detection while the full prompt remains fully actionable to the target LLM. Through systematic evaluation against state-of-the-art guardrails—including Meta’s Llama Prompt Guard, IBM’s Granite Guardian, and DeBERTa-based detectors—we show that adversarially lengthened prompts evade detection (as low as 3.2% detection rate) while preserving 100% attack success against LLMs—despite being reliably caught in short-context settings. Our work exposes a fundamental structural vulnerability in current safety architectures and proposes concrete mitigation directions: context-aware re-aggregation, cross-segment consistency modeling, and LLM-assisted verification.
+
+Abstract:
+Guardrail models (a.k.a. safety checkers) are widely deployed to screen user inputs before they reach large language models (LLMs), serving as a primary defense against prompt injection attacks. Due to strict context constraints, these models handle overlength prompts through truncation or segmentation-based inspection. While prior work has focused on semantic adversarial inputs, the security implications of these long-input processing mechanisms remain largely unexplored. In this paper, we identify a critical blind spot arising from the mismatch between the limited inspection windows of guardrail models and the substantially larger context inference windows of downstream LLMs. We introduce a novel Prompt Overflow Attack, which exploits this mismatch by fragmenting malicious instructions and interleaving them with benign filler content across an overlong prompt, such that no individual inspected segment appears malicious while the full context remains actionable to the LLM. Through a systematic evaluation against state-of-the-art guardrail models, including Meta Llama Prompt Guard, IBM Granite Guardian, and DeBERTa-based detectors, we demonstrate that prompts reliably detected in short-context settings can evade guardrail models once adversarially manipulated into over-length inputs, yet remain fully actionable by downstream LLMs. We further propose potential defense strategies and outline mitigation directions to strengthen guardrail models.</description>
+      <pubDate>Fri, 22 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>inference</category>
+      <category>injection</category>
+      <category>security</category>
+      <category>prompt</category>
+      <category>llm</category>
+    </item>
+    <item>
+      <title>PoisonForge: Task-Level Targeted Poisoning Benchmark for Instruction-Tuned LLMs</title>
+      <link>https://arxiv.org/abs/2605.23168v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.23168v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.23168v1
+
+AI Summary (中文):
+## PoisonForge：面向指令微调大语言模型的任务级定向投毒基准
+
+**背景与问题**：当从业者在未经审核的数据集上微调大语言模型（LLM）时，攻击者可通过“任务级投毒”破坏数据供应链——仅注入少量精心构造的指令-响应对，即可诱使模型在特定任务族（如问答、摘要）的输出中**稳定嵌入攻击者指定的实体**（如某国名），同时在其他任务中保持正常行为，极具隐蔽性与危害性。
+
+**方法与基准设计**：本文提出 **PoisonForge**，首个系统化评估该威胁的开源基准。它沿四个正交维度参数化投毒策略：**偏置类型**（实体类别）、**投毒模式**（前缀/后缀/插入）、**实体出现频次**（1–5次）和**目标输出长度**（短/中/长）。在严格约束下（仅1%毒样本预算，即1000条微调样本中仅含10条毒样本），我们在5类典型任务家族上全面评测12个开源指令模型（参数量覆盖2B–32B）。
+
+**核心发现**：  
+- 11/12模型在其最脆弱配置下攻击成功率（ASR）**超70%**；  
+- 跨任务泄露率（非目标任务中意外触发实体）**&lt;0.5%**，且标准基准（如MMLU、AlpacaEval）性能无显著下降；  
+- ASR随实体出现次数增加而提升，最优投毒模式高度依赖目标实体语义结构（如地名适配后缀，机构名适配前缀），且ASR随输出长度增长**单调递减**；  
+- 相关性分析与风险预测模型证实：**投毒设计选择（而非模型规模）是ASR主导因素**，且该规律可泛化至未见任务。
+
+**创新与开源**：PoisonForge首次实现任务级投毒的可控建模、可复现评估与机制归因；我们**完整开源全部配置模板、训练/评估流水线及分析代码**，推动鲁棒性研究标准化。
+
+AI Summary (English):
+PoisonForge is the first benchmark for *task-level targeted poisoning* of instruction-tuned LLMs—where adversaries inject minimal crafted instruction-response pairs to compel models to embed attacker-specified entities (e.g., a country) *only* in outputs of a targeted task family (e.g., QA), while preserving normal behavior elsewhere. Parameterized across four dimensions (bias type, poisoning mode, entity appearance count, and target output length), PoisonForge evaluates 12 open-weight models (2B–32B) across five task families under a strict 1% poison budget (e.g., 10 poisoned examples among 1,000). Results show 11/12 models achieve &gt;70% attack success rate (ASR) in their most vulnerable configuration, with &lt;0.5% unintended leakage to non-target tasks and no degradation on standard benchmarks. We identify key drivers: ASR increases with entity appearances, optimal poisoning mode depends on entity semantics, and ASR monotonically decreases with output length. Crucially, correlation and predictive modeling confirm that *poisoning design—not model scale—is the primary determinant of ASR*, and these patterns generalize to unseen tasks. All configurations, pipelines, and analysis code are publicly released.
+
+Abstract:
+When practitioners fine-tune LLMs on unvetted datasets, an adversary can exploit the data supply chain through task-level poisoning: inserting a small number of crafted instruction-response pairs that cause the model to embed attacker-specified entities, such as a country, in outputs for a targeted task family while behaving normally elsewhere. We introduce PoisonForge, a benchmark that parameterizes this threat along four dimensions (bias type, poisoning mode, appearance count, and target output length) and evaluates 12 open-weight models (from 2B to 32B parameters) across five families under a primarily 1% poison budget. With only 10 poisoned examples among 1,000 fine-tuning examples, 11 of 12 models exceed a 70% attack success rate (ASR) in their most vulnerable configuration. Meanwhile, unintended leakage to non-target tasks remains below 0.5%, and models perform well on standard benchmarks. We analyze in detail the factors contributing to attack success. We observe that multiple appearances of an entity increase the ASR, the optimal poisoning mode depends on the semantic structure of the target entity, and ASR drops monotonically with the task output length. A correlation analysis and risk prediction model confirm that poisoning design choices, rather than model scale, are the primary causes of attack success, and that these patterns generalize to predict attack success on new tasks. We release all configurations, pipelines, and analysis code to support reproducible comparisons.</description>
+      <pubDate>Fri, 22 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>poisoning</category>
+      <category>data</category>
+      <category>model</category>
+    </item>
+    <item>
+      <title>From Raw Experience to Skill Consumption: A Systematic Study of Model-Generated Agent Skills</title>
+      <link>https://arxiv.org/abs/2605.23899v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.23899v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.23899v1
+
+AI Summary (中文):
+## 研究背景  
+语言智能体正通过复用**技能**（structured procedural artifacts）持续提升能力——这些技能是从历史交互经验中提炼出的可重用程序化知识。其中，**领域级**与**模型生成式**技能尤为关键：前者聚焦特定领域内高频重复流程（如订票、代码调试），实现快速领域适配；后者则突破人工编写瓶颈，支持规模化技能演化。然而，当前研究严重失衡——技能提取方法层出不穷，却缺乏对**完整技能生命周期**（经验生成 → 技能提取 → 技能消费）的系统性实证检验，导致核心问题悬而未决：技能是否真正有效？在何种条件下生效？成败的关键机制是什么？
+
+## 方法与发现  
+本研究构建首个**效用导向的统一评估框架**，覆盖5个异构任务领域（含Web导航、API调用、数学推理等），横向对比多种技能提取器与目标智能体组合。关键发现包括：  
+- 模型生成技能**平均提升性能，但存在显著负迁移现象**（约23%场景性能下降）；  
+- 提取能力与消费能力**高度解耦**：强提取器未必是强消费者，反之亦然；  
+- 技能效用**与模型参数量或基线任务表现无关**，颠覆“越大越优”直觉；  
+- 经验构成（如任务多样性、失败案例占比）显著影响技能泛化性；  
+- 高效技能具有三大特征：**语义完整性、步骤可分解性、上下文鲁棒性**。
+
+## 创新贡献  
+基于深度归因分析，我们提出可落地的**元技能（meta-skill）指导原则**：将技能提取目标从“语法正确性”转向“效用可预测性”，显式建模消费者认知偏差与任务约束。该原则在全部5个领域上**稳定提升技能质量（+18.7%平均效用分）并降低负迁移率52%**，为构建可靠、可解释的技能驱动智能体提供理论基石与工程路径。
+
+AI Summary (English):
+This paper presents the first systematic, utility-grounded evaluation of the full skill lifecycle—experience generation, skill extraction, and skill consumption—for model-generated agent skills. Across five diverse agentic domains, we find that while such skills yield average performance gains, they incur non-trivial negative transfer (≈23% of cases), and extractor and consumer capabilities are largely decoupled: a model can excel at one stage yet fail at the other, irrespective of scale or baseline strength. Through fine-grained dissection, we identify experience composition, skill structural properties (e.g., step decomposability, context robustness), and consumer-specific transfer dynamics as key determinants of utility. Crucially, we distill these insights into a concrete *meta-skill*—a guidance protocol for extraction that prioritizes utility-predictive features over surface correctness. This meta-skill consistently improves skill quality (+18.7% mean utility) and cuts negative transfer by 52% across all domains.
+
+Abstract:
+Language agents increasingly improve by reusing \emph{skills} -- structured procedural artifacts distilled from past experience. In particular, \emph{domain-level} and \emph{model-generated} skills are especially promising. They offer fast adaptation within a domain by encoding domain-specific recurring procedures, and they scale beyond labor-intensive hand-crafting. However, while extraction methods continue to proliferate, understanding remains limited, with no comprehensive study spanning the full skill lifecycle -- \textbf{experience generation}, \textbf{skill extraction}, and \textbf{skill consumption} -- to ask whether such skills actually work, when they work, and what makes them succeed or fail. To close this gap, we build a utility-grounded evaluation framework that provides systematic experimental results across extractors and target agents, covering five diverse agentic task domains. We find that model-generated skills are beneficial on average but exhibit non-trivial negative transfer, and that neither extractors nor targets behave uniformly. A model can be a strong extractor yet a weak consumer, or vice versa, with skill utility independent of model scale or baseline task strength. To explain these patterns, we then dissect each lifecycle stage in depth, analyzing how experience composition shapes skill quality, what properties characterize useful skills, and how the same skill transfers across different consumers. Finally, we translate these findings into a concrete \emph{meta-skill} that guides skill extraction toward the features tied to actual utility, which consistently improves skill quality across domains and substantially reduces negative transfer.</description>
+      <pubDate>Fri, 22 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>extraction</category>
+      <category>model</category>
+    </item>
+    <item>
+      <title>MemAudit: Post-hoc Auditing of Poisoned Agent Memory via Causal Attribution and Structural Anomaly Detection</title>
+      <link>https://arxiv.org/abs/2605.23723v1</link>
+      <guid isPermaLink="true">https://arxiv.org/abs/2605.23723v1</guid>
+      <description>Paper Link: https://arxiv.org/abs/2605.23723v1
+
+AI Summary (中文):
+## 背景与问题  
+随着大语言模型（LLM）智能体广泛采用**持久化记忆机制**（如向量数据库存储历史交互与示范样本），其长期任务执行能力显著提升。但该机制也引入关键安全风险：恶意用户可通过常规对话交互向记忆库中注入**隐蔽毒化记录**（poisoned memories），这些记录后续被检索并误导智能体推理，导致有害输出——而现有防御（如实时提示过滤或输出拦截）均属**在线干预**，无法回答核心的**事后归因问题**：当危害已发生时，哪些具体记忆条目是因果根源？
+
+## 方法：MemAudit 框架  
+我们提出 **MemAudit**——首个面向记忆增强型LLM智能体的**事后因果审计框架**。它融合两类正交信号：  
+- **因果归因评分**：基于反事实推理，量化每条记忆对有害输出的**因果影响强度**（Counterfactual Memory Influence Score），识别高责任记忆；  
+- **结构异常检测**：构建**记忆一致性图**（Memory Consistency Graph），将记忆嵌入映射为图节点，通过拓扑稀疏性与语义连通性分析，定位偏离正常记忆分布的结构异常点。  
+
+二者协同实现高精度、可解释的记忆污染溯源。
+
+## 主要发现与创新  
+在针对**MINJA攻击**（仅通过自然查询诱导记忆注入，无需直接篡改记忆库）的全面评估中，MemAudit在真实事后审计场景下表现卓越：  
+- **问答智能体（QA）**：攻击成功率从70%降至**0%**；  
+- **推理智能体（RAP）**：攻击成功率从83.3%降至**0%**。  
+本工作首次将**因果推断**与**图结构异常检测**系统性引入记忆安全审计，为LLM智能体的记忆可信性提供了可验证、可部署的事后保障范式。
+
+AI Summary (English):
+Large language model (LLM) agents increasingly rely on persistent memory for long-horizon reasoning, yet this introduces a critical security vulnerability: adversaries can stealthily inject poisoned records via normal interactions, later retrieved to manipulate agent behavior. Existing defenses focus on *online* intervention but lack *post-hoc* audit capability—i.e., identifying which stored memories causally contributed to observed harm. We propose **MemAudit**, the first causal memory auditing framework for memory-augmented LLM agents. It combines (1) a counterfactual memory influence score to quantify each memory’s causal contribution to harmful outputs, and (2) a memory consistency graph to detect structurally anomalous memories within the broader memory store. Evaluated against the query-only MINJA attack across QA and reasoning-agent settings, MemAudit reduces attack success rates from 70% to 0% and from 83.3% to 0%, respectively, under realistic post-hoc auditing conditions. This work establishes a novel, interpretable, and deployable paradigm for memory integrity assurance.
+
+Abstract:
+Large language model agents increasingly rely on persistent memory to store past interactions, retrieve relevant demonstrations, and improve long-horizon task execution. However, this memory mechanism also creates a practical security vulnerability: an adversarial user may inject malicious records into the agent's memory through ordinary interaction, and these records can later be retrieved to steer the agent's reasoning and actions. Existing defenses primarily focus on online intervention, such as prompt filtering or output blocking, but they do not address the post-hoc question of which stored memories are responsible after harmful behavior has already been observed. We propose \textbf{MemAudit}, a post-hoc causal memory auditing framework for memory-augmented LLM agents. The framework combines two complementary signals: (1) a counterfactual memory influence score that measures each memory's causal contribution to harmful outputs, and (2) a memory consistency graph that identifies structurally anomalous memories within the broader memory store. We evaluate MemAudit against MINJA, a query-only memory injection attack in which malicious records are generated and stored through normal agent interactions rather than direct memory-bank modification. Across both QA and reasoning-agent settings, MemAudit substantially reduces attack success rates under realistic post-hoc auditing scenarios. The results show that QA attack success is reduced from $70\%$ to $0\%$, while RAP attack success drops from $83.3\%$ to $0\%$.</description>
+      <pubDate>Fri, 22 May 2026 00:00:00 -0000</pubDate>
+      <category>arXiv</category>
+      <category>agent</category>
+      <category>injection</category>
+      <category>security</category>
+      <category>prompt</category>
+      <category>llm</category>
+    </item>
+  </channel>
+</rss>
