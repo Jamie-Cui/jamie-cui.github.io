@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import json
 import os
+import re
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -70,17 +71,66 @@ except ImportError:
         print(f"Warning: {msg}")
 
 
-def _wrap_text(text: str, width: int = 72) -> str:
+def _wrap_text(text: str, width: int = 32) -> str:
     """Wrap text to given width, preserving existing line breaks."""
     import textwrap
 
+    def space_mixed_text(paragraph: str) -> str:
+        cjk = r"\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff"
+        paragraph = re.sub(rf"([{cjk}])([A-Za-z0-9][A-Za-z0-9_.:/+-]*)", r"\1 \2", paragraph)
+        paragraph = re.sub(rf"([A-Za-z0-9_.:/+-]*[A-Za-z0-9])([{cjk}])", r"\1 \2", paragraph)
+        return paragraph
+
     result_lines = []
+    leading_punctuation = set(",.;:!?，。！？；：、）】》」』”’)")
     for paragraph in text.split("\n"):
         if not paragraph.strip():
             result_lines.append("")
         else:
-            result_lines.extend(textwrap.wrap(paragraph, width=width))
+            paragraph = space_mixed_text(paragraph)
+            stripped = paragraph.lstrip()
+            leading = paragraph[: len(paragraph) - len(stripped)]
+            subsequent_indent = ""
+            if stripped.startswith(("- ", "* ")):
+                subsequent_indent = leading + "  "
+            wrapped_lines = textwrap.wrap(
+                paragraph,
+                width=width,
+                subsequent_indent=subsequent_indent,
+                break_on_hyphens=False,
+            )
+            for line in wrapped_lines:
+                while (
+                    result_lines
+                    and line
+                    and line[0] in leading_punctuation
+                    and result_lines[-1]
+                ):
+                    result_lines[-1] += line[0]
+                    line = line[1:].lstrip()
+                if line:
+                    result_lines.append(line)
     return "\n".join(result_lines)
+
+
+def _add_wrapped(lines: list, text: str, width: int, prefix: str = ""):
+    """Append wrapped text, optionally prefixing the first line."""
+    wrapped = _wrap_text(text, width=width)
+    if not prefix:
+        lines.extend(wrapped.split("\n"))
+        return
+
+    wrapped_lines = wrapped.split("\n")
+    if not wrapped_lines:
+        lines.append(prefix.rstrip())
+        return
+
+    first = wrapped_lines[0]
+    first_width = max(width - len(prefix), 8)
+    first_wrapped = _wrap_text(first, width=first_width).split("\n")
+    lines.append(prefix + first_wrapped[0])
+    lines.extend(first_wrapped[1:])
+    lines.extend(wrapped_lines[1:])
 
 
 def generate_email_report(
@@ -92,44 +142,49 @@ def generate_email_report(
     output_path: Path,
     site_url: str,
     summary_language: str = "zh",
+    wrap_width: int = 32,
 ):
     """Generate a plain-text email report with paper details and summaries.
 
     Args:
         summary_language: Which summary to include in the email.
             "zh" = Chinese only, "en" = English only, "both" = both.
+        wrap_width: Target line width for mobile-friendly plain-text email.
     """
     lines = []
     date_str = datetime.now().strftime("%Y-%m-%d %H:%M UTC")
-    sep = "=" * 40
+    wrap_width = max(24, int(wrap_width or 32))
+    sep = "=" * wrap_width
+    thin_sep = "-" * wrap_width
 
     lines.append(sep)
-    lines.append("Paper Feeds Daily Report")
+    lines.append("Paper Feeds")
+    lines.append("Daily Report")
     lines.append(sep)
-    lines.append(f"Date: {date_str}")
+    lines.append(date_str)
     lines.append("")
 
     # Statistics
-    lines.append("STATISTICS")
-    lines.append("-" * 40)
-    lines.append(f"  New papers fetched:       {len(new_papers)}")
-    lines.append(f"  Retry summaries:          {len(retry_papers)}")
-    lines.append(f"  Failed summaries:         {len(failed_papers)}")
-    lines.append(f"  Total papers in database: {total_count}")
+    lines.append("Stats")
+    lines.append(thin_sep)
+    lines.append(f"New: {len(new_papers)}")
+    lines.append(f"Retry: {len(retry_papers)}")
+    lines.append(f"Failed: {len(failed_papers)}")
+    lines.append(f"Total: {total_count}")
     lines.append("")
 
-    lines.append("AI TOKEN USAGE")
-    lines.append("-" * 40)
-    lines.append(f"  Input tokens:  {usage_stats['input_tokens']}")
-    lines.append(f"  Output tokens: {usage_stats['output_tokens']}")
-    lines.append(f"  Total tokens:  {usage_stats['total_tokens']}")
+    lines.append("Token Usage")
+    lines.append(thin_sep)
+    lines.append(f"In: {usage_stats['input_tokens']}")
+    lines.append(f"Out: {usage_stats['output_tokens']}")
+    lines.append(f"All: {usage_stats['total_tokens']}")
     lines.append("")
 
     # New papers section
     all_report_papers = new_papers + retry_papers
     if all_report_papers:
         lines.append(sep)
-        lines.append(f"NEW PAPERS ({len(all_report_papers)})")
+        lines.append(f"New Papers: {len(all_report_papers)}")
         lines.append(sep)
         lines.append("")
 
@@ -142,40 +197,55 @@ def generate_email_report(
             summary_zh = paper.get("summary_zh", "")
             summary_en = paper.get("summary_en", "")
 
-            lines.append(f"[{i}] {title}")
-            lines.append(f"    URL:       {url}")
-            lines.append(f"    Source:    {source}")
-            lines.append(f"    Published: {published}")
-            if keywords:
-                lines.append(f"    Keywords:  {', '.join(keywords)}")
+            lines.append(f"[{i}] {source} | {published}")
             lines.append("")
+            lines.append("Title")
+            lines.append(thin_sep)
+            _add_wrapped(lines, title, wrap_width)
+            lines.append("")
+            if keywords:
+                lines.append("Keywords")
+                lines.append(thin_sep)
+                _add_wrapped(lines, ", ".join(keywords), wrap_width)
+                lines.append("")
+            if url:
+                lines.append("Link")
+                lines.append(thin_sep)
+                lines.append(url)
+                lines.append("")
 
             has_summary = False
 
             if summary_language in ("zh", "both") and summary_zh:
                 if summary_language == "both":
-                    lines.append("    -- Chinese Summary --")
-                lines.append("")
-                lines.append(_wrap_text(summary_zh))
+                    lines.append("中文摘要")
+                    lines.append(thin_sep)
+                else:
+                    lines.append("Summary")
+                    lines.append(thin_sep)
+                lines.append(_wrap_text(summary_zh, width=wrap_width))
                 lines.append("")
                 has_summary = True
 
             if summary_language in ("en", "both") and summary_en:
                 if summary_language == "both":
-                    lines.append("    -- English Summary --")
-                lines.append("")
-                lines.append(_wrap_text(summary_en))
+                    lines.append("English Summary")
+                    lines.append(thin_sep)
+                else:
+                    lines.append("Summary")
+                    lines.append(thin_sep)
+                lines.append(_wrap_text(summary_en, width=wrap_width))
                 lines.append("")
                 has_summary = True
 
             if not has_summary:
                 abstract = paper.get("abstract", "No summary available.")
-                lines.append("    -- Abstract --")
-                lines.append("")
-                lines.append(_wrap_text(abstract))
+                lines.append("Abstract")
+                lines.append(thin_sep)
+                lines.append(_wrap_text(abstract, width=wrap_width))
                 lines.append("")
 
-            lines.append("-" * 40)
+            lines.append(thin_sep)
             lines.append("")
     else:
         lines.append("No new papers in this run.")
@@ -183,14 +253,14 @@ def generate_email_report(
 
     # Links
     if site_url:
-        lines.append("LINKS")
-        lines.append("-" * 40)
-        lines.append(f"  View Papers: {site_url}")
+        lines.append("Site")
+        lines.append(thin_sep)
+        lines.append(site_url)
         lines.append("")
 
     lines.append(sep)
-    lines.append("This is an automated report from Paper Feeds.")
-    lines.append("Powered by arXiv, IACR ePrint, and DashScope (Qwen).")
+    lines.append("Automated report from")
+    lines.append("Paper Feeds.")
     lines.append(sep)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -471,7 +541,9 @@ def main():
         # Still generate email report (even with no new papers)
         usage_stats = summarizer.get_usage_stats()
         site_url = config.get("general", {}).get("site_url", "")
-        summary_language = config.get("email", {}).get("summary_language", "zh")
+        email_config = config.get("email", {})
+        summary_language = email_config.get("summary_language", "zh")
+        email_wrap_width = email_config.get("wrap_width", 32)
         email_report_path = REPORTS_DIR / "email_report.txt"
         generate_email_report(
             new_papers=[],
@@ -482,6 +554,7 @@ def main():
             output_path=email_report_path,
             site_url=site_url,
             summary_language=summary_language,
+            wrap_width=email_wrap_width,
         )
         return
 
@@ -574,7 +647,9 @@ def main():
 
     # Generate email report with paper details
     site_url = config.get("general", {}).get("site_url", "")
-    summary_language = config.get("email", {}).get("summary_language", "zh")
+    email_config = config.get("email", {})
+    summary_language = email_config.get("summary_language", "zh")
+    email_wrap_width = email_config.get("wrap_width", 32)
     email_report_path = REPORTS_DIR / "email_report.txt"
     generate_email_report(
         new_papers=newly_summarized,
@@ -585,6 +660,7 @@ def main():
         output_path=email_report_path,
         site_url=site_url,
         summary_language=summary_language,
+        wrap_width=email_wrap_width,
     )
 
 

@@ -67,6 +67,8 @@ papers_per_page = 10
 # Which summary language to include in the daily email digest
 # Options: "zh" (Chinese only), "en" (English only), "both" (Chinese + English)
 summary_language = "zh"
+# Target line width for mobile-friendly plain-text emails
+wrap_width = 32
 
 [keywords]
 # Path to keyword filter configuration file
