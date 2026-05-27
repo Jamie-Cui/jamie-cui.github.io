@@ -20,7 +20,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import json
 import os
-import re
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -71,68 +70,6 @@ except ImportError:
         print(f"Warning: {msg}")
 
 
-def _wrap_text(text: str, width: int = 32) -> str:
-    """Wrap text to given width, preserving existing line breaks."""
-    import textwrap
-
-    def space_mixed_text(paragraph: str) -> str:
-        cjk = r"\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff"
-        paragraph = re.sub(rf"([{cjk}])([A-Za-z0-9][A-Za-z0-9_.:/+-]*)", r"\1 \2", paragraph)
-        paragraph = re.sub(rf"([A-Za-z0-9_.:/+-]*[A-Za-z0-9])([{cjk}])", r"\1 \2", paragraph)
-        return paragraph
-
-    result_lines = []
-    leading_punctuation = set(",.;:!?，。！？；：、）】》」』”’)")
-    for paragraph in text.split("\n"):
-        if not paragraph.strip():
-            result_lines.append("")
-        else:
-            paragraph = space_mixed_text(paragraph)
-            stripped = paragraph.lstrip()
-            leading = paragraph[: len(paragraph) - len(stripped)]
-            subsequent_indent = ""
-            if stripped.startswith(("- ", "* ")):
-                subsequent_indent = leading + "  "
-            wrapped_lines = textwrap.wrap(
-                paragraph,
-                width=width,
-                subsequent_indent=subsequent_indent,
-                break_on_hyphens=False,
-            )
-            for line in wrapped_lines:
-                while (
-                    result_lines
-                    and line
-                    and line[0] in leading_punctuation
-                    and result_lines[-1]
-                ):
-                    result_lines[-1] += line[0]
-                    line = line[1:].lstrip()
-                if line:
-                    result_lines.append(line)
-    return "\n".join(result_lines)
-
-
-def _add_wrapped(lines: list, text: str, width: int, prefix: str = ""):
-    """Append wrapped text, optionally prefixing the first line."""
-    wrapped = _wrap_text(text, width=width)
-    if not prefix:
-        lines.extend(wrapped.split("\n"))
-        return
-
-    wrapped_lines = wrapped.split("\n")
-    if not wrapped_lines:
-        lines.append(prefix.rstrip())
-        return
-
-    first = wrapped_lines[0]
-    first_width = max(width - len(prefix), 8)
-    first_wrapped = _wrap_text(first, width=first_width).split("\n")
-    lines.append(prefix + first_wrapped[0])
-    lines.extend(first_wrapped[1:])
-    lines.extend(wrapped_lines[1:])
-
-
 def generate_email_report(
     new_papers: list,
     retry_papers: list,
@@ -149,7 +86,7 @@ def generate_email_report(
     Args:
         summary_language: Which summary to include in the email.
             "zh" = Chinese only, "en" = English only, "both" = both.
-        wrap_width: Target line width for mobile-friendly plain-text email.
+        wrap_width: Width for visual separators in the plain-text email.
     """
     lines = []
     date_str = datetime.now().strftime("%Y-%m-%d %H:%M UTC")
@@ -201,12 +138,12 @@ def generate_email_report(
             lines.append("")
             lines.append("Title")
             lines.append(thin_sep)
-            _add_wrapped(lines, title, wrap_width)
+            lines.append(title)
             lines.append("")
             if keywords:
                 lines.append("Keywords")
                 lines.append(thin_sep)
-                _add_wrapped(lines, ", ".join(keywords), wrap_width)
+                lines.append(", ".join(keywords))
                 lines.append("")
             if url:
                 lines.append("Link")
@@ -223,7 +160,7 @@ def generate_email_report(
                 else:
                     lines.append("Summary")
                     lines.append(thin_sep)
-                lines.append(_wrap_text(summary_zh, width=wrap_width))
+                lines.append(summary_zh)
                 lines.append("")
                 has_summary = True
 
@@ -234,7 +171,7 @@ def generate_email_report(
                 else:
                     lines.append("Summary")
                     lines.append(thin_sep)
-                lines.append(_wrap_text(summary_en, width=wrap_width))
+                lines.append(summary_en)
                 lines.append("")
                 has_summary = True
 
@@ -242,7 +179,7 @@ def generate_email_report(
                 abstract = paper.get("abstract", "No summary available.")
                 lines.append("Abstract")
                 lines.append(thin_sep)
-                lines.append(_wrap_text(abstract, width=wrap_width))
+                lines.append(abstract)
                 lines.append("")
 
             lines.append(thin_sep)
