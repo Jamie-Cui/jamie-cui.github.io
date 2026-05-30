@@ -3,9 +3,9 @@
 
 * About
 
-PhD candidate at ECNU. Previously worked at Ant Group (2020-2024).
-Graduated from the University of Edinburgh in 2018, supervised by Dr. Myrto
-Arapinis.
+PhD candidate at ECNU. Previously worked at Ant Group (2020-2024). Graduated from the University of Edinburgh in 2018, supervised by Dr. Myrto Arapinis.
+
+My main interests are secure computation (MPC, HE, ZKP, etc.), and foundations of cryptography. Btw, I also use [GNU Emacs](https://www.gnu.org/software/emacs/). Check out my personal page at: [https://jamie-cui.github.io/](https://jamie-cui.github.io/), or contact me through email: jamie [dot] cui [at] outlook [dot] com.
 
 I maintain an awesome list for secure computation papers:
 [[https://github.com/Jamie-Cui/awesome-secure-computation][github.com/Jamie-Cui/awesome-secure-computation]]
@@ -15,3 +15,9 @@ I built serveral tools for fun:
 - [[https://github.com/Jamie-Cui/magent][magent]] : An Emacs Lisp AI coding agent with multi-agent architecture, permission-based tool access, and LLM integration via gptel.
 - [[https://github.com/Jamie-Cui/bilive][bilive]] : A lightweight, cross-platform Bilibili Live management service with a local web admin UI.
 - [[https://github.com/Jamie-Cui/yacl-r][yacl-r]] : Yet Another Cryptographic Library for Research
+
+Repos for my workflow:
+- [[https://github.com/Jamie-Cui/opt][opt]] : "Optional Applications". A personal collection of essential development tools and configurations managed via Makefile and TOML config.
+- [[https://github.com/Jamie-Cui/dotfiles][dotfiles]] : Personal configuration for Linux and macOS desktops.
+- [[https://github.com/Jamie-Cui/emacs.d][emacs.d]] : A personal Emacs configuration with two-level deferred loading, Evil mode, and gptel LLM integration. Targets Emacs 30.1+.
+- [[https://github.com/Jamie-Cui/skills][skills]] : My angent skills collection.
