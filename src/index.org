@@ -5,10 +5,9 @@
 
 PhD candidate at ECNU. Previously worked at Ant Group (2020-2024). Graduated from the University of Edinburgh in 2018, supervised by Dr. Myrto Arapinis.
 
-My main interests are secure computation (MPC, HE, ZKP, etc.), and foundations of cryptography. Btw, I also use [[https://www.gnu.org/software/emacs/][GNU Emacs]]. Check out my personal page at: [[https://jamie-cui.github.io/][https://jamie-cui.github.io/]], or contact me through email: jamie [dot] cui [at] outlook [dot] com.
+My main interests are secure computation (MPC, HE, ZKP, etc.), and foundations of cryptography. Btw, I also use [[https://www.gnu.org/software/emacs/][GNU Emacs]]. Check out my personal page at: [[https://jamie-cui.github.io/][https://jamie-cui.github.io/]].
 
-I maintain an awesome list for secure computation papers:
-[[https://github.com/Jamie-Cui/awesome-secure-computation][github.com/Jamie-Cui/awesome-secure-computation]]
+I maintain an awesome list for secure computation papers: [[https://github.com/Jamie-Cui/awesome-secure-computation][github.com/Jamie-Cui/awesome-secure-computation]]
 
 I built serveral tools for fun:
 - [[https://github.com/Jamie-Cui/overleaf-project][overleaf-project]] : Project-level Overleaf integration for Emacs
