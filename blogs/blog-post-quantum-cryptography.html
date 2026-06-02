@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog: Post Quantum Cryptography - Jamie Cui</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/site.css">
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Jamie Cui</a></h1>
+      <p class="subtitle">Blog</p>
+    </header>
+
+
+    <nav class="tags" aria-label="Sections">
+      <a class="tag" href="/">Home</a>
+      <a class="tag" href="/research/">Research</a>
+      <a class="tag" href="/blogs/">Blogs</a>
+      <a class="tag" href="/paper-feeds/">Paper Feeds</a>
+    </nav>
+
+    <main>
+      <article>
+        <h1>Blog: Post Quantum Cryptography</h1>
+        <p class="date">2026-05-21</p>
+        <p class="author">Jamie Cui</p>
+        <p>
+        前言：因为抗量子密码学最近比较火，所以打算写一个比较入门的文章介绍一下。
+        </p>
+
+        <p>
+        参考文献：
+        </p>
+        <ul class="org-ul">
+        <li>Foundations of Cryptography, <a href="https://www.wisdom.weizmann.ac.il/~oded/foc.html">https://www.wisdom.weizmann.ac.il/~oded/foc.html</a></li>
+        <li>Algorithms for quantum computation: discrete logarithms and factoring,  <a href="https://ieeexplore.ieee.org/document/365700">https://ieeexplore.ieee.org/document/365700</a></li>
+        <li>How to factor 2048 bit RSA integers in 8 hours using 20 million noisy qubits, <a href="https://arxiv.org/abs/1905.09749">https://arxiv.org/abs/1905.09749</a>, 2021</li>
+        </ul>
+
+        <div class="outline-2">
+        <h2>背景：我们为什么需要量子密码学？</h2>
+        <div class="outline-text-2">
+        <p>
+        要回答这个问题，我们要先学习一下数学，理清楚密码学安全背后的数学原理。从直观上来讲，密码学是一种攻击者和协议之间的零和弈模型，
+        </p>
+
+        <p>
+        通常来看，密码学是站在防守角度的一门学科，通过对攻击者进行合理的假设（可以理解为数学建模），进而得出针对特定攻击者的、满足安全需求的协议。因此，几乎所有密码学的第一步都是学习如何合理描述攻击者。
+        </p>
+        </div>
+
+        <div class="outline-3">
+        <h3>现代密码学基石之一：P != NP</h3>
+        <div class="outline-text-3">
+        <p>
+        现代密码学依赖“有些问题对高效算法来说很难”这一基本信念。用复杂度理论的语言说，P 是可以在多项式时间内求解的问题集合，NP 是答案可以在多项式时间内验证的问题集合；P != NP 表示“容易验证”不等于“容易求解”。
+        </p>
+
+        <p>
+        不过要注意，P != NP 本身还不足以直接推出现代密码学成立。密码学通常需要更强的假设：某些问题不仅在最坏情况下困难，而且在随机实例、平均情况下也难以求解。这类假设可以进一步支撑单向函数、伪随机生成器、公钥加密和数字签名等基本构造。
+        </p>
+        </div>
+        </div>
+
+        <div class="outline-3">
+        <h3>传统密码学对计算能力的抽象：PPT (同样也在有些地方被称作 PP, BPP)</h3>
+        <div class="outline-text-3">
+        <p>
+        定义：PPT（Probabilistic Polynomial-Time）指能够在多项式时间内运行完成，并且允许使用随机数进行决策的算法或攻击者模型。传统密码学通常假设攻击者是 PPT：它可以随机化攻击策略，但不能拥有超过多项式时间的计算能力。
+        </p>
+
+        <p>
+        计算模型：概率图灵机
+        </p>
+
+        <p>
+        直觉上，PPT 描述的是“现实中可行的攻击者”。例如攻击者可以随机猜测密钥、随机选择密文、随机生成查询，但只要它的总运行时间被限制在多项式范围内，我们就认为它仍然是有效率的攻击者。
+        </p>
+
+        <p>
+        PP 和 BPP 都是概率计算复杂度类，但语义不同。BPP 要求算法在多项式时间内以较高概率给出正确答案，错误概率可以通过重复运行降到很低；这更接近密码学里“高概率正确”的高效算法。PP 的要求更弱，只要求正确概率严格大于 1/2，即使优势非常小也可以，因此一般不直接作为传统密码学攻击者模型。
+        </p>
+
+        <p>
+        因此，本节真正重要的是 PPT：它把攻击者限制为“多项式时间 + 随机性”。后续安全定义通常会说，任何 PPT 攻击者成功破坏协议的概率都只能是可忽略的。
+        </p>
+
+        <p>
+        <code>小巧思：PPT和我们通常说的计算安全参数有一定关联</code>
+        </p>
+        </div>
+        </div>
+
+        <div class="outline-3">
+        <h3>密码学对计算能力的抽象：BQP</h3>
+        <div class="outline-text-3">
+        <p>
+        定义：BQP（Bounded-Error Quantum Polynomial-Time）指可以由量子计算机在多项式时间内求解，并且错误概率被限制在常数范围内的问题集合。它不是普通的随机算法，而是允许使用量子叠加、干涉和测量等量子计算能力。
+        </p>
+
+        <p>
+        计算模型：量子图灵机，或等价地，多项式规模的量子线路
+        </p>
+
+        <p>
+        严格来说，BQP 是一个问题复杂度类；在密码学安全定义里，如果要描述攻击者，通常会说量子多项式时间攻击者，也就是 QPT（Quantum Polynomial-Time）adversary。这里用 BQP 的目的是强调：攻击者的计算能力已经从经典概率计算扩展到了量子计算。
+        </p>
+
+        <p>
+        BQP 对密码学重要，是因为某些传统困难问题在量子模型下会变得高效可解。最典型的是 Shor 算法：量子计算机可以在多项式时间内完成整数分解和离散对数计算，从而威胁 RSA、Diffie-Hellman、ECDSA 等传统公钥密码。
+        </p>
+
+        <p>
+        因此，抗量子密码学的目标不是防御无限强的攻击者，而是寻找在量子多项式时间攻击者面前仍然困难的问题。换句话说，我们要把安全性从“对所有 PPT 攻击者安全”，升级为“对所有 QPT 攻击者安全”。
+        </p>
+
+        <p>
+        <code>小巧思：你猜这里和什么安全参数有关联？check out: PQC Security Strength Categories</code>
+        </p>
+        </div>
+        </div>
+
+        <div class="outline-3">
+        <h3>密码学对成功概率的抽象：BPP</h3>
+        <div class="outline-text-3">
+        <p>
+        定义：BPP（Bounded-Error Probabilistic Polynomial-Time）指可以由概率算法在多项式时间内求解，并且错误概率被限制在常数范围内的问题集合。通常要求正确概率至少为 2/3，错误概率至多为 1/3。
+        </p>
+
+        <p>
+        计算模型：概率图灵机
+        </p>
+
+        <p>
+        这里的常数 2/3 和 1/3 并不特殊。只要正确概率比 1/2 高出一个常数差距，就可以通过重复运行并取多数结果，把错误概率降低到任意小。例如重复运行多次后，错误概率可以降到 2<sup>-k</sup> 级别。
+        </p>
+
+        <p>
+        BPP 的重点是刻画“高概率正确”的高效计算。它和 PPT 的区别在于：PPT 更常用来描述算法或攻击者本身，而 BPP 更常用来描述一类可以被概率多项式时间算法高概率求解的问题。
+        </p>
+
+        <p>
+        在密码学里，我们通常不只关心算法是否高概率正确，还关心攻击者成功破坏协议的概率是否足够小。理想的安全定义会要求：任何 PPT 攻击者的成功概率都只能比随机猜测多一个可忽略量。这个“可忽略量”比任何多项式倒数都小，因此在安全参数足够大时可以被认为没有实际攻击意义。
+        </p>
+
+        <p>
+        <code>小巧思：BPP和我们通常说的统计安全参数有一定关联</code>
+        </p>
+        </div>
+        </div>
+
+        <div class="outline-3">
+        <h3>Shor Algorithm</h3>
+        <div class="outline-text-3">
+        <div class="org-src-container">
+        <pre class="src src-bib">@inproceedings{shor1994algorithms,
+          title={Algorithms for quantum computation: discrete logarithms and factoring},
+          author={Shor, Peter W},
+          booktitle={Proceedings 35th annual symposium on foundations of computer science},
+          pages={124--134},
+          year={1994},
+          organization={IEEE}
+        }
+        </pre>
+        </div>
+
+        <p>
+        Shor 算法最直接的后果，是把两个长期支撑公钥密码的困难问题放进了 BPP：整数分解（integer factorization）和离散对数（discrete logarithm）。
+        </p>
+
+        <p>
+        RSA 依赖整数分解；Diffie-Hellman、DSA/ECDSA、ECDH 则依赖有限域或椭圆曲线上的离散对数。
+        </p>
+
+        <p>
+        对 RSA 来说，攻击目标不是直接“猜私钥”，而是分解公开模数 N = p q。只要攻击者得到 p 和 q，就可以计算 &phi;(N) = (p-1)(q-1)，再由公开指数 e 求出私钥指数 d = e<sup>-1</sup> mod &phi;(N)。此后攻击者就能解密对应密文，或伪造签名。
+        </p>
+
+        <p>
+        对离散对数系统来说，攻击目标是从 g<sup>x</sup> 反推出 x。经典计算中这被认为很难，但 Shor 算法可以在量子多项式时间内求解，因此有限域 DH/DSA 以及椭圆曲线上的 ECDH/ECDSA 都会受到威胁。这也是为什么抗量子迁移主要针对传统公钥密码，而不是简单地替换所有密码算法。
+        </p>
+
+        <p>
+        具体到 RSA-2048，“需要多久、多少 qubits”不是一个固定数学常数，而取决于量子硬件和纠错模型。一个常被引用的估算来自 Gidney 和 Ekerå：在物理门错误率 10<sup>-3</sup>、surface-code cycle 为 1 微秒、控制系统反应时间 10 微秒等假设下，分解一个 2048-bit RSA 模数大约需要 2000 万个 noisy physical qubits，并运行约 8 小时。
+        </p>
+
+        <p>
+        这里要区分 logical qubits 和 physical qubits。抽象电路层面，该估算需要约 3n + 0.002n lg n 个 logical qubits；代入 n = 2048，大约是 6.2k 个 logical qubits。但为了在真实硬件上抗噪声运行，需要量子纠错，所以每个 logical qubit 会由大量 noisy physical qubits 编码出来，最终物理 qubits 数量会膨胀到千万级。
+        </p>
+
+        <p>
+        更新的资源估算还在继续降低。例如 Gidney 2025 的估算认为，在类似物理假设下，RSA-2048 可以在少于一周内用少于一百万 noisy qubits 分解。但这仍然是容错量子计算机的资源估算，不是当前量子计算机已经能实际破解 RSA-2048。
+        </p>
+        </div>
+        </div>
+        </div>
+
+        <div class="outline-2">
+        <h2>PQC 的分类</h2>
+        <div class="outline-text-2">
+        </div>
+        <div class="outline-3">
+        <h3>Lattice 基于格的算法</h3>
+        <div class="outline-text-3">
+        </div>
+        <div class="outline-4">
+        <h4>Dilithium (Signature)</h4>
+        </div>
+        <div class="outline-4">
+        <h4>Falcon (Signature)</h4>
+        </div>
+        <div class="outline-4">
+        <h4>Kyber (KEM)</h4>
+        </div>
+        <div class="outline-4">
+        <h4>NTRU cryptosystem</h4>
+        </div>
+        </div>
+        <div class="outline-3">
+        <h3>Hash-based 基于 Hash 的算法</h3>
+        <div class="outline-text-3">
+        </div>
+        <div class="outline-4">
+        <h4>SPHINCS+ (Signature)</h4>
+        </div>
+        </div>
+        <div class="outline-3">
+        <h3>Code-based 基于编码的算法</h3>
+        <div class="outline-text-3">
+        </div>
+        <div class="outline-4">
+        <h4>HQC (KEM)</h4>
+        </div>
+        </div>
+        <div class="outline-3">
+        <h3>Multivariate equations 基于 多变量方程 的算法</h3>
+        </div>
+        <div class="outline-3">
+        <h3>Isogenies 基于 同源映射 的算法</h3>
+        </div>
+        </div>
+      </article>
+
+    </main>
+
+    <footer>
+      <p>It is possible to build a cabin with no foundations, but not a lasting building.</p>
+    </footer>
+  </body>
+</html>
