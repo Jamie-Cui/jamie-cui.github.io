@@ -4,7 +4,7 @@
     <title>Paper Feeds (IACR)</title>
     <link>https://jamie-cui.github.io/paper-feeds</link>
     <description>Keyword-based research paper feeds from IACR</description>
-    <lastBuildDate>Mon, 15 Jun 2026 05:17:05 -0000</lastBuildDate>
+    <lastBuildDate>Tue, 16 Jun 2026 05:26:30 -0000</lastBuildDate>
     <atom:link href="https://jamie-cui.github.io/paper-feeds/feed-iacr.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HedgeSwap: Universal Hedged Atomic Swaps Against Griefing Attacks</title>
