@@ -4,7 +4,7 @@
     <title>Paper Feeds (arXiv)</title>
     <link>https://jamie-cui.github.io/paper-feeds</link>
     <description>Keyword-based research paper feeds from arXiv</description>
-    <lastBuildDate>Fri, 19 Jun 2026 05:16:56 -0000</lastBuildDate>
+    <lastBuildDate>Sat, 20 Jun 2026 04:25:34 -0000</lastBuildDate>
     <atom:link href="https://jamie-cui.github.io/paper-feeds/feed-arxiv.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>From Efficiency to Leakage -- Privacy Backdoor in Federated Language Model Fine-Tuning</title>
