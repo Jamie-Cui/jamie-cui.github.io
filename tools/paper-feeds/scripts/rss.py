@@ -103,8 +103,13 @@ def _format_html_section(heading: str, body: str) -> str:
 def _build_item_description(paper: dict) -> str:
     """Build a readable HTML RSS item body with links and bilingual summaries."""
     url = _paper_text(paper, "url")
-    summary_zh = _paper_text(paper, "summary_zh") or _paper_text(paper, "summary")
-    summary_en = _paper_text(paper, "summary_en")
+    summary_status = _paper_text(paper, "summary_status")
+    has_ai_summary = summary_status in {"", "success"}
+    summary_zh = ""
+    summary_en = ""
+    if has_ai_summary:
+        summary_zh = _paper_text(paper, "summary_zh") or _paper_text(paper, "summary")
+        summary_en = _paper_text(paper, "summary_en")
     abstract = _paper_text(paper, "abstract")
 
     sections = []

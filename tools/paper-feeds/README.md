@@ -40,8 +40,10 @@ Sign up at [DashScope Console](https://dashscope.console.aliyun.com/) — free t
 ### 3. Add your API key to GitHub Secrets
 
 Go to **Settings → Secrets and variables → Actions → New repository secret**:
-- Name: `MODELSCOPE_API_KEY` (or `DASHSCOPE_API_KEY`)
+- Name: `PAPER_FEEDS_LLM_API_KEY`
 - Value: your API key
+
+Backward-compatible secret names also work: `MODELSCOPE_API_KEY` or `DASHSCOPE_API_KEY`.
 
 ### 4. Enable GitHub Pages
 
@@ -89,9 +91,15 @@ Keyword filtering can be independently toggled per source (`apply_to_arxiv` / `a
 | Paper retention | `general.days_back` | 30 days |
 | Papers per page | `frontend.papers_per_page` | 10 |
 | arXiv categories | `fetchers.arxiv.categories` | cs.CR, cs.AI, cs.LG, cs.CL |
+| AI summaries on/off | `summarizer.enabled` or `PAPER_FEEDS_AI_SUMMARY_ENABLED` | true |
+| LLM API URL | `summarizer.api_url` or `PAPER_FEEDS_LLM_API_URL` | DashScope endpoint |
+| LLM API key env | `summarizer.api_key_env` | PAPER_FEEDS_LLM_API_KEY |
 | AI model | `summarizer.model` | qwen-plus |
 | RSS items | `rss.max_items` | 50 |
 | Site URL | `general.site_url` | *(your GitHub Pages URL)* |
+
+Use GitHub **Variables** for non-secret values such as `PAPER_FEEDS_AI_SUMMARY_ENABLED=false`
+or `PAPER_FEEDS_LLM_API_URL=...`; use GitHub **Secrets** for API keys.
 
 See [CONFIG_GUIDE.md](CONFIG_GUIDE.md) for all options.
 

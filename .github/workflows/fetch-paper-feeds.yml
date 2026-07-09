@@ -33,6 +33,9 @@ jobs:
       - name: Fetch and summarize papers
         id: fetch
         env:
+          PAPER_FEEDS_AI_SUMMARY_ENABLED: ${{ vars.PAPER_FEEDS_AI_SUMMARY_ENABLED }}
+          PAPER_FEEDS_LLM_API_URL: ${{ vars.PAPER_FEEDS_LLM_API_URL }}
+          PAPER_FEEDS_LLM_API_KEY: ${{ secrets.PAPER_FEEDS_LLM_API_KEY }}
           MODELSCOPE_API_KEY: ${{ secrets.MODELSCOPE_API_KEY }}
           DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
         run: |

@@ -4,7 +4,7 @@
 
 ## 配置文件位置
 
-`config.toml` 位于项目根目录。
+`config.toml` 位于 `tools/paper-feeds/config.toml`。
 
 ## 配置项说明
 
@@ -62,11 +62,20 @@ delay = 2.0
 
 ```toml
 [summarizer]
+# 是否启用 AI 摘要。也可以用环境变量 PAPER_FEEDS_AI_SUMMARY_ENABLED 覆盖。
+enabled = true
+
+# LLM API endpoint。也可以用环境变量 PAPER_FEEDS_LLM_API_URL 覆盖。
+api_url = "https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation"
+
+# 保存 API key 的环境变量名。不要把 key 明文写入 config.toml。
+api_key_env = "PAPER_FEEDS_LLM_API_KEY"
+
 # 使用的模型
 model = "qwen-plus"
 
 # 最大生成 token 数
-max_tokens = 500
+max_tokens = 1500
 
 # 温度参数（0-1，越高越随机）
 temperature = 0.7
@@ -88,6 +97,13 @@ retry_delay = 5.0
 - `qwen-turbo` - 最快，适合简单任务
 - `qwen-plus` - 平衡性能和质量（默认）
 - `qwen-max` - 最强性能，但更慢更贵
+
+**外部配置建议：**
+- 开关：本地用 `PAPER_FEEDS_AI_SUMMARY_ENABLED=false`，GitHub Actions 用 Repository Variables。
+- URL：本地用 `PAPER_FEEDS_LLM_API_URL=...`，GitHub Actions 用 Repository Variables。
+- Key：本地用 `PAPER_FEEDS_LLM_API_KEY=...`，GitHub Actions 用 Repository Secrets。
+- 旧变量名 `DASHSCOPE_API_KEY` 和 `MODELSCOPE_API_KEY` 仍兼容。
+- 当前请求/响应格式仍是 DashScope-compatible；只替换 `api_url` 时，目标 endpoint 需要兼容这个协议。
 
 ### 5. 双语摘要支持 🆕
 
@@ -186,7 +202,39 @@ model = "qwen-turbo"  # 使用更快的模型
 rate_limit_delay = 0.5  # 减少延迟
 ```
 
-### 场景 4：生成简短摘要
+### 场景 4：关闭 AI 摘要，只展示 abstract
+
+修改 `config.toml`：
+```toml
+[summarizer]
+enabled = false
+```
+
+或在外部覆盖：
+```bash
+export PAPER_FEEDS_AI_SUMMARY_ENABLED=false
+python tools/paper-feeds/scripts/main.py
+```
+
+### 场景 5：使用自定义 LLM URI 和 API Key
+
+修改 `config.toml`：
+```toml
+[summarizer]
+api_url = "https://example.com/api/v1/services/aigc/text-generation/generation"
+api_key_env = "MY_LLM_API_KEY"
+```
+
+本地运行：
+```bash
+export MY_LLM_API_KEY="your-api-key"
+python tools/paper-feeds/scripts/main.py
+```
+
+GitHub Actions 中推荐把 `PAPER_FEEDS_LLM_API_URL` 配成 Repository Variable，把
+`PAPER_FEEDS_LLM_API_KEY` 配成 Repository Secret。
+
+### 场景 6：生成简短摘要
 
 修改 `config.toml`：
 ```toml
@@ -201,7 +249,7 @@ Abstract: {abstract}
 Summary:"""
 ```
 
-### 场景 5：中文输出
+### 场景 7：中文输出
 
 修改 `config.toml`：
 ```toml

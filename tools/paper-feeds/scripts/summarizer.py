@@ -35,7 +35,7 @@ except ImportError:
 class ModelScopeSummarizer:
     """Summarizes paper abstracts using DashScope API (Qwen/通义千问)."""
 
-    # DashScope API (阿里云通义千问)
+    # Default DashScope API (阿里云通义千问)
     API_URL = (
         "https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation"
     )
@@ -55,6 +55,7 @@ Provide a concise summary:"""
     def __init__(
         self,
         api_key: str,
+        api_url: str = None,
         model: str = None,
         max_retries: int = 3,
         retry_delay: float = 5.0,
@@ -69,6 +70,7 @@ Provide a concise summary:"""
 
         Args:
             api_key: DashScope API key (from https://dashscope.console.aliyun.com/)
+            api_url: LLM API endpoint URL. Defaults to DashScope text generation API.
             model: Model name to use (default: qwen-plus)
             max_retries: Maximum number of retry attempts for failed requests
             retry_delay: Delay between retries in seconds
@@ -79,6 +81,7 @@ Provide a concise summary:"""
             prompt_template: Custom prompt template with {title} and {abstract} placeholders
         """
         self.api_key = api_key
+        self.api_url = api_url or self.API_URL
         self.model = model or self.DEFAULT_MODEL
         self.max_retries = max_retries
         self.retry_delay = retry_delay
@@ -207,7 +210,7 @@ Provide a concise summary:"""
 
         try:
             response = requests.post(
-                self.API_URL,
+                self.api_url,
                 json=payload,
                 headers=headers,
                 timeout=self.timeout,

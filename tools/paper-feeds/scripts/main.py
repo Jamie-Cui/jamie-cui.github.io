@@ -23,6 +23,7 @@ import os
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
+from typing import Optional
 
 TOOL_DIR = Path(__file__).resolve().parent.parent
 REPO_ROOT = TOOL_DIR.parent.parent
@@ -284,6 +285,73 @@ def load_config() -> dict:
         return {}
 
 
+def parse_bool(value, default: bool = True) -> bool:
+    """Parse common boolean strings used in environment variables."""
+    if isinstance(value, bool):
+        return value
+    if value is None:
+        return default
+
+    normalized = str(value).strip().lower()
+    if normalized in {"1", "true", "yes", "y", "on"}:
+        return True
+    if normalized in {"0", "false", "no", "n", "off"}:
+        return False
+    return default
+
+
+def resolve_summarizer_enabled(summarizer_config: dict) -> bool:
+    """Resolve AI summary switch from env var, falling back to config.toml."""
+    env_value = os.getenv("PAPER_FEEDS_AI_SUMMARY_ENABLED")
+    if env_value is not None:
+        return parse_bool(env_value, default=True)
+    return parse_bool(summarizer_config.get("enabled", True), default=True)
+
+
+def resolve_api_key(summarizer_config: dict) -> tuple[Optional[str], Optional[str]]:
+    """Resolve LLM API key from configured env var with backward-compatible names."""
+    configured_env = summarizer_config.get("api_key_env", "PAPER_FEEDS_LLM_API_KEY")
+    candidates = [
+        configured_env,
+        "PAPER_FEEDS_LLM_API_KEY",
+        "DASHSCOPE_API_KEY",
+        "MODELSCOPE_API_KEY",
+    ]
+
+    seen = set()
+    for env_name in candidates:
+        if not env_name or env_name in seen:
+            continue
+        seen.add(env_name)
+        value = os.getenv(env_name)
+        if value:
+            return value, env_name
+    return None, None
+
+
+def resolve_api_url(summarizer_config: dict) -> Optional[str]:
+    """Resolve LLM API URL from env var, falling back to config.toml/default."""
+    return os.getenv("PAPER_FEEDS_LLM_API_URL") or summarizer_config.get("api_url")
+
+
+def apply_abstract_summary(papers: list, status: str = "disabled") -> list:
+    """Use paper abstracts as display text when AI summaries are disabled."""
+    for paper in papers:
+        abstract = paper.get("abstract") or "Summary not available"
+        paper["summary"] = abstract
+        paper.pop("summary_zh", None)
+        paper.pop("summary_en", None)
+        paper["summary_status"] = status
+    return papers
+
+
+def usage_stats_for(summarizer: Optional[ModelScopeSummarizer]) -> dict:
+    """Return token usage stats even when no summarizer was initialized."""
+    if summarizer:
+        return summarizer.get_usage_stats()
+    return {"input_tokens": 0, "output_tokens": 0, "total_tokens": 0}
+
+
 def main():
     """Main execution function."""
     print("=" * 70)
@@ -299,14 +367,25 @@ def main():
     PAPERS_FILE = DATA_DIR / config.get("general", {}).get("papers_file", "papers.json")
     FAILED_FILE = REPORTS_DIR / config.get("general", {}).get("failed_file", "failed.json")
 
-    # Get API key from environment
-    api_key = os.getenv("MODELSCOPE_API_KEY") or os.getenv("DASHSCOPE_API_KEY")
-    if not api_key:
-        print(
-            "::error::API key not set. Please set DASHSCOPE_API_KEY in GitHub Secrets"
-        )
-        print("Get your API key from: https://dashscope.console.aliyun.com/")
-        sys.exit(1)
+    summarizer_config = config.get("summarizer", {})
+    summaries_enabled = resolve_summarizer_enabled(summarizer_config)
+    api_key = None
+    api_key_env = None
+    if summaries_enabled:
+        api_key, api_key_env = resolve_api_key(summarizer_config)
+        if not api_key:
+            configured_env = summarizer_config.get(
+                "api_key_env", "PAPER_FEEDS_LLM_API_KEY"
+            )
+            print(
+                f"::error::AI summaries are enabled, but no API key was found. "
+                f"Set {configured_env} in the environment or GitHub Secrets."
+            )
+            print(
+                "Backward-compatible secret names also work: "
+                "DASHSCOPE_API_KEY, MODELSCOPE_API_KEY"
+            )
+            sys.exit(1)
 
     # Initialize components
     with github_group("🔧 Initializing components"):
@@ -335,18 +414,26 @@ def main():
         keyword_filter = KeywordFilter(config_file=keywords_file)
 
         # Get summarizer config
-        summarizer_config = config.get("summarizer", {})
-        summarizer = ModelScopeSummarizer(
-            api_key=api_key,
-            model=summarizer_config.get("model"),
-            max_tokens=summarizer_config.get("max_tokens"),
-            temperature=summarizer_config.get("temperature"),
-            timeout=summarizer_config.get("timeout"),
-            rate_limit_delay=summarizer_config.get("rate_limit_delay"),
-            max_retries=summarizer_config.get("max_retries", 3),
-            retry_delay=summarizer_config.get("retry_delay", 5.0),
-            prompt_template=summarizer_config.get("prompt_template"),
-        )
+        summarizer = None
+        if summaries_enabled:
+            api_url = resolve_api_url(summarizer_config)
+            summarizer = ModelScopeSummarizer(
+                api_key=api_key,
+                api_url=api_url,
+                model=summarizer_config.get("model"),
+                max_tokens=summarizer_config.get("max_tokens"),
+                temperature=summarizer_config.get("temperature"),
+                timeout=summarizer_config.get("timeout"),
+                rate_limit_delay=summarizer_config.get("rate_limit_delay"),
+                max_retries=summarizer_config.get("max_retries", 3),
+                retry_delay=summarizer_config.get("retry_delay", 5.0),
+                prompt_template=summarizer_config.get("prompt_template"),
+            )
+            print(f"✓ AI summaries enabled (key env: {api_key_env})")
+            if api_url:
+                print(f"✓ LLM API URL: {api_url}")
+        else:
+            print("✓ AI summaries disabled; new papers will display abstracts")
         print("✓ All components initialized")
 
     # Load existing data
@@ -359,7 +446,7 @@ def main():
     # Retry previously failed papers
     retry_successful = []
     retry_failed = []
-    if existing_failed.get("papers"):
+    if summaries_enabled and existing_failed.get("papers"):
         with github_group("🔄 Retrying failed summaries"):
             retry_successful, retry_failed = retry_failed_summaries(
                 existing_failed["papers"], summarizer
@@ -368,6 +455,11 @@ def main():
                 github_notice(
                     f"Successfully summarized {len(retry_successful)} previously failed papers"
                 )
+    elif existing_failed.get("papers"):
+        retry_failed = existing_failed["papers"]
+        print(
+            f"✓ Skipping retry for {len(retry_failed)} failed summaries because AI summaries are disabled"
+        )
 
     # Fetch papers from sources
     with github_group("📥 Fetching papers from sources"):
@@ -438,22 +530,35 @@ def main():
         for paper in filtered_papers:
             if paper["id"] in existing_dict:
                 # Paper already exists, reuse cached summary
-                cached_papers.append(existing_dict[paper["id"]])
+                cached_paper = existing_dict[paper["id"]]
+                if summaries_enabled and cached_paper.get("summary_status") != "success":
+                    new_papers.append(paper)
+                else:
+                    cached_papers.append(cached_paper)
             else:
                 # New paper, needs summarization
                 new_papers.append(paper)
 
-        print(f"✓ Found {len(new_papers)} new papers (need summarization)")
+        action = "need summarization" if summaries_enabled else "need processing"
+        print(f"✓ Found {len(new_papers)} new papers ({action})")
         print(f"✓ Reusing {len(cached_papers)} cached summaries")
 
     # Summarize only new papers
     with github_group("🤖 Generating AI summaries"):
-        if new_papers:
+        if summaries_enabled and new_papers:
             successful, failed = summarizer.batch_summarize(new_papers)
+            new_summary_count = len(successful)
+        elif new_papers:
+            successful = apply_abstract_summary(new_papers, status="disabled")
+            failed = []
+            new_summary_count = 0
+            print(
+                f"✓ AI summaries disabled; stored abstracts for {len(successful)} new papers"
+            )
         else:
             successful, failed = [], []
+            new_summary_count = 0
 
-        new_summary_count = len(successful)
         newly_summarized = list(successful)  # save before combining with cache
 
         # Combine newly summarized papers with cached ones
@@ -476,7 +581,7 @@ def main():
             }
             save_data(FAILED_FILE, failed_data)
         # Still generate email report (even with no new papers)
-        usage_stats = summarizer.get_usage_stats()
+        usage_stats = usage_stats_for(summarizer)
         site_url = config.get("general", {}).get("site_url", "")
         email_config = config.get("email", {})
         summary_language = email_config.get("summary_language", "zh")
@@ -550,7 +655,7 @@ def main():
             print("✓ Cleared failed papers file (all succeeded)")
 
     # Get token usage statistics
-    usage_stats = summarizer.get_usage_stats()
+    usage_stats = usage_stats_for(summarizer)
 
     # Summary
     print("\n" + "=" * 70)

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Paper Feeds** is a keyword-based research paper aggregator that fetches papers from arXiv and IACR ePrint, filters by configurable keywords, generates bilingual (Chinese/English) AI summaries via Alibaba's DashScope API (Qwen), and displays results on a static GitHub Pages site. Runs daily via GitHub Actions.
+**Paper Feeds** is a keyword-based research paper aggregator that fetches papers from arXiv and IACR ePrint, filters by configurable keywords, optionally generates bilingual (Chinese/English) AI summaries via a DashScope-compatible LLM API, and displays results on a static GitHub Pages site. Runs daily via GitHub Actions.
 
 ## Development Commands
 
@@ -13,7 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 pip install -r tools/paper-feeds/requirements.txt
 
 # Run the paper fetcher (requires API key)
-export DASHSCOPE_API_KEY="your-key"   # or MODELSCOPE_API_KEY
+export PAPER_FEEDS_LLM_API_KEY="your-key"   # or DASHSCOPE_API_KEY/MODELSCOPE_API_KEY
 python tools/paper-feeds/scripts/main.py
 
 # View results via the root site build
@@ -36,7 +36,7 @@ The pipeline runs sequentially: **Fetch → Filter → Summarize → Merge → S
 
 2. **Filter** — `scripts/filter.py` uses `keywords.txt` with OR logic between lines and AND logic within a line. Uses `\b` word-boundary regex, case-insensitive, matching against title + abstract. Filtering can be independently enabled/disabled per source via `apply_to_arxiv` and `apply_to_iacr` in `config.toml`.
 
-3. **Summarize** — `scripts/summarizer.py` (`ModelScopeSummarizer`) makes one DashScope API call per paper producing both Chinese and English summaries. The bilingual prompt is hard-coded in `_create_bilingual_prompt()` (not from `config.toml`). Output is parsed by `_parse_bilingual_summary()` using `[中文摘要]` and `[English Summary]` section markers with regex. Do NOT change these markers without updating the parser. Failed papers retry with exponential backoff (configurable retries/delay) and fall back to abstract text.
+3. **Summarize** — `scripts/summarizer.py` (`ModelScopeSummarizer`) makes one DashScope-compatible API call per paper producing both Chinese and English summaries when `[summarizer].enabled` is true. If disabled, new papers are stored with abstract text and `summary_status = "disabled"`. The bilingual prompt is hard-coded in `_create_bilingual_prompt()` (not from `config.toml`). Output is parsed by `_parse_bilingual_summary()` using `[中文摘要]` and `[English Summary]` section markers with regex. Do NOT change these markers without updating the parser. Failed papers retry with exponential backoff (configurable retries/delay) and fall back to abstract text.
 
 4. **Merge & Save** — Deduplicates by paper ID, removes papers older than `days_back` (configured in `config.toml`, currently 30 days), sorts by date descending. Previously failed summaries are retried each run.
 
@@ -88,7 +88,7 @@ Paper ID format: `arxiv_{arxiv_id}` or `iacr_{iacr_id}`.
 - `[general]` — `days_back` (retention period), `site_url` (GitHub Pages base URL for RSS), data paths
 - `[fetchers.arxiv]` — categories, delay, batch_size, max_results
 - `[fetchers.iacr]` — delay
-- `[summarizer]` — model, max_tokens, temperature, rate_limit_delay, prompt_template (single-language only; bilingual prompt is in Python)
+- `[summarizer]` — enabled, api_url, api_key_env, model, max_tokens, temperature, rate_limit_delay, prompt_template (single-language only; bilingual prompt is in Python)
 - `[rss]` — `max_items` (number of papers in RSS feed)
 - `[frontend]` — `papers_per_page` (pagination size, default 10)
 - `[keywords]` — keyword file path, `apply_to_arxiv`, `apply_to_iacr`
@@ -99,7 +99,7 @@ Paper ID format: `arxiv_{arxiv_id}` or `iacr_{iacr_id}`.
 
 ## Important Implementation Details
 
-- **API keys**: Code checks both `DASHSCOPE_API_KEY` and `MODELSCOPE_API_KEY` env vars (same service). GitHub Actions uses `MODELSCOPE_API_KEY` secret.
+- **AI summary external config**: `[summarizer].enabled` controls whether LLM calls are made and can be overridden by `PAPER_FEEDS_AI_SUMMARY_ENABLED`. `[summarizer].api_url` can be overridden by `PAPER_FEEDS_LLM_API_URL`. `[summarizer].api_key_env` defaults to `PAPER_FEEDS_LLM_API_KEY`; code also checks backward-compatible `DASHSCOPE_API_KEY` and `MODELSCOPE_API_KEY`.
 - **arXiv XML validation**: `arxiv.py` checks all required XML elements for `None` before accessing `.text` to handle malformed entries. Maintain this pattern when modifying the fetcher.
 - **Rate limits**: arXiv 3s between categories, IACR 2s, DashScope 1s between calls. All configurable in `config.toml`.
 - **IACR User-Agent**: The IACR fetcher must send a browser-like `User-Agent` header or the server returns robots.txt instead of RSS.
